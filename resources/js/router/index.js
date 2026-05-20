@@ -81,6 +81,7 @@ const routes = [
         ],
     },
 
+    { path: '/', redirect: BASE + '/login' },
     { path: '*', component: NotFound },
 ];
 
