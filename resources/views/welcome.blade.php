@@ -70,7 +70,7 @@
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/fifa2026/sw.js', { scope: '/fifa2026/' })
+            navigator.serviceWorker.register('{{ asset("sw.js") }}', { scope: '{{ env("MIX_APP_BASE") ? env("MIX_APP_BASE")."/" : "/" }}' })
                 .then(reg => console.log('SW registered'))
                 .catch(err => console.log('SW registration failed:', err));
         });
