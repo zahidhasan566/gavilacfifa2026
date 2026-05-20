@@ -375,7 +375,20 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "facts-page" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "fifa-hero" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "hero-right" }, [
+        _c("img", {
+          staticClass: "hero-logo",
+          attrs: {
+            src: _vm.$imgBase + "/images/fifa-logo.png",
+            alt: "FIFA 2026",
+            onerror: "this.style.display='none'",
+          },
+        }),
+      ]),
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "facts-section" }, [
       _c("h2", { staticClass: "facts-heading" }, [_vm._v("⚽ FIFA Check")]),
@@ -433,9 +446,9 @@ var render = function () {
                       attrs: {
                         src:
                           p.image_url ||
-                          "/fifa2026/public/images/default-player.png",
+                          _vm.$imgBase + "/images/default-player.png",
                         onerror:
-                          "this.src='/fifa2026/public/images/default-player.png'",
+                          "this.src=window.__IMG__ + '/images/default-player.png'",
                       },
                     }),
                     _vm._v(" "),
@@ -501,9 +514,9 @@ var render = function () {
                       attrs: {
                         src:
                           n.image_url ||
-                          "/fifa2026/public/images/default-news.png",
+                          _vm.$imgBase + "/images/default-news.png",
                         onerror:
-                          "this.src='/fifa2026/public/images/default-news.png'",
+                          "this.src=window.__IMG__ + '/images/default-news.png'",
                       },
                     }),
                     _vm._v(" "),
@@ -571,55 +584,42 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "fifa-hero" }, [
-      _c("div", { staticClass: "hero-left" }, [
-        _c("div", { staticClass: "hero-badge" }, [_vm._v("Official")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "hero-title" }, [
-          _vm._v("FIFA WORLD CUP 2026™"),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "hero-hosts" }, [
-          _c("span", { staticClass: "host-flag" }, [_vm._v("🇺🇸")]),
-          _vm._v(" USA  · \n                "),
-          _c("span", { staticClass: "host-flag" }, [_vm._v("🇨🇦")]),
-          _vm._v(" Canada  · \n                "),
-          _c("span", { staticClass: "host-flag" }, [_vm._v("🇲🇽")]),
-          _vm._v(" Mexico\n            "),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "hero-stats-row" }, [
-          _c("div", { staticClass: "hero-stat" }, [
-            _c("div", { staticClass: "hs-val" }, [_vm._v("48")]),
-            _c("div", { staticClass: "hs-lbl" }, [_vm._v("Teams")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "hero-stat" }, [
-            _c("div", { staticClass: "hs-val" }, [_vm._v("104")]),
-            _c("div", { staticClass: "hs-lbl" }, [_vm._v("Matches")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "hero-stat" }, [
-            _c("div", { staticClass: "hs-val" }, [_vm._v("16")]),
-            _c("div", { staticClass: "hs-lbl" }, [_vm._v("Venues")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "hero-stat" }, [
-            _c("div", { staticClass: "hs-val" }, [_vm._v("Jun–Jul")]),
-            _c("div", { staticClass: "hs-lbl" }, [_vm._v("2026")]),
-          ]),
-        ]),
+    return _c("div", { staticClass: "hero-left" }, [
+      _c("div", { staticClass: "hero-badge" }, [_vm._v("Official")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "hero-title" }, [
+        _vm._v("FIFA WORLD CUP 2026™"),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "hero-right" }, [
-        _c("img", {
-          staticClass: "hero-logo",
-          attrs: {
-            src: "/fifa2026/public/images/fifa-logo.png",
-            alt: "FIFA 2026",
-            onerror: "this.style.display='none'",
-          },
-        }),
+      _c("div", { staticClass: "hero-hosts" }, [
+        _c("span", { staticClass: "host-flag" }, [_vm._v("🇺🇸")]),
+        _vm._v(" USA  · \n                "),
+        _c("span", { staticClass: "host-flag" }, [_vm._v("🇨🇦")]),
+        _vm._v(" Canada  · \n                "),
+        _c("span", { staticClass: "host-flag" }, [_vm._v("🇲🇽")]),
+        _vm._v(" Mexico\n            "),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "hero-stats-row" }, [
+        _c("div", { staticClass: "hero-stat" }, [
+          _c("div", { staticClass: "hs-val" }, [_vm._v("48")]),
+          _c("div", { staticClass: "hs-lbl" }, [_vm._v("Teams")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "hero-stat" }, [
+          _c("div", { staticClass: "hs-val" }, [_vm._v("104")]),
+          _c("div", { staticClass: "hs-lbl" }, [_vm._v("Matches")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "hero-stat" }, [
+          _c("div", { staticClass: "hs-val" }, [_vm._v("16")]),
+          _c("div", { staticClass: "hs-lbl" }, [_vm._v("Venues")]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "hero-stat" }, [
+          _c("div", { staticClass: "hs-val" }, [_vm._v("Jun–Jul")]),
+          _c("div", { staticClass: "hs-lbl" }, [_vm._v("2026")]),
+        ]),
       ]),
     ])
   },

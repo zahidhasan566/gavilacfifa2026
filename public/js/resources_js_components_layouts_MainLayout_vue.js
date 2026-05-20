@@ -539,7 +539,27 @@ var render = function () {
     { staticClass: "main-layout" },
     [
       _c("nav", { staticClass: "top-nav" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "nav-brand" }, [
+          _c("img", {
+            staticClass: "nav-logo",
+            attrs: {
+              src: _vm.$imgBase + "/images/fifa-logo.png",
+              alt: "FIFA",
+              onerror: "this.style.display='none'",
+            },
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "brand-divider" }),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "nav-title-logo",
+            attrs: {
+              src: _vm.$imgBase + "/images/abecab-abetis-logo.png",
+              alt: "Abecab Abetis",
+              onerror: "this.style.display='none'",
+            },
+          }),
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -646,9 +666,9 @@ var render = function () {
                 attrs: {
                   src:
                     _vm.currentUser.profile_picture_url ||
-                    "/fifa2026/public/images/default-avatar.png",
+                    _vm.$imgBase + "/images/default-avatar.png",
                   onerror:
-                    "this.src='/fifa2026/public/images/default-avatar.png'",
+                    "this.src=window.__IMG__ + '/images/default-avatar.png'",
                 },
               }),
             ]
@@ -1020,7 +1040,7 @@ var render = function () {
                     attrs: {
                       src: _vm.raffleWinner.profile_picture_url,
                       onerror:
-                        "this.src='/fifa2026/public/images/default-avatar.png'",
+                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
                     },
                   }),
                   _vm._v(" "),
@@ -1131,9 +1151,9 @@ var render = function () {
                         src:
                           _vm.profilePreview ||
                           _vm.currentUser.profile_picture_url ||
-                          "/fifa2026/public/images/default-avatar.png",
+                          _vm.$imgBase + "/images/default-avatar.png",
                         onerror:
-                          "this.src='/fifa2026/public/images/default-avatar.png'",
+                          "this.src=window.__IMG__ + '/images/default-avatar.png'",
                       },
                     }),
                     _vm._v(" "),
@@ -1217,34 +1237,7 @@ var render = function () {
     1
   )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "nav-brand" }, [
-      _c("img", {
-        staticClass: "nav-logo",
-        attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          alt: "FIFA",
-          onerror: "this.style.display='none'",
-        },
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "brand-divider" }),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "nav-title-logo",
-        attrs: {
-          src: "/fifa2026/public/images/abecab-abetis-logo.png",
-          alt: "Abecab Abetis",
-          onerror: "this.style.display='none'",
-        },
-      }),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

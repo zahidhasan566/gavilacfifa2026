@@ -493,12 +493,12 @@ var NAME_TO_CODE = {
       return "https://flagcdn.com/w40/".concat(code.toLowerCase(), ".png");
     },
     teamFlagUrl: function teamFlagUrl(name) {
-      if (!name) return '/fifa2026/public/images/default-avatar.png';
+      if (!name) return window.__IMG__ + '/images/default-avatar.png';
       var code = NAME_TO_CODE[name.toLowerCase()];
-      return code ? this.flagUrl(code) : '/fifa2026/public/images/default-avatar.png';
+      return code ? this.flagUrl(code) : window.__IMG__ + '/images/default-avatar.png';
     },
     teamObjFlagUrl: function teamObjFlagUrl(team) {
-      if (!team) return '/fifa2026/public/images/default-avatar.png';
+      if (!team) return window.__IMG__ + '/images/default-avatar.png';
       if (team.flag_emoji) return this.flagUrl(team.flag_emoji);
       return this.teamFlagUrl(team.name);
     },
@@ -869,7 +869,27 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "fixtures-col" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "col-header" }, [
+          _c("div", { staticClass: "col-icon-circle" }, [
+            _c("img", {
+              staticClass: "col-ball",
+              attrs: {
+                src: _vm.$imgBase + "/images/ball-icon.png",
+                onerror: "this.style.display='none'",
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "col-logo",
+            attrs: {
+              src: _vm.$imgBase + "/images/fifa-logo.png",
+              onerror: "this.style.display='none'",
+            },
+          }),
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -925,7 +945,7 @@ var render = function () {
                       attrs: {
                         src: _vm.teamObjFlagUrl(m.team1),
                         onerror:
-                          "this.src='/fifa2026/public/images/default-avatar.png'",
+                          "this.src=window.__IMG__ + '/images/default-avatar.png'",
                       },
                     }),
                   ]),
@@ -942,7 +962,7 @@ var render = function () {
                       attrs: {
                         src: _vm.teamObjFlagUrl(m.team2),
                         onerror:
-                          "this.src='/fifa2026/public/images/default-avatar.png'",
+                          "this.src=window.__IMG__ + '/images/default-avatar.png'",
                       },
                     }),
                   ]),
@@ -979,7 +999,27 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "results-col" }, [
-        _vm._m(1),
+        _c("div", { staticClass: "col-header" }, [
+          _c("div", { staticClass: "col-icon-circle trophy-circle" }, [
+            _c("img", {
+              staticClass: "col-trophy-img",
+              attrs: {
+                src: _vm.$imgBase + "/images/trophy-icon.png",
+                onerror: "this.style.display='none'",
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "col-logo",
+            attrs: {
+              src: _vm.$imgBase + "/images/fifa-logo.png",
+              onerror: "this.style.display='none'",
+            },
+          }),
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -1031,7 +1071,7 @@ var render = function () {
                       attrs: {
                         src: _vm.teamObjFlagUrl(m.team1),
                         onerror:
-                          "this.src='/fifa2026/public/images/default-avatar.png'",
+                          "this.src=window.__IMG__ + '/images/default-avatar.png'",
                       },
                     }),
                     _vm._v(" "),
@@ -1052,7 +1092,7 @@ var render = function () {
                       attrs: {
                         src: _vm.teamObjFlagUrl(m.team2),
                         onerror:
-                          "this.src='/fifa2026/public/images/default-avatar.png'",
+                          "this.src=window.__IMG__ + '/images/default-avatar.png'",
                       },
                     }),
                   ]),
@@ -1085,60 +1125,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-header" }, [
-      _c("div", { staticClass: "col-icon-circle" }, [
-        _c("img", {
-          staticClass: "col-ball",
-          attrs: {
-            src: "/fifa2026/public/images/ball-icon.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
+    return _c("div", [
+      _c("div", { staticClass: "col-title" }, [_vm._v("Match Fixtures")]),
       _vm._v(" "),
-      _c("div", [
-        _c("div", { staticClass: "col-title" }, [_vm._v("Match Fixtures")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sub" }, [_vm._v("FIFA World Cup 2026™")]),
-      ]),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "col-logo",
-        attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          onerror: "this.style.display='none'",
-        },
-      }),
+      _c("div", { staticClass: "col-sub" }, [_vm._v("FIFA World Cup 2026™")]),
     ])
   },
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-header" }, [
-      _c("div", { staticClass: "col-icon-circle trophy-circle" }, [
-        _c("img", {
-          staticClass: "col-trophy-img",
-          attrs: {
-            src: "/fifa2026/public/images/trophy-icon.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
+    return _c("div", [
+      _c("div", { staticClass: "col-title" }, [_vm._v("Results")]),
       _vm._v(" "),
-      _c("div", [
-        _c("div", { staticClass: "col-title" }, [_vm._v("Results")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sub" }, [_vm._v("FIFA World Cup 2026™")]),
-      ]),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "col-logo",
-        attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          onerror: "this.style.display='none'",
-        },
-      }),
+      _c("div", { staticClass: "col-sub" }, [_vm._v("FIFA World Cup 2026™")]),
     ])
   },
   function () {

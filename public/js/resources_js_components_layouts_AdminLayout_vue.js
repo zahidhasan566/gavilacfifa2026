@@ -301,7 +301,7 @@ var render = function () {
           _c("img", {
             staticClass: "sidebar-logo",
             attrs: {
-              src: "/fifa2026/public/images/fifa-logo.png",
+              src: _vm.$imgBase + "/images/fifa-logo.png",
               alt: "FIFA",
               onerror: "this.style.display='none'",
             },
@@ -310,7 +310,7 @@ var render = function () {
           _c("img", {
             staticClass: "sidebar-partner-logo",
             attrs: {
-              src: "/fifa2026/public/images/abecab-abetis-logo.png",
+              src: _vm.$imgBase + "/images/abecab-abetis-logo.png",
               alt: "Abecab Abetis",
               onerror: "this.style.display='none'",
             },

@@ -515,7 +515,21 @@ var render = function () {
   return _c("div", { staticClass: "prediction-page" }, [
     _vm.champQuestions.length > 0
       ? _c("div", { staticClass: "prediction-card champ-card" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "pred-header" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "pred-trophy-blob" }, [
+              _c("img", {
+                staticClass: "pred-trophy-img",
+                attrs: {
+                  src: _vm.$imgBase + "/images/livescoretropy.png",
+                  onerror: "this.style.display='none'",
+                },
+              }),
+            ]),
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -714,7 +728,29 @@ var render = function () {
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "prediction-card" }, [
-      _vm._m(1),
+      _c("div", { staticClass: "pred-header" }, [
+        _c("div", { staticClass: "pred-ball-circle" }, [
+          _c("img", {
+            staticClass: "pred-ball-img",
+            attrs: {
+              src: _vm.$imgBase + "/images/ball-icon.png",
+              onerror: "this.style.display='none'",
+            },
+          }),
+        ]),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "pred-trophy-blob" }, [
+          _c("img", {
+            staticClass: "pred-trophy-img",
+            attrs: {
+              src: _vm.$imgBase + "/images/livescoretropy.png",
+              onerror: "this.style.display='none'",
+            },
+          }),
+        ]),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "pred-body" }, [
         _vm.loading
@@ -981,29 +1017,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pred-header" }, [
-      _c("div", { staticClass: "pred-ball-circle" }, [
-        _c("span", { staticClass: "champ-trophy-icon" }, [_vm._v("🏆")]),
+    return _c("div", { staticClass: "pred-ball-circle" }, [
+      _c("span", { staticClass: "champ-trophy-icon" }, [_vm._v("🏆")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pred-header-text" }, [
+      _c("div", { staticClass: "pred-title" }, [
+        _vm._v("Championship Predictions"),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "pred-header-text" }, [
-        _c("div", { staticClass: "pred-title" }, [
-          _vm._v("Championship Predictions"),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "pred-sub" }, [
-          _vm._v("FIFA World Cup 2026™ — One-time submission"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "pred-trophy-blob" }, [
-        _c("img", {
-          staticClass: "pred-trophy-img",
-          attrs: {
-            src: "/fifa2026/public/images/livescoretropy.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
+      _c("div", { staticClass: "pred-sub" }, [
+        _vm._v("FIFA World Cup 2026™ — One-time submission"),
       ]),
     ])
   },
@@ -1011,34 +1039,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pred-header" }, [
-      _c("div", { staticClass: "pred-ball-circle" }, [
-        _c("img", {
-          staticClass: "pred-ball-img",
-          attrs: {
-            src: "/fifa2026/public/images/ball-icon.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
+    return _c("div", { staticClass: "pred-header-text" }, [
+      _c("div", { staticClass: "pred-title" }, [_vm._v("Today Prediction")]),
       _vm._v(" "),
-      _c("div", { staticClass: "pred-header-text" }, [
-        _c("div", { staticClass: "pred-title" }, [_vm._v("Today Prediction")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "pred-sub" }, [
-          _vm._v("FIFA World Cup 2026™"),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "pred-trophy-blob" }, [
-        _c("img", {
-          staticClass: "pred-trophy-img",
-          attrs: {
-            src: "/fifa2026/public/images/livescoretropy.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
+      _c("div", { staticClass: "pred-sub" }, [_vm._v("FIFA World Cup 2026™")]),
     ])
   },
 ]

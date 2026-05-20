@@ -443,8 +443,8 @@ var render = function () {
               attrs: {
                 src: f.image
                   ? "/storage/" + f.image
-                  : "/fifa2026/public/images/default-news.png",
-                onerror: "this.src='/fifa2026/public/images/default-news.png'",
+                  : _vm.window.__IMG__ + "/images/default-news.png",
+                onerror: "this.src=window.__IMG__ + '/images/default-news.png'",
               },
             }),
             _vm._v(" "),

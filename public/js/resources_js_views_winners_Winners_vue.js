@@ -412,9 +412,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "winners-page" }, [
     _c("div", { staticClass: "section-header" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "sh-ball-circle" }, [
+        _c("img", {
+          staticClass: "sh-ball-img",
+          attrs: {
+            src: _vm.$imgBase + "/images/ball-icon.png",
+            onerror: "this.style.display='none'",
+          },
+        }),
+      ]),
       _vm._v(" "),
-      _vm._m(1),
+      _vm._m(0),
       _vm._v(" "),
       _c(
         "div",
@@ -428,7 +436,15 @@ var render = function () {
         ]
       ),
       _vm._v(" "),
-      _vm._m(2),
+      _c("div", { staticClass: "sh-trophy-area" }, [
+        _c("img", {
+          staticClass: "sh-trophy-img",
+          attrs: {
+            src: _vm.$imgBase + "/images/livescoretropy.png",
+            onerror: "this.style.display='none'",
+          },
+        }),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "winners-body" }, [
@@ -448,8 +464,8 @@ var render = function () {
             attrs: {
               src: _vm.todayWinner
                 ? _vm.todayWinner.profile_picture_url
-                : "/fifa2026/public/images/default-avatar.png",
-              onerror: "this.src='/fifa2026/public/images/default-avatar.png'",
+                : _vm.window.__IMG__ + "/images/default-avatar.png",
+              onerror: "this.src=window.__IMG__ + '/images/default-avatar.png'",
             },
           }),
         ]),
@@ -567,7 +583,7 @@ var render = function () {
                 attrs: {
                   src: w.profile_picture_url,
                   onerror:
-                    "this.src='/fifa2026/public/images/default-avatar.png'",
+                    "this.src=window.__IMG__ + '/images/default-avatar.png'",
                 },
               }),
               _vm._v(" "),
@@ -607,40 +623,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sh-ball-circle" }, [
-      _c("img", {
-        staticClass: "sh-ball-img",
-        attrs: {
-          src: "/fifa2026/public/images/ball-icon.png",
-          onerror: "this.style.display='none'",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "sh-text" }, [
       _c("div", { staticClass: "section-title" }, [_vm._v("Winners History")]),
       _vm._v(" "),
       _c("div", { staticClass: "section-sub" }, [
         _vm._v("FIFA World Cup 2026™"),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sh-trophy-area" }, [
-      _c("img", {
-        staticClass: "sh-trophy-img",
-        attrs: {
-          src: "/fifa2026/public/images/livescoretropy.png",
-          onerror: "this.style.display='none'",
-        },
-      }),
     ])
   },
 ]

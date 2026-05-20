@@ -448,7 +448,7 @@ var render = function () {
                         attrs: {
                           src: u.profile_picture_url,
                           onerror:
-                            "this.src='/fifa2026/public/images/default-avatar.png'",
+                            "this.src=window.__IMG__ + '/images/default-avatar.png'",
                         },
                       }),
                       _vm._v(

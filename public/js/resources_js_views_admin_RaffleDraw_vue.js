@@ -470,7 +470,7 @@ var render = function () {
                     attrs: {
                       src: u.profile_picture_url,
                       onerror:
-                        "this.src='/fifa2026/public/images/default-avatar.png'",
+                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
                     },
                   }),
                   _vm._v(" "),
@@ -589,9 +589,9 @@ var render = function () {
                 attrs: {
                   src:
                     (d.user && d.user.profile_picture_url) ||
-                    "/fifa2026/public/images/default-avatar.png",
+                    _vm.$imgBase + "/images/default-avatar.png",
                   onerror:
-                    "this.src='/fifa2026/public/images/default-avatar.png'",
+                    "this.src=window.__IMG__ + '/images/default-avatar.png'",
                 },
               }),
               _vm._v(" "),
@@ -658,7 +658,7 @@ var render = function () {
                 attrs: {
                   src: _vm.randomWinner.profile_picture_url,
                   onerror:
-                    "this.src='/fifa2026/public/images/default-avatar.png'",
+                    "this.src=window.__IMG__ + '/images/default-avatar.png'",
                 },
               }),
               _vm._v(" "),

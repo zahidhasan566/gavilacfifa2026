@@ -258,7 +258,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     teamFlagUrl: function teamFlagUrl(team) {
-      if (!team || !team.flag_emoji) return '/fifa2026/public/images/default-avatar.png';
+      if (!team || !team.flag_emoji) return window.__IMG__ + '/images/default-avatar.png';
       return "https://flagcdn.com/w40/".concat(team.flag_emoji.toLowerCase(), ".png");
     }
   }
@@ -419,7 +419,29 @@ var render = function () {
   return _c("div", { staticClass: "live-score-page" }, [
     _c("div", { staticClass: "ls-card" }, [
       _c("div", { staticClass: "ls-matches-section" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "section-header" }, [
+          _c("div", { staticClass: "sh-ball-wrap" }, [
+            _c("img", {
+              staticClass: "sh-ball-img",
+              attrs: {
+                src: _vm.$imgBase + "/images/ball-icon.png",
+                onerror: "this.style.display='none'",
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "sh-trophy-area" }, [
+            _c("img", {
+              staticClass: "sh-trophy-img",
+              attrs: {
+                src: _vm.$imgBase + "/images/livescoretropy.png",
+                onerror: "this.style.display='none'",
+              },
+            }),
+          ]),
+        ]),
         _vm._v(" "),
         _vm.loading
           ? _c("div", { staticClass: "state-msg" }, [
@@ -486,7 +508,7 @@ var render = function () {
                     attrs: {
                       src: _vm.teamFlagUrl(match.team1),
                       onerror:
-                        "this.src='/fifa2026/public/images/default-avatar.png'",
+                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
                     },
                   }),
                   _vm._v(" "),
@@ -537,7 +559,7 @@ var render = function () {
                     attrs: {
                       src: _vm.teamFlagUrl(match.team2),
                       onerror:
-                        "this.src='/fifa2026/public/images/default-avatar.png'",
+                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
                     },
                   }),
                   _vm._v(" "),
@@ -587,7 +609,16 @@ var render = function () {
           0
         ),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "ad-banner" }, [
+          _c("img", {
+            staticClass: "ad-img",
+            attrs: {
+              src: _vm.$imgBase + "/images/abecab-ad.png",
+              alt: "Abecab Advertisement",
+              onerror: "this.closest('.ad-banner').style.display='none'",
+            },
+          }),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "ls-sidebar" }, [
@@ -597,8 +628,8 @@ var render = function () {
             attrs: {
               src:
                 _vm.currentUser.profile_picture_url ||
-                "/fifa2026/public/images/default-avatar.png",
-              onerror: "this.src='/fifa2026/public/images/default-avatar.png'",
+                _vm.$imgBase + "/images/default-avatar.png",
+              onerror: "this.src=window.__IMG__ + '/images/default-avatar.png'",
             },
           }),
           _vm._v(" "),
@@ -636,7 +667,7 @@ var render = function () {
               ]
             ),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(1),
           ]),
           _vm._v(" "),
           _c(
@@ -654,7 +685,7 @@ var render = function () {
                     attrs: {
                       src: w.profile_picture_url,
                       onerror:
-                        "this.src='/fifa2026/public/images/default-avatar.png'",
+                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
                     },
                   }),
                   _vm._v(" "),
@@ -698,47 +729,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "section-header" }, [
-      _c("div", { staticClass: "sh-ball-wrap" }, [
-        _c("img", {
-          staticClass: "sh-ball-img",
-          attrs: {
-            src: "/fifa2026/public/images/ball-icon.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
+    return _c("div", { staticClass: "sh-text" }, [
+      _c("div", { staticClass: "sh-title" }, [_vm._v("Live Score")]),
       _vm._v(" "),
-      _c("div", { staticClass: "sh-text" }, [
-        _c("div", { staticClass: "sh-title" }, [_vm._v("Live Score")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "sh-sub" }, [_vm._v("FIFA World Cup 2026™")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "sh-trophy-area" }, [
-        _c("img", {
-          staticClass: "sh-trophy-img",
-          attrs: {
-            src: "/fifa2026/public/images/livescoretropy.png",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "ad-banner" }, [
-      _c("img", {
-        staticClass: "ad-img",
-        attrs: {
-          src: "/fifa2026/public/images/abecab-ad.png",
-          alt: "Abecab Advertisement",
-          onerror: "this.closest('.ad-banner').style.display='none'",
-        },
-      }),
+      _c("div", { staticClass: "sh-sub" }, [_vm._v("FIFA World Cup 2026™")]),
     ])
   },
   function () {

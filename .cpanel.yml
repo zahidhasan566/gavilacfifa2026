@@ -3,20 +3,28 @@ deployment:
   tasks:
     - export APPROOT=/home/abecababetisfifa/fifa2026
     - export PUBDEST=/home/abecababetisfifa/public_html
+    - export REPOROOT=/home/abecababetisfifa/repositories/fifa2026
 
-    # Sync Laravel app files to fifa2026/
-    - /bin/rsync -a --exclude='public/' --exclude='.git/' --exclude='node_modules/' ./ $APPROOT/
+    # Copy only changed app folders (skip vendor - already on server)
+    - /bin/cp -rf $REPOROOT/app $APPROOT/
+    - /bin/cp -rf $REPOROOT/bootstrap $APPROOT/
+    - /bin/cp -rf $REPOROOT/config $APPROOT/
+    - /bin/cp -rf $REPOROOT/database $APPROOT/
+    - /bin/cp -rf $REPOROOT/resources $APPROOT/
+    - /bin/cp -rf $REPOROOT/routes $APPROOT/
+    - /bin/cp -f $REPOROOT/artisan $APPROOT/
+    - /bin/cp -f $REPOROOT/composer.json $APPROOT/
 
-    # Sync public assets to public_html/
-    - /bin/cp -f public/index-production.php $PUBDEST/index.php
-    - /bin/cp -f public/.htaccess $PUBDEST/.htaccess
-    - /bin/cp -rf public/css $PUBDEST/
-    - /bin/cp -rf public/js $PUBDEST/
-    - /bin/cp -rf public/images $PUBDEST/
-    - /bin/cp -f public/manifest.json $PUBDEST/manifest.json
-    - /bin/cp -f public/sw.js $PUBDEST/sw.js
+    # Copy public assets to public_html
+    - /bin/cp -f $REPOROOT/public/index-production.php $PUBDEST/index.php
+    - /bin/cp -f $REPOROOT/public/.htaccess $PUBDEST/.htaccess
+    - /bin/cp -rf $REPOROOT/public/css $PUBDEST/
+    - /bin/cp -rf $REPOROOT/public/js $PUBDEST/
+    - /bin/cp -rf $REPOROOT/public/images $PUBDEST/
+    - /bin/cp -f $REPOROOT/public/manifest.json $PUBDEST/manifest.json
+    - /bin/cp -f $REPOROOT/public/sw.js $PUBDEST/sw.js
 
-    # Run artisan commands from app root
+    # Run artisan commands
     - /usr/local/bin/php $APPROOT/artisan config:cache
     - /usr/local/bin/php $APPROOT/artisan route:cache
     - /usr/local/bin/php $APPROOT/artisan optimize
