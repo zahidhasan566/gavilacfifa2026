@@ -1,0 +1,138 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\CustomUser;
+use App\Models\DealarInvoiceDetails;
+use App\Models\User;
+use App\Services\JWTCustomSubject;
+use App\Traits\CommonTrait;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\jwt\JWT;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+
+class AuthController extends Controller
+{
+    use CommonTrait;
+    public function login(Request $request)
+    {
+        $login    = trim((string) $request->usermailorphone);
+        $password = (string) $request->password;
+
+        if ($login === '' || $password === '') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'UserID/Mobile and password are required!'
+            ], 422);
+        }
+
+        // If it's all digits, treat as Mobile, otherwise treat as UserID (admin)
+        $isMobile = ctype_digit($login);
+
+        $credentials = [
+            'password' => $password,
+            'Status'   => 1,
+        ];
+
+        if ($isMobile) {
+            $credentials['MobileNumber'] = $login;
+        } else {
+            $credentials['UserId'] = $login;
+        }
+
+
+        if ($token = JWTAuth::attempt($credentials)) {
+            // Use the 'api' guard to get the authenticated user
+            $user = auth('api')->user();
+            $user->load('role'); // already authenticated by attempt()
+            return $this->respondWithToken($token, $user);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Invalid User Id/Mobile or Password!'
+        ], 401);
+    }
+
+//    public function login(Request $request)
+//    {
+//
+//        $configCredentials = config('credentials');
+//
+//        $inputUsername =  $request->header('username');
+//        $inputPassword = $request->header('Password');
+//
+//        if ($inputUsername === $configCredentials['username'] && $inputPassword === $configCredentials['password']) {
+//            // Create a JWTSubject instance
+//            $customUser = new JWTCustomSubject(1, $inputUsername);
+//
+//            // Generate token
+//            $token = JWTAuth::fromUser($customUser);
+//
+//            return response()->json([
+//                'success' => true,
+//                'token' => $token,
+//            ]);
+//        }
+//
+//        return response()->json(['success' => false, 'message' => 'Invalid credentials'], 401);
+//    }
+    protected function respondWithToken($token,$user)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => $user,
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
+    }
+    public function generateToken($user)
+    {
+        $payload = [
+            'iat' => time(),
+            'iss' => $_SERVER['SERVER_NAME'],
+            'exp' => time() + 12 * 30 * (24 * 60 * 60),// 1 Month
+            'EmpCode' => $user['EmpCode'],
+            'staffCode' => $user['staffCode'],
+            'Business' => $user['Business'],
+            'Type' => $user['type'],
+        ];
+        try {
+            $privateKey = env("JWT_SECRET", "t3d0qNv8858l6spwApKED6yxpcGF45XTUqfwu3JHIurcIKMZ1du5pNiJBkoDQ79a");
+            $token = JWT::encode($payload, $privateKey);
+            return $token;
+        } catch (\Exception $ex) {
+            $token = false;
+        }
+        return $token;
+
+    }
+    protected function guard()
+    {
+        return Auth::guard('api');
+    }
+    public function logout()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+//            UserLog::create(['UserId' => $user->ID, 'TransactionTime' => Carbon::now(), 'TransactionDetails' => "Logged Out"]);
+            $this->guard()->logout();
+        } catch (\Exception $exception) {
+
+        }
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function refresh()
+    {
+        $token = JWTAuth::refresh(JWTAuth::getToken());
+        return response()->json(['token' => $token]);
+    }
+}

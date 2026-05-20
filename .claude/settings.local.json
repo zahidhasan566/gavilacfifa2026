@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan *)",
+      "Bash(dir \"d:\\\\wamp\\\\www\\\\fifa2026\\\\public\\\\\" 2>&1)",
+      "Bash(findstr /i \"APP_URL APP_ENV\" \"d:\\\\wamp\\\\www\\\\fifa2026\\\\.env\")",
+      "Bash(find /d/wamp -name \"httpd.conf\" 2>/dev/null | head -5; find /d/wamp64 -name \"httpd.conf\" 2>/dev/null | head -5; ls /d/ 2>/dev/null)",
+      "Read(//d/wamp/**)",
+      "Read(//d//**)",
+      "Bash(xargs grep -l \"Redirect\\\\|vhost\\\\|virtual\")"
+    ]
+  }
+}

@@ -1,0 +1,339 @@
+<template>
+    <div class="dash" :style="{ backgroundImage: `url(${BackgroundImage})` }" >
+        <!-- ✅ Banner / Hero -->
+        <section class="dash-banner" :style="{ backgroundImage: `url(${HomeBannerImage})` }">
+            <div class="dash-banner-overlay"></div>
+
+            <div class="dash-banner-inner">
+                <div class="dash-points">
+                    <div class="dash-pill">{{ loading.points ? '...' : points.total }}</div>
+                    <div class="dash-pill-label">Total Points</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ✅ Main content -->
+        <section class="dash-content">
+            <div class="dash-grid">
+                <!-- Cards -->
+                <div class="dash-cards">
+                    <button class="dash-card" @click="go('Fixtures')">T20 World<br/>Cup Fixture</button>
+                    <button class="dash-card" @click="go('Today')">Today's<br/>Match</button>
+                    <button class="dash-card" @click="go('Prediction')">My<br/>Prediction</button>
+                    <button class="dash-card" @click="go('Rewards')">Rewards<br/>for Winner</button>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="dash-leaderboard">
+                    <div class="dash-lb-title">Leaderboard</div>
+
+                    <div v-if="loading.leaderboard" class="dash-muted">Loading...</div>
+
+                    <div v-else class="dash-lb-list">
+                        <div v-for="(u,i) in leaderboard" :key="u.id ? u.id : i" class="dash-lb-item">
+                            <div class="dash-rank">{{ i + 1 }}</div>
+                            <div class="dash-lb-info">
+                                <div class="dash-lb-name">{{ u.name }}</div>
+                                <div class="dash-lb-sub">
+                                    {{ u.subtitle ? u.subtitle : ('Points: ' + formatPoints(u.points)) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="!leaderboard.length" class="dash-muted">No data</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</template>
+
+<script>
+import axios from "axios";
+import {baseurl} from "../../base_url";
+
+export default {
+    name: "DoctorDashboardIndex",
+    data() {
+        return {
+            points: { total: 0 },
+            // leaderboard: [],
+            loading: { points: true, leaderboard: true },
+            BackgroundImage:'',
+            HomeBannerImage:'',
+            leaderboard: [
+                {
+                    id: 1,
+                    name: "Dr. Zahid Hasan",
+                    points: 120,
+                    subtitle: "Cardiology"
+                },
+                {
+                    id: 2,
+                    name: "Dr. Ayesha Khan",
+                    points: 120,
+                    subtitle: "Cardiology"
+                },
+                {
+                    id: 3,
+                    name: "Dr. Sana Malik",
+                    points: 98,
+                    subtitle: "Pediatrics"
+                },
+                {
+                    id: 4,
+                    name: "Dr. Hamza Ahmed",
+                    points: 85,
+                    subtitle: "Orthopedics"
+                },
+                {
+                    id: 5,
+                    name: "Dr. Noor Fatima",
+                    points: 72,
+                    subtitle: "General Medicine"
+                }
+            ]
+
+        };
+    },
+    mounted() {
+        this.BackgroundImage = baseurl + 'assets/images/bg/t20bg.png';
+        this.HomeBannerImage = baseurl + 'assets/images/bg/HomeBanner.png';
+        this.fetchPoints();
+        this.fetchLeaderboard();
+    },
+    methods: {
+        go(name) {
+            this.$router.push({ name });
+        },
+        formatPoints(val) {
+            return (val === null || val === undefined) ? "-" : val;
+        },
+        fetchPoints() {
+            this.loading.points = true;
+            axios.get("/api/user/points")
+                .then(res => { this.points = res && res.data ? res.data : { total: 0 }; })
+                .finally(() => { this.loading.points = false; });
+        },
+        fetchLeaderboard() {
+            this.loading.leaderboard = true;
+            axios.get("/api/leaderboard", { params: { limit: 5 } })
+                .then(res => { this.leaderboard = (res && Array.isArray(res.data)) ? res.data : []; })
+                .finally(() => { this.loading.leaderboard = false; });
+        }
+    }
+};
+</script>
+
+<style scoped>
+/* Page wrapper */
+.dash{
+    min-height: 100vh;
+    background: #0b0533; /* fallback behind banner */
+}
+
+/* ✅ Banner area */
+.dash-banner{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    position: relative;
+    height: 320px;
+    z-index: 1; /* ensure it sits above page bg */
+}
+
+/* overlay to help text */
+.dash-banner-overlay{
+    position:absolute;
+    inset:0;
+    /*background: linear-gradient(90deg, rgba(12,6,50,.75), rgba(12,6,50,.35));*/
+}
+
+.dash-banner-inner{
+    position: relative;
+    height: 100%;
+    display:flex;
+    align-items:flex-end;
+    padding: 20px 24px;
+    box-sizing:border-box;
+}
+
+/* points pill */
+.dash-points{
+    color:#fff;
+}
+.dash-pill{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width: 140px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background:#ff9f1a;
+    font-weight: 900;
+    font-size: 34px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+.dash-pill-label{
+    margin-top: 10px;
+    font-size: 24px;
+    opacity: .95;
+    text-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* content */
+.dash-content{
+    padding: 22px 24px 30px;
+    box-sizing: border-box;
+}
+
+/* grid desktop */
+.dash-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 100px;
+    /*padding-bottom: 50px;*/
+}
+
+/* cards */
+.dash-cards{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 18px;
+}
+.dash-card{
+    position: relative;
+    overflow: hidden;                 /* keep overlay inside */
+    height: 130px;
+    border-radius: 10px;
+
+    border: 2px solid #ff9f1a;        /* orange border */
+    background: transparent;
+
+    color: #fff;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1.05;
+    text-align: center;
+    cursor: pointer;
+
+    z-index: 0;
+
+}
+/* 🔶 ORANGE OVERLAY */
+.dash-card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 159, 26, 0.18);  /* orange overlay */
+    z-index: -1;
+}
+.dash-card:hover{
+    background: rgba(255,255,255,0.10);
+}
+.dash-card > *{
+    position: relative;
+    z-index: 1;
+}
+
+/* Hover / tap feedback */
+.dash-card:hover::before{
+    background: rgba(255, 159, 26, 0.30);
+}
+/* leaderboard */
+.dash-leaderboard{
+    color:#fff;
+}
+.dash-lb-title{
+    display:inline-block;
+    background:#ff9f1a;
+    color:#fff;
+    padding: 12px 22px;
+    font-size: 30px;
+    font-weight: 900;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+.dash-lb-list{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+    margin-top: 25px;
+}
+.dash-lb-item{
+    display:flex;
+    gap: 12px;
+}
+.dash-rank{
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background:#ff9f1a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight: 900;
+}
+.dash-lb-name{
+    color:#ff9f1a;
+    font-weight: 900;
+    font-size: 18px;
+}
+.dash-lb-sub{
+    opacity: .75;
+    font-size: 13px;
+    margin-top: 4px;
+}
+.dash-muted{
+    opacity: .8;
+    padding: 10px 0;
+}
+
+/* ✅ MOBILE FRIENDLY BANNER + STACK */
+@media (max-width: 992px){
+    .dash-grid{
+        grid-template-columns: 1fr;
+    }
+    .dash-lb-list{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px){
+    /* ✅ Give banner more space on mobile */
+    .dash-banner{
+        height: 420px;              /* more space */
+        background-position: center 12%; /* move focus up */
+    }
+
+    .dash-banner-inner{
+        padding: 16px 14px;
+        align-items: flex-end;
+    }
+
+    .dash-content{
+        padding: 16px 14px 22px;
+    }
+
+    .dash-cards{
+        grid-template-columns: 1fr; /* cards stack */
+    }
+    .dash-card::before{
+        background: rgba(255, 159, 26, 0.22);
+    }
+    .dash-card{
+        height: 130px;
+        font-size: 24px;
+    }
+
+    .dash-pill{
+        font-size: 30px;
+        min-width: 120px;
+    }
+    .dash-pill-label{
+        font-size: 20px;
+    }
+}
+</style>

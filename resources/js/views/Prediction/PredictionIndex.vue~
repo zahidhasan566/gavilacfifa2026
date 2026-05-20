@@ -1,0 +1,416 @@
+<template>
+    <div class="pred-page" :style="{ backgroundImage: `url(${BackgroundImage})` }">
+        <!-- topbar is already in your main layout -->
+
+        <div class="pred-wrap">
+            <div class="pred-panel">
+                <!-- Tabs -->
+                <div class="pred-tabs">
+                    <button
+                        type="button"
+                        class="pred-tab"
+                        :class="{ active: activeTab === 'prediction' }"
+                        @click="activeTab = 'prediction'"
+                    >
+                        Prediction
+                    </button>
+
+                    <button
+                        type="button"
+                        class="pred-tab"
+                        :class="{ active: activeTab === 'rules' }"
+                        @click="activeTab = 'rules'"
+                    >
+                        Rules
+                    </button>
+                </div>
+
+                <!-- RULES TAB -->
+                <div v-if="activeTab === 'rules'" class="tab-body">
+                    <div class="pred-title">Rules</div>
+
+                    <div class="rules-list">
+                        <div v-for="(r, i) in rules" :key="i" class="rule-item">
+                            <div class="rule-no">{{ i + 1 }}</div>
+                            <div class="rule-text">{{ r }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREDICTION TAB -->
+                <div v-else class="tab-body">
+                    <div class="pred-title">My Prediction</div>
+
+                    <div class="pred-scroll">
+                        <div v-for="(m, i) in matches" :key="m.id" class="q-block">
+                            <div class="q-row">
+                                <div class="q-no">{{ i + 1 }}</div>
+                                <div class="q-text">{{ m.question }}</div>
+                            </div>
+
+                            <div class="q-actions">
+                                <button
+                                    v-for="(opt, idx) in m.options"
+                                    :key="idx"
+                                    type="button"
+                                    class="pick-btn"
+                                    :class="{ selected: picks[m.id] === opt, ghost: idx !== 0 }"
+                                    @click="pick(m.id, opt)"
+                                >
+                                    {{ opt }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-row">
+                        <button type="button" class="submit-btn" @click="submit">
+                            SUBMIT
+                        </button>
+                    </div>
+                </div>
+                <!-- /PREDICTION TAB -->
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import {baseurl} from "../../base_url";
+
+export default {
+    name: "PredictionRules",
+    data() {
+        return {
+            activeTab: "prediction",
+            BackgroundImage:'',
+            rules: [
+                "Prediction must be done one hour before the match. ",
+                "For every right answer there will be 5 points. ",
+                "Top 50 Doctors will be rewarded after the world cup end",
+                "Reward will be given 20 days after ending of World Cup",
+            ],
+            matches: [],
+            picks: {} // { [matchId]: 'TEAM' }
+        };
+    },
+    mounted() {
+        this.BackgroundImage = baseurl + 'assets/images/bg/t20bg.png';
+        this.loadMatches(); // dummy now, replace with API later
+    },
+    methods: {
+        loadMatches() {
+            this.questions = [
+                { id: 101, text: "Who will win the match today?", type: "TEAM_WIN" },
+
+                { id: 102, text: "How many sixes will be hit in this match?", type: "RANGE_0_30" },
+
+                { id: 103, text: "How many fours will be hit in this match?", type: "RANGE_0_60" },
+
+                { id: 104, text: "Is there any chance for Hattrick wicket today?", type: "YES_NO" },
+
+                { id: 105, text: "Who will be Man of the match today?", type: "TEAM_MOM" }
+            ];
+            // DUMMY DATA (replace with API)
+            // example
+           let  apiMatch = { matchId: 5001, teamA: "BANGLADESH", teamB: "INDIA" };
+
+            const { matchId, teamA, teamB } = apiMatch;
+
+            this.matches = this.questions.map(q => ({
+                id: q.id,             // question id
+                matchId: matchId,     // real match id from API
+                question: q.text,
+                type: q.type,
+                options: this.getOptions(q.type, teamA, teamB) // dynamic options
+            }));
+        },
+
+        pick(matchId, team) {
+            // Vue 2 reactivity for new keys
+            this.$set(this.picks, matchId, team);
+        },
+        getOptions(type, teamA, teamB) {
+            if (type === "TEAM_WIN") return [teamA, teamB];
+
+            if (type === "TEAM_MOM") return [teamA, teamB]; // later you can replace with player list API
+
+            if (type === "YES_NO") return ["YES", "NO"];
+
+            if (type === "RANGE_0_30") return this.makeRangeOptions(0, 30, 5); // 0-5, 6-10 etc
+
+            if (type === "RANGE_0_60") return this.makeRangeOptions(0, 60, 10); // 0-10, 11-20 etc
+
+            return [];
+        },
+
+        makeRangeOptions(start, end, step) {
+            const out = [];
+            let s = start;
+            while (s < end) {
+                const e = Math.min(s + step, end);
+                out.push(`${s}-${e}`);
+                s = e + 1;
+            }
+            return out;
+        },
+
+        submit() {
+            const payload = this.matches.map(m => ({
+                matchId: m.matchId,
+                questionId: m.id,
+                answer: this.picks[m.id] || null
+            }));
+
+            console.log(payload);
+        }
+    }
+};
+</script>
+
+<style scoped>
+/* page background (below topbar & footer) */
+.pred-page {
+    min-height: calc(100vh - 70px - 60px); /* topbar=70, footer=60 (adjust) */
+    width: 100%;
+    background: #0b0740;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+
+/* subtle background */
+.pred-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /*background: radial-gradient(circle at 60% 35%, rgba(255, 255, 255, 0.06), transparent 58%),*/
+    /*radial-gradient(circle at 30% 75%, rgba(255, 255, 255, 0.05), transparent 62%),*/
+    /*linear-gradient(180deg, rgba(9, 5, 58, 1) 0%, rgba(7, 4, 44, 1) 100%);*/
+}
+
+.pred-wrap {
+    position: relative;
+    /*padding: 22px 24px 25px 20px;*/
+    display: flex;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+
+.pred-panel {
+    width: 100%;
+    max-width: 1200px;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    border-radius: 10px;
+    padding: 16px 18px 18px;
+    /*background: rgba(0, 0, 0, 0.1);*/
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+/* Tabs */
+.pred-tabs {
+    display: flex;
+    gap: 10px;
+    /*margin-bottom: 8px;*/
+}
+
+.pred-tab {
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    background: transparent;
+    color: #ffffff;
+    font-weight: 800;
+    cursor: pointer;
+    outline: none;
+}
+
+.pred-tab.active {
+    background: #ff9a00;
+    border-color: #ff9a00;
+    color: #ffffff;
+}
+
+.tab-body {
+    padding: 8px 4px 0;
+}
+
+/* Title */
+.pred-title {
+    text-align: center;
+    font-weight: 900;
+    font-size: 26px; /* reduced */
+    color: #ff9a00;
+    margin: 6px 0 14px;
+}
+
+/* ---------- RULES ---------- */
+.rules-list {
+    padding: 0 6px 6px;
+}
+
+.rule-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    margin: 12px auto;
+    max-width: 920px;
+    border: 1.8px solid rgba(255, 255, 255, 0.65);
+    border-radius: 10px;
+    background: rgba(10, 7, 70, 0.1);
+}
+
+.rule-no {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ff9a00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 900;
+    flex: 0 0 32px;
+}
+
+.rule-text {
+    color: #ffffff;
+    font-size: 16px; /* reduced */
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ---------- PREDICTION ---------- */
+.pred-scroll {
+    max-height: 420px; /* reduced so footer never overlaps */
+    overflow-y: auto;
+    padding: 0 6px;
+}
+
+/* scrollbar */
+.pred-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+.pred-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+.pred-scroll::-webkit-scrollbar-thumb {
+    background: #ff9a00;
+    border-radius: 12px;
+}
+
+.q-block {
+    margin: 14px auto 18px;
+    max-width: 980px;
+}
+
+.q-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 5px 14px;
+    border: 1.8px solid rgba(255, 255, 255, 0.65);
+    border-radius: 10px;
+    /*background: rgba(10, 7, 70, 0.1);*/
+}
+
+.q-no {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ff9a00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 900;
+    flex: 0 0 32px;
+}
+
+.q-text {
+    color: #ffffff;
+    font-size: 16px; /* reduced */
+    font-weight: 700;
+}
+
+.q-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: flex-end;
+    margin-top: 10px;
+    padding-right: 8px;
+}
+
+/* buttons */
+.pick-btn {
+    min-width: 220px;
+    padding: 5px 0px;
+    border-radius: 10px;
+    background: #ff9a00;
+    border: 2px solid #ff9a00;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 15px; /* reduced */
+    cursor: pointer;
+    outline: none;
+    opacity: 0.65; /* so selected is visible */
+    transition: 0.15s ease;
+}
+
+/* right button default is ghost */
+.pick-btn.ghost {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+    color: #ffffff;
+    /*opacity: 0.65;*/
+}
+
+/* selected state (VISIBLE CHANGE) */
+.pick-btn.selected {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.25);
+}
+
+.pick-btn.ghost.selected {
+    background: rgba(255, 154, 0, 0.18);
+    border-color: #ff9a00;
+    opacity: 1;
+}
+
+/* submit */
+.submit-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 10px 0;
+}
+
+.submit-btn {
+    background: #1f86ff;
+    border: none;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 16px;
+    padding: 12px 44px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+}
+
+@media (max-width: 900px) {
+    .q-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .pick-btn {
+        min-width: 200px;
+    }
+    .pred-scroll {
+        max-height: 1200px; /* reduced so footer never overlaps */
+    }
+    .pred-wrap {
+        padding-bottom: 10px;
+    }
+}
+</style>

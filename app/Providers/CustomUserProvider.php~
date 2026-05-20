@@ -1,0 +1,72 @@
+<?php
+namespace App\Providers;
+
+use App\Models\User;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Auth\Authenticatable;
+use App\Services\CustomUser;
+use Illuminate\Support\Facades\DB;
+
+class CustomUserProvider implements UserProvider
+{
+    public function retrieveById($identifier)
+    {
+        return User::find($identifier);
+    }
+
+    public function retrieveByToken($identifier, $token)
+    {
+        // Not used for JWT authentication
+        return null;
+    }
+
+    public function updateRememberToken(Authenticatable $user, $token)
+    {
+        // Not used for JWT authentication
+    }
+
+    public function retrieveByCredentials(array $credentials)
+    {
+        // Remove password from credentials before querying
+        $query = User::query();
+
+        // Check if Mobile or UserID is provided
+        if (isset($credentials['MobileNumber'])) {
+            dd($credentials['MobileNumber']);
+            $query->where('MobileNumber', $credentials['MobileNumber']);
+        } elseif (isset($credentials['UserId'])) {
+            $query->where('Username', $credentials['UserId']);
+        } else {
+            return null;
+        }
+
+//        // Add status check if provided
+//        if (isset($credentials['Status'])) {
+//            $query->where('Status', $credentials['Status']);
+//        }
+
+        return $query->first();
+    }
+
+    public function validateCredentials(Authenticatable $user, array $credentials)
+    {
+        $inputPassword = $credentials['password'] ?? '';
+
+        // Use SQL Server function to decode the stored password
+        $result = DB::select("SELECT dbo.ufn_PasswordDecode(?) as DecodedPass", [$user->Password]);
+
+        if (!empty($result)) {
+            $decodedPassword = $result[0]->DecodedPass;
+            // Compare the input password with the decoded password
+            return $inputPassword === $decodedPassword;
+        }
+
+        return false;
+    }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    {
+        // Not applicable for SQL Server custom functions
+        return null;
+    }
+}

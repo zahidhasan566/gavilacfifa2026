@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements JWTSubject
+{
+    use HasApiTokens, HasFactory, Notifiable;
+    protected $table = "Users";
+    protected $primaryKey = 'UserId'; // Make sure this EXACTLY matches your database column name
+    public $incrementing = false; // Set to FALSE since you're using string IDs
+    protected $keyType = 'string';
+    public $timestamps = false;
+
+//    public function __construct($id = null, $username = null)
+//    {
+//        $this->id = $id;
+//        $this->username = $username;
+//    }
+    protected $fillable = [
+        'UserId',
+        'Mobile',
+        'Password',
+        // add other fields as needed
+    ];
+
+
+    public function getJWTIdentifier()
+    {
+        return $this->id; // The unique identifier of the user (e.g., user ID)
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return []; // Custom claims (optional)
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'RoleId', 'RoleId');
+        // Adjust 'RoleId' to match your foreign key column name
+        // Second parameter is the primary key in Roles table
+    }
+    // Helper methods for password encoding/decoding
+    public static function encodePassword($password)
+    {
+        $result = DB::select("SELECT dbo.ufn_PasswordEncode(?) as RawPass", [$password]);
+        return $result[0]->RawPass ?? null;
+    }
+
+    public static function decodePassword($encodedPassword)
+    {
+        $result = DB::select("SELECT dbo.ufn_PasswordDecode(?) as DecodedPass", [$encodedPassword]);
+        return $result[0]->DecodedPass ?? null;
+    }
+
+}

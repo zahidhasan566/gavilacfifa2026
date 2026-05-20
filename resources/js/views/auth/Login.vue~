@@ -1,0 +1,241 @@
+<template>
+    <div>
+        <div :style="{ backgroundImage: `url(${BackgroundImage})` }" class="loginBody">
+
+            <div>
+                <img :src="`${mainOrigin}assets/images/bg/leftIcon.png`" alt="Icon" class="top-left-icon" />
+            </div>
+
+            <div class="wrapper-page">
+
+                <div class="p-4 text-white text-center position-relative">
+                    <img :src="`${mainOrigin}assets/images/bg/titleImg2.png`" alt="Icon"  />
+
+                </div>
+
+                <div class="loginBg p-4">
+                    <form @submit.prevent="onSubmit">
+                        <div class="form-group">
+                            <label class="text-white" for="usermailorphone">User Id/ Mobile Number( <span class="error">01XXXXXXXXX</span>)</label>
+                            <input type="text" id="usermailorphone" v-model="usermailorphone" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-white" for="password">Password</label>
+                            <input type="password" id="password" v-model="password" class="form-control" required />
+                        </div>
+                        <!-- "Remember me" and "Forgot your password?" side by side -->
+                        <div class="form-group d-flex justify-content-between">
+                            <label>
+                                <input type="checkbox" v-model="rememberMe" /> <span class="text-white">Remember me</span>
+                            </label>
+                            <router-link :to="{name:'SignUp'}"  class="text-white">Forgot your password?</router-link>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-orange btn-block">Login</button>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <p class="text-white" style="font-size:14px">or</p>
+                        <router-link
+                            style="color: #000000; text-decoration: none"
+                            :to="{ name: 'SignUp' }"
+                            class="btn btn-white btn-block"
+                        >
+                            Sign Up
+                        </router-link>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { Common } from '../../mixins/common';
+import moment from "moment";
+import { baseurl } from "../../base_url";
+
+export default {
+    mixins: [Common, baseurl],
+    data() {
+        return {
+            usermailorphone: '',
+            password: '',
+            rememberMe: false,
+            BackgroundImage: '',
+            TitleImage: '',
+            LeftIconImage:''
+        };
+    },
+    mounted() {
+        this.BackgroundImage = baseurl + 'assets/images/bg/t20bg.png';
+    },
+    methods: {
+        onSubmit() {
+            this.$store.commit('submitButtonLoadingStatus', true);
+            this.axiosPostWithoutToken('login', {
+                usermailorphone: this.usermailorphone,
+                password: this.password
+            }, (response) => {
+                console.log(response.access_token)
+
+                // Store token
+                localStorage.setItem('access_token', response.access_token);
+
+                // Store user data
+                const user = response.user;
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user_id', user.UserId);
+                localStorage.setItem('user_name', user.FullName);
+                localStorage.setItem('user_email', user.Email);
+
+
+                // Store role information
+                const roleName = user.role ? user.role.RoleName : null;
+                const roleId = user.role ? user.role.RoleId : null;
+                localStorage.setItem('user_role', roleName);
+                localStorage.setItem('role_id', roleId);
+
+                // Set axios default header for future requests
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.access_token}`;
+
+                // Redirect based on role
+                if (roleName === 'Admin') {
+                    this.$router.push({ name: 'Dashboard' });
+                    // OR using your redirect method:
+                    // this.redirect(this.mainOrigin + 'dashboard');
+                } else if (roleName === 'Doctor') {
+                    this.$router.push({ name: 'DoctorDashboard' });
+                    // OR using your redirect method:
+                    // this.redirect(this.mainOrigin + 'doctor/dashboard');
+                } else {
+                    // Default redirect for other roles
+                    this.$router.push({ name: 'Dashboard' });
+                }
+
+                // localStorage.setItem('access_token', response.access_token);
+                // localStorage.setItem('user_role', response.user.role.RoleName);
+                // localStorage.setItem('user', JSON.stringify(response.user));
+
+                // localStorage.setItem('token', token);
+                // localStorage.setItem('user_role', roleName);
+                // localStorage.setItem('user', JSON.stringify(user));
+                // localStorage.setItem("token", response.access_token);
+
+
+
+                // this.$store.commit('submitButtonLoadingStatus', false);
+                // if(response.user.role.RoleName==='Admin'){
+                //     this.redirect(this.mainOrigin + 'dashboard');
+                // }
+                // if(response.user.role.RoleName==='Doctor'){
+                //     this.redirect(this.mainOrigin + 'DoctorDashboard');
+                // }
+            }, (error) => {
+                this.errorNoti(error);
+                this.$store.commit('submitButtonLoadingStatus', false);
+            });
+        }
+    }
+}
+</script>
+
+<style scoped>
+.loginBody {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+/*.loginBody::before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    background-color: #10044A;*/
+/*    opacity: 0.1; !* Adjust opacity for overlay *!*/
+/*    z-index: 0; !* Ensure it's behind the content *!*/
+/*}*/
+
+.wrapper-page {
+    max-width: 400px;
+    margin: 0 auto;
+    padding-top: 150px;
+    z-index: 1;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, #fbb034 10%, #ffdd00 100%);
+    padding: 20px;
+    border-radius: 10px;
+}
+.loginBg {
+    /*background-color: rgba(255, 255, 255, 0.5); !* Light transparent background *!*/
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+
+.form-control {
+    margin-bottom: 15px;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+.btn-orange {
+    background-color: #FF9100;
+    color: white;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.btn-orange:hover {
+    background-color: #e64a19;
+}
+.btn-white {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.btn-white:hover {
+    background-color: #FFFFFF;
+}
+.text-center a {
+    color: #FF5722;
+    font-size: 14px;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
+/* Icon styling */
+.top-left-icon {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    left: 20px; /* Adjust as needed */
+    /*width: 40px; !* Set your desired width *!*/
+    height: auto;
+    z-index: 1; /* Make sure it's above the background */
+}
+</style>

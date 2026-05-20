@@ -1,0 +1,17 @@
+---
+deployment:
+  tasks:
+    # Sync public assets to public_html
+    - export PUBDEST=/home/abecababetisfifa/public_html
+    - /bin/cp -f public/index-production.php $PUBDEST/index.php
+    - /bin/cp -f public/.htaccess $PUBDEST/.htaccess
+    - /bin/cp -rf public/css $PUBDEST/
+    - /bin/cp -rf public/js $PUBDEST/
+    - /bin/cp -rf public/images $PUBDEST/
+    - /bin/cp -f public/manifest.json $PUBDEST/manifest.json
+    - /bin/cp -f public/sw.js $PUBDEST/sw.js
+    # Run artisan commands
+    - /usr/local/bin/php artisan config:cache
+    - /usr/local/bin/php artisan route:cache
+    - /usr/local/bin/php artisan optimize
+    - /usr/local/bin/php artisan migrate --force
