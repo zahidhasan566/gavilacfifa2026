@@ -5,18 +5,9 @@
 
     RewriteEngine On
 
-    # Fix API calls from dev build: /fifa2026/api/* → /api/*
-    RewriteCond %{REQUEST_URI} ^/fifa2026/api/
-    RewriteRule ^fifa2026/api/(.*)$ /api/$1 [L,QSA]
-
     # Fix asset paths from dev build: /fifa2026/public/* → /*
     RewriteCond %{REQUEST_URI} ^/fifa2026/public/
     RewriteRule ^fifa2026/public/(.*)$ /$1 [L,R=301]
-
-    # Fix Vue SPA routes from dev build: /fifa2026/* → index.php
-    RewriteCond %{REQUEST_URI} ^/fifa2026/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^fifa2026/(.*)$ /index.php [L,QSA]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
