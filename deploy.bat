@@ -1,23 +1,26 @@
 @echo off
 echo === FIFA 2026 — Build and Deploy ===
 
-REM Backup local env
-copy .env .env.local.backup >nul
-echo [1/6] Local .env backed up
+REM Verify local env exists
+if not exist ".env.local" (
+    echo [ERROR] .env.local not found! Create it from .env.local.example first.
+    pause
+    exit /b 1
+)
 
 REM Switch to production env for build
 copy .env.production .env >nul
-echo [2/6] Switched to production .env
+echo [1/5] Switched to production .env
 
 REM Build production assets
 call npm run production
 if errorlevel 1 (
     echo [ERROR] Build failed! Restoring local .env...
-    copy .env.local.backup .env >nul
+    copy .env.local .env >nul
     pause
     exit /b 1
 )
-echo [3/6] Production assets built
+echo [2/5] Production assets built
 
 REM Commit and push to GitHub BEFORE restoring local env
 git add -A
@@ -26,15 +29,15 @@ set /p MSG="Enter commit message (or press Enter for 'deploy update'): "
 if "%MSG%"=="" set MSG=deploy update
 git commit -m "%MSG%"
 git push origin master
-echo [4/6] Pushed to GitHub
+echo [3/5] Pushed to GitHub
 
 REM Restore local env
-copy .env.local.backup .env >nul
-echo [5/6] Local .env restored
+copy .env.local .env >nul
+echo [4/5] Local .env restored
 
 REM Rebuild for local development so localhost still works
 call npm run development
-echo [6/6] Rebuilt for local development
+echo [5/5] Rebuilt for local development
 
 echo.
 echo === DONE! ===
