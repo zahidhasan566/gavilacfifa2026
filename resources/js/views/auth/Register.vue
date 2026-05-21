@@ -105,7 +105,7 @@ export default {
                 if (this.profileFile) fd.append('profile_picture', this.profileFile);
 
                 await this.$store.dispatch('register', fd);
-                this.$router.push({ name: 'LiveScore' });
+                this.$router.push({ name: 'LiveScore' }).catch(() => {});
             } catch (err) {
                 if (err.response?.data?.errors) {
                     this.errors = err.response.data.errors;

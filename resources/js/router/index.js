@@ -11,7 +11,7 @@ const MainLayout = () => import('../components/layouts/MainLayout.vue');
 const AdminLayout = () => import('../components/layouts/AdminLayout.vue');
 const LiveScore  = () => import('../views/live-score/LiveScore.vue');
 const Fixtures   = () => import('../views/fixtures/Fixtures.vue');
-const Prediction = () => import('../views/prediction/Prediction.vue');
+const Prediction = () => import('../views/Prediction/Prediction.vue');
 const Winners    = () => import('../views/winners/Winners.vue');
 const FifaFacts  = () => import('../views/facts/FifaFacts.vue');
 const AdminDashboard  = () => import('../views/admin/Dashboard.vue');

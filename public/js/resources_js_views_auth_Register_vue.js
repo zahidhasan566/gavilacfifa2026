@@ -152,7 +152,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 11:
               _this.$router.push({
                 name: 'LiveScore'
-              });
+              })["catch"](function () {});
               _context.next = 17;
               break;
             case 14:

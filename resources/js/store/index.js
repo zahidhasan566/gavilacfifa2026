@@ -65,6 +65,13 @@ export default new Vuex.Store({
             return data;
         },
 
+        async register({ commit }, formData) {
+            const { data } = await axios.post(API + '/auth/register', formData);
+            commit('SET_TOKEN', data.access_token);
+            commit('SET_USER',  data.user);
+            return data;
+        },
+
         async logout({ commit }) {
             try { await axios.post(API + '/auth/logout'); } catch (_) {}
             commit('SET_TOKEN', null);
