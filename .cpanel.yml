@@ -24,6 +24,11 @@ deployment:
     - /bin/cp -f $REPOROOT/public/manifest.production.json $PUBDEST/manifest.json
     - /bin/cp -f $REPOROOT/public/sw.production.js $PUBDEST/sw.js
 
+    # Create storage symlink in public_html (web root) so uploaded files are accessible
+    - mkdir -p $APPROOT/storage/app/public/profiles
+    - chmod -R 775 $APPROOT/storage
+    - ln -sfn $APPROOT/storage/app/public $PUBDEST/storage
+
     # Run artisan commands
     - /usr/local/bin/php $APPROOT/artisan config:cache
     - /usr/local/bin/php $APPROOT/artisan route:cache
