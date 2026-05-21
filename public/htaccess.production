@@ -3,6 +3,8 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    Options +FollowSymLinks
+
     RewriteEngine On
 
     # Fix asset paths from dev build: /fifa2026/public/* → /*
