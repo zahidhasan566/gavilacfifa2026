@@ -24,16 +24,16 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-    // Skip non-HTTP requests (chrome-extension, etc.)
     if (!event.request.url.startsWith('http')) return;
 
     const url = new URL(event.request.url);
 
-    // Skip API calls - always go to network
-    if (url.pathname.includes('/api/')) {
+    // Always go to network for API calls and HTML navigation requests
+    if (url.pathname.includes('/api/') || event.request.mode === 'navigate') {
         return;
     }
 
+    // Cache-first for static assets only (js, css, images)
     event.respondWith(
         caches.match(event.request).then(cached => {
             if (cached) return cached;
@@ -44,7 +44,7 @@ self.addEventListener('fetch', event => {
                 const clone = response.clone();
                 caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
                 return response;
-            }).catch(() => caches.match(BASE + '/'));
+            }).catch(() => cached);
         })
     );
 });

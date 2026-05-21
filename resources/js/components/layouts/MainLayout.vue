@@ -8,11 +8,11 @@
                 <img :src="$imgBase + '/images/abecab-abetis-logo.png'" alt="Abecab Abetis" class="nav-title-logo" onerror="this.style.display='none'">
             </div>
             <div class="nav-tabs">
-                <router-link to="/fifa2026/home"       class="nav-tab" active-class="active">Live Score</router-link>
-                <router-link to="/fifa2026/fixtures"   class="nav-tab" active-class="active">Match Fixtures &amp; Results</router-link>
-                <router-link to="/fifa2026/prediction" class="nav-tab" active-class="active">Prediction</router-link>
-                <router-link to="/fifa2026/winners"    class="nav-tab" active-class="active">Winners History</router-link>
-                <router-link to="/fifa2026/facts"      class="nav-tab" active-class="active">FIFA Facts</router-link>
+                <router-link :to="{ name: 'LiveScore' }"   class="nav-tab" active-class="active">Live Score</router-link>
+                <router-link :to="{ name: 'Fixtures' }"   class="nav-tab" active-class="active">Match Fixtures &amp; Results</router-link>
+                <router-link :to="{ name: 'Prediction' }" class="nav-tab" active-class="active">Prediction</router-link>
+                <router-link :to="{ name: 'Winners' }"    class="nav-tab" active-class="active">Winners History</router-link>
+                <router-link :to="{ name: 'FifaFacts' }"  class="nav-tab" active-class="active">FIFA Facts</router-link>
             </div>
             <div class="nav-actions">
                 <button class="notif-btn" @click="toggleNotifications">
@@ -61,23 +61,23 @@
 
         <!-- Mobile Bottom Nav -->
         <nav class="bottom-nav">
-            <router-link to="/fifa2026/home"       class="bottom-tab" active-class="active">
+            <router-link :to="{ name: 'LiveScore' }"   class="bottom-tab" active-class="active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                 <span>Live</span>
             </router-link>
-            <router-link to="/fifa2026/fixtures"   class="bottom-tab" active-class="active">
+            <router-link :to="{ name: 'Fixtures' }"   class="bottom-tab" active-class="active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 <span>Fixtures</span>
             </router-link>
-            <router-link to="/fifa2026/prediction" class="bottom-tab" active-class="active">
+            <router-link :to="{ name: 'Prediction' }" class="bottom-tab" active-class="active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                 <span>Predict</span>
             </router-link>
-            <router-link to="/fifa2026/winners"    class="bottom-tab" active-class="active">
+            <router-link :to="{ name: 'Winners' }"    class="bottom-tab" active-class="active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
                 <span>Winners</span>
             </router-link>
-            <router-link to="/fifa2026/facts"      class="bottom-tab" active-class="active">
+            <router-link :to="{ name: 'FifaFacts' }"  class="bottom-tab" active-class="active">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 <span>Facts</span>
             </router-link>
@@ -189,7 +189,7 @@ export default {
         async markRead(id) { await this.$store.dispatch('markNotificationRead', id); },
         async handleLogout() {
             await this.$store.dispatch('logout');
-            this.$router.push('/fifa2026/login');
+            this.$router.push({ name: 'Login' });
         },
 
         onProfileFileChange(e) {

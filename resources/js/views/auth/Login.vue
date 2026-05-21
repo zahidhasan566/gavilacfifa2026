@@ -1,10 +1,10 @@
 <template>
     <div class="auth-page">
         <div class="auth-brand">
-            <img src="/fifa2026/public/images/fifa-logo.png" alt="FIFA" class="brand-logo" onerror="this.style.display='none'">
+            <img :src="$imgBase + '/images/fifa-logo.png'" alt="FIFA" class="brand-logo" @error="e => e.target.style.display='none'">
             <img :src="$imgBase + '/images/login-bg.jpg'" class="brand-center-img" onerror="this.style.display='none'">
             <div class="brand-aci">
-                <img src="/fifa2026/public/images/aci-logo.png" alt="ACI" onerror="this.style.display='none'">
+                <img :src="$imgBase + '/images/aci-logo.png'" alt="ACI" @error="e => e.target.style.display='none'">
             </div>
         </div>
 
@@ -13,7 +13,7 @@
             <div class="auth-container">
                 <div class="auth-card">
                 <div class="auth-title">
-                    <img src="/fifa2026/public/images/abetis-logo.png" alt="ABETIS - ABECAR" class="auth-org-logo" onerror="this.style.display='none'">
+                    <img :src="$imgBase + '/images/abetis-logo.png'" alt="ABETIS" class="auth-org-logo" @error="e => e.target.style.display='none'">
                     <div class="auth-subtitle">WORLD CUP 2026</div>
                 </div>
 
@@ -35,7 +35,7 @@
                 </form>
 
                     <div class="auth-separator"><span>Don't have an account?</span></div>
-                    <router-link to="/fifa2026/register" class="btn-outline-white">Sign Up</router-link>
+                    <router-link :to="{ name: 'Register' }" class="btn-outline-white">Sign Up</router-link>
                 </div><!-- end auth-card -->
             </div><!-- end auth-container -->
 
@@ -64,7 +64,7 @@ export default {
                     unique_code: this.unique_code,
                     password: this.password,
                 });
-                const dest = this.$store.getters.isAdmin ? '/fifa2026/admin' : '/fifa2026/home';
+                const dest = this.$store.getters.isAdmin ? { name: 'AdminDashboard' } : { name: 'LiveScore' };
                 this.$router.push(dest);
             } catch (err) {
                 this.errorMsg = err.response?.data?.message || 'Invalid credentials. Please try again.';

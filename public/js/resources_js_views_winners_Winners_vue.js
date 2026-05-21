@@ -469,10 +469,13 @@ var render = function () {
         "div",
         {
           staticClass: "today-winner-card",
-          style: {
-            backgroundImage:
-              "url(http://localhost/fifa2026/public/storage/profiles/s9XC69oLGxuDjtgsvIOml9rO8MGxlEWufVXIg7rp.jpg)",
-          },
+          style:
+            _vm.todayWinner && _vm.todayWinner.profile_picture_url
+              ? {
+                  backgroundImage:
+                    "url(" + _vm.todayWinner.profile_picture_url + ")",
+                }
+              : {},
         },
         [
           _c("div", { staticClass: "tw-overlay" }),

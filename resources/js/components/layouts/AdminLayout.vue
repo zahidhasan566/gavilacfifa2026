@@ -84,7 +84,7 @@ export default {
     methods: {
         async handleLogout() {
             await this.$store.dispatch('logout');
-            this.$router.push('/fifa2026/login');
+            this.$router.push({ name: 'Login' });
         },
     },
 };

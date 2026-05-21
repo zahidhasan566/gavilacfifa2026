@@ -245,7 +245,9 @@ var RAFFLE_POLL_INTERVAL = 30000; // 30 seconds
               _context2.next = 2;
               return _this2.$store.dispatch('logout');
             case 2:
-              _this2.$router.push('/fifa2026/login');
+              _this2.$router.push({
+                name: 'Login'
+              });
             case 3:
             case "end":
               return _context2.stop();
@@ -569,7 +571,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "nav-tab",
-                attrs: { to: "/fifa2026/home", "active-class": "active" },
+                attrs: { to: { name: "LiveScore" }, "active-class": "active" },
               },
               [_vm._v("Live Score")]
             ),
@@ -578,7 +580,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "nav-tab",
-                attrs: { to: "/fifa2026/fixtures", "active-class": "active" },
+                attrs: { to: { name: "Fixtures" }, "active-class": "active" },
               },
               [_vm._v("Match Fixtures & Results")]
             ),
@@ -587,7 +589,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "nav-tab",
-                attrs: { to: "/fifa2026/prediction", "active-class": "active" },
+                attrs: { to: { name: "Prediction" }, "active-class": "active" },
               },
               [_vm._v("Prediction")]
             ),
@@ -596,7 +598,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "nav-tab",
-                attrs: { to: "/fifa2026/winners", "active-class": "active" },
+                attrs: { to: { name: "Winners" }, "active-class": "active" },
               },
               [_vm._v("Winners History")]
             ),
@@ -605,7 +607,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "nav-tab",
-                attrs: { to: "/fifa2026/facts", "active-class": "active" },
+                attrs: { to: { name: "FifaFacts" }, "active-class": "active" },
               },
               [_vm._v("FIFA Facts")]
             ),
@@ -821,7 +823,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "bottom-tab",
-              attrs: { to: "/fifa2026/home", "active-class": "active" },
+              attrs: { to: { name: "LiveScore" }, "active-class": "active" },
             },
             [
               _c(
@@ -847,7 +849,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "bottom-tab",
-              attrs: { to: "/fifa2026/fixtures", "active-class": "active" },
+              attrs: { to: { name: "Fixtures" }, "active-class": "active" },
             },
             [
               _c(
@@ -890,7 +892,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "bottom-tab",
-              attrs: { to: "/fifa2026/prediction", "active-class": "active" },
+              attrs: { to: { name: "Prediction" }, "active-class": "active" },
             },
             [
               _c(
@@ -923,7 +925,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "bottom-tab",
-              attrs: { to: "/fifa2026/winners", "active-class": "active" },
+              attrs: { to: { name: "Winners" }, "active-class": "active" },
             },
             [
               _c(
@@ -966,7 +968,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "bottom-tab",
-              attrs: { to: "/fifa2026/facts", "active-class": "active" },
+              attrs: { to: { name: "FifaFacts" }, "active-class": "active" },
             },
             [
               _c(

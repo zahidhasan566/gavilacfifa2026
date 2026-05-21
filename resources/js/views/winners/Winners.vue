@@ -20,7 +20,7 @@
         <div class="winners-body">
             <!-- Left: Today's Winner -->
             <div class="today-winner-card"
-                 :style="{ backgroundImage: 'url(http://localhost/fifa2026/public/storage/profiles/s9XC69oLGxuDjtgsvIOml9rO8MGxlEWufVXIg7rp.jpg)' }">
+                 :style="todayWinner && todayWinner.profile_picture_url ? { backgroundImage: 'url(' + todayWinner.profile_picture_url + ')' } : {}">
 
                 <!-- dark gradient overlay for readability -->
                 <div class="tw-overlay"></div>

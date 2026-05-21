@@ -150,7 +150,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.next = 11;
               return _this.$store.dispatch('register', fd);
             case 11:
-              _this.$router.push('/home');
+              _this.$router.push({
+                name: 'LiveScore'
+              });
               _context.next = 17;
               break;
             case 14:
@@ -331,10 +333,11 @@ var render = function () {
     _c("div", { staticClass: "auth-brand" }, [
       _c("img", {
         staticClass: "brand-logo",
-        attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          alt: "FIFA",
-          onerror: "this.style.display='none'",
+        attrs: { src: _vm.$imgBase + "/images/fifa-logo.png", alt: "FIFA" },
+        on: {
+          error: function (e) {
+            return (e.target.style.display = "none")
+          },
         },
       }),
       _vm._v(" "),
@@ -346,7 +349,16 @@ var render = function () {
         },
       }),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "brand-aci" }, [
+        _c("img", {
+          attrs: { src: _vm.$imgBase + "/images/aci-logo.png", alt: "ACI" },
+          on: {
+            error: function (e) {
+              return (e.target.style.display = "none")
+            },
+          },
+        }),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "auth-wrapper" }, [
@@ -363,7 +375,24 @@ var render = function () {
           "div",
           { staticClass: "auth-card" },
           [
-            _vm._m(1),
+            _c("div", { staticClass: "auth-title" }, [
+              _c("img", {
+                staticClass: "auth-org-logo",
+                attrs: {
+                  src: _vm.$imgBase + "/images/abetis-logo.png",
+                  alt: "ABETIS",
+                },
+                on: {
+                  error: function (e) {
+                    return (e.target.style.display = "none")
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "auth-subtitle" }, [
+                _vm._v("WORLD CUP 2026"),
+              ]),
+            ]),
             _vm._v(" "),
             _c(
               "form",
@@ -676,13 +705,13 @@ var render = function () {
               ]
             ),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "router-link",
               {
                 staticClass: "btn-outline-white",
-                attrs: { to: "/fifa2026/login" },
+                attrs: { to: { name: "Login" } },
               },
               [_vm._v("Login")]
             ),
@@ -702,37 +731,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "brand-aci" }, [
-      _c("img", {
-        attrs: {
-          src: "/fifa2026/public/images/aci-logo.png",
-          alt: "ACI",
-          onerror: "this.style.display='none'",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "auth-title" }, [
-      _c("img", {
-        staticClass: "auth-org-logo",
-        attrs: {
-          src: "/fifa2026/public/images/abetis-logo.png",
-          alt: "ABETIS - ABECAR",
-          onerror: "this.style.display='none'",
-        },
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "auth-subtitle" }, [_vm._v("WORLD CUP 2026")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

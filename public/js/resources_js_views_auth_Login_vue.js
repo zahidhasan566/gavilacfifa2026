@@ -89,7 +89,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 password: _this.password
               });
             case 5:
-              dest = _this.$store.getters.isAdmin ? '/fifa2026/admin' : '/fifa2026/home';
+              dest = _this.$store.getters.isAdmin ? {
+                name: 'AdminDashboard'
+              } : {
+                name: 'LiveScore'
+              };
               _this.$router.push(dest);
               _context.next = 12;
               break;
@@ -267,10 +271,11 @@ var render = function () {
     _c("div", { staticClass: "auth-brand" }, [
       _c("img", {
         staticClass: "brand-logo",
-        attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          alt: "FIFA",
-          onerror: "this.style.display='none'",
+        attrs: { src: _vm.$imgBase + "/images/fifa-logo.png", alt: "FIFA" },
+        on: {
+          error: function (e) {
+            return (e.target.style.display = "none")
+          },
         },
       }),
       _vm._v(" "),
@@ -282,7 +287,16 @@ var render = function () {
         },
       }),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "brand-aci" }, [
+        _c("img", {
+          attrs: { src: _vm.$imgBase + "/images/aci-logo.png", alt: "ACI" },
+          on: {
+            error: function (e) {
+              return (e.target.style.display = "none")
+            },
+          },
+        }),
+      ]),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "auth-wrapper" }, [
@@ -299,7 +313,24 @@ var render = function () {
           "div",
           { staticClass: "auth-card" },
           [
-            _vm._m(1),
+            _c("div", { staticClass: "auth-title" }, [
+              _c("img", {
+                staticClass: "auth-org-logo",
+                attrs: {
+                  src: _vm.$imgBase + "/images/abetis-logo.png",
+                  alt: "ABETIS",
+                },
+                on: {
+                  error: function (e) {
+                    return (e.target.style.display = "none")
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "auth-subtitle" }, [
+                _vm._v("WORLD CUP 2026"),
+              ]),
+            ]),
             _vm._v(" "),
             _vm.errorMsg
               ? _c("div", { staticClass: "errors-box" }, [
@@ -396,13 +427,13 @@ var render = function () {
               ]
             ),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "router-link",
               {
                 staticClass: "btn-outline-white",
-                attrs: { to: "/fifa2026/register" },
+                attrs: { to: { name: "Register" } },
               },
               [_vm._v("Sign Up")]
             ),
@@ -422,37 +453,6 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "brand-aci" }, [
-      _c("img", {
-        attrs: {
-          src: "/fifa2026/public/images/aci-logo.png",
-          alt: "ACI",
-          onerror: "this.style.display='none'",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "auth-title" }, [
-      _c("img", {
-        staticClass: "auth-org-logo",
-        attrs: {
-          src: "/fifa2026/public/images/abetis-logo.png",
-          alt: "ABETIS - ABECAR",
-          onerror: "this.style.display='none'",
-        },
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "auth-subtitle" }, [_vm._v("WORLD CUP 2026")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

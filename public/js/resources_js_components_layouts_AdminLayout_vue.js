@@ -118,7 +118,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _context.next = 2;
               return _this.$store.dispatch('logout');
             case 2:
-              _this.$router.push('/fifa2026/login');
+              _this.$router.push({
+                name: 'Login'
+              });
             case 3:
             case "end":
               return _context.stop();
