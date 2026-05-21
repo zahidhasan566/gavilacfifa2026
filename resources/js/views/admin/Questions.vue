@@ -55,6 +55,7 @@
                             <option value="team_choice">Team Choice</option>
                             <option value="dropdown">Dropdown</option>
                             <option value="mcq">MCQ</option>
+                            <option value="text">Text (Free Answer)</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Points</label><input v-model.number="form.points" class="form-input" type="number" min="1"></div>

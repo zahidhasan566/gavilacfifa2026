@@ -23,7 +23,7 @@ class AdminQuestionController extends Controller
         $validator = Validator::make($request->all(), [
             'match_id'      => 'nullable|exists:match_games,id',
             'question_text' => 'required|string',
-            'type'          => 'required|in:team_choice,dropdown,mcq',
+            'type'          => 'required|in:team_choice,dropdown,mcq,text',
             'points'        => 'required|integer|min:1',
             'options'       => 'nullable|array',
             'sort_order'    => 'integer|min:0',

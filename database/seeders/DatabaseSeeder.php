@@ -61,6 +61,48 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Championship questions (no match_id) — one-time predictions
+        if (!DB::table('questions')->whereNull('match_id')->exists()) {
+            DB::table('questions')->insert([
+                [
+                    'match_id'       => null,
+                    'question_text'  => 'Who will be the FIFA World Cup 2026 Champion?',
+                    'type'           => 'text',
+                    'points'         => 50,
+                    'options'        => null,
+                    'correct_answer' => null,
+                    'is_active'      => 1,
+                    'sort_order'     => 1,
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                ],
+                [
+                    'match_id'       => null,
+                    'question_text'  => 'Who will win the Golden Boot (top scorer)?',
+                    'type'           => 'text',
+                    'points'         => 30,
+                    'options'        => null,
+                    'correct_answer' => null,
+                    'is_active'      => 1,
+                    'sort_order'     => 2,
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                ],
+                [
+                    'match_id'       => null,
+                    'question_text'  => 'Who will win the Golden Ball (best player of the tournament)?',
+                    'type'           => 'text',
+                    'points'         => 30,
+                    'options'        => null,
+                    'correct_answer' => null,
+                    'is_active'      => 1,
+                    'sort_order'     => 3,
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                ],
+            ]);
+        }
+
         // App settings defaults
         $settings = [
             ['key' => 'app_name',          'value' => 'FIFA World Cup 2026', 'description' => 'Application name'],

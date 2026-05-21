@@ -34,3 +34,4 @@ deployment:
     - /usr/local/bin/php $APPROOT/artisan route:cache
     - /usr/local/bin/php $APPROOT/artisan optimize
     - /usr/local/bin/php $APPROOT/artisan migrate --force
+    - /usr/local/bin/php $APPROOT/artisan db:seed --force

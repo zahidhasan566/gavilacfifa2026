@@ -105,6 +105,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'AdminQuestions',
@@ -753,6 +754,10 @@ var render = function () {
                       _vm._v(" "),
                       _c("option", { attrs: { value: "mcq" } }, [
                         _vm._v("MCQ"),
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "text" } }, [
+                        _vm._v("Text (Free Answer)"),
                       ]),
                     ]
                   ),
