@@ -1,9 +1,10 @@
-const CACHE_NAME = 'fifa2026-v1';
+const CACHE_NAME = 'fifa2026-v2';
+const BASE = '/fifa2026';
 const STATIC_ASSETS = [
-    '/fifa2026/',
-    '/fifa2026/css/app.css',
-    '/fifa2026/js/app.js',
-    '/fifa2026/images/icons/icon-192x192.png',
+    BASE + '/',
+    BASE + '/public/css/app.css',
+    BASE + '/public/js/app.js',
+    BASE + '/public/images/icons/icon-192x192.png',
 ];
 
 self.addEventListener('install', event => {
@@ -43,7 +44,7 @@ self.addEventListener('fetch', event => {
                 const clone = response.clone();
                 caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
                 return response;
-            }).catch(() => caches.match('/fifa2026/'));
+            }).catch(() => caches.match(BASE + '/'));
         })
     );
 });

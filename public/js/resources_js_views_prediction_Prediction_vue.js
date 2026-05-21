@@ -180,6 +180,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Prediction',
@@ -191,7 +201,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       alreadySubmitted: false,
       loading: true,
       submitting: false,
-      // championship
       champQuestions: [],
       champAnswers: {},
       champAlreadySubmitted: false,
@@ -234,7 +243,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this2.questions.forEach(function (q) {
                 if (q.selected_answer) _this2.$set(_this2.answers, q.id, q.selected_answer);
               });
-              // championship
               _this2.champQuestions = data.champ_questions || [];
               _this2.champAlreadySubmitted = data.champ_already_submitted || false;
               _this2.champQuestions.forEach(function (q) {
@@ -378,7 +386,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-dce75980] { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;\n}\n.prediction-card[data-v-dce75980] {\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    border-radius: 12px; overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n}\n.champ-card[data-v-dce75980] { border: 1px solid rgba(255,165,0,0.4);\n}\n\n/* ── Prediction Header ── */\n.pred-header[data-v-dce75980] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 0 0 16px;\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    height: 70px; position: relative; overflow: hidden;\n}\n.pred-ball-circle[data-v-dce75980] {\n    width: 46px; height: 46px; border-radius: 50%;\n    background: #1C1153; border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.pred-ball-img[data-v-dce75980] { width: 28px; height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-dce75980] { font-size: 1.5rem;\n}\n.pred-header-text[data-v-dce75980] { flex: 1; display: flex; flex-direction: column; gap: 2px;\n}\n.pred-title[data-v-dce75980] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-dce75980] { color: #fff; font-size: 0.72rem;\n}\n.pred-trophy-blob[data-v-dce75980] { margin-left: auto; flex-shrink: 0; display: flex; align-items: center; padding: 0 12px;\n}\n.pred-trophy-img[data-v-dce75980] { height: 50px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n.pred-body[data-v-dce75980] { padding: 20px;\n}\n.loading-state[data-v-dce75980], .empty-state[data-v-dce75980] { color: rgba(255,255,255,0.4); text-align: center; padding: 40px;\n}\n.champ-intro[data-v-dce75980] { background: rgba(255,165,0,0.08); border: 1px solid rgba(255,165,0,0.2); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;\n}\n.champ-intro p[data-v-dce75980] { color: rgba(255,255,255,0.75); font-size: 0.88rem; margin: 0; line-height: 1.5;\n}\n.submitted-banner[data-v-dce75980] { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; color: #4ade80; padding: 12px 16px; margin-bottom: 20px; font-size: 0.9rem;\n}\n\n/* Question blocks */\n.question-block[data-v-dce75980] { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 16px 20px; margin-bottom: 14px;\n}\n.q-header[data-v-dce75980] { display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\n}\n.q-num[data-v-dce75980] { background: #FFA500; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;\n}\n.q-text[data-v-dce75980] { color: #fff; font-size: 0.95rem; flex: 1;\n}\n.q-points[data-v-dce75980] { color: rgba(255,255,255,0.5); font-size: 0.8rem; white-space: nowrap;\n}\n.q-points strong[data-v-dce75980] { color: #FFA500; font-size: 1.1rem;\n}\n\n/* Text input */\n.text-input[data-v-dce75980] {\n    width: 100%; padding: 12px 16px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;\n    color: #fff; font-size: 0.95rem; outline: none;\n    transition: border-color 0.2s;\n}\n.text-input[data-v-dce75980]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-dce75980]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-dce75980]:focus { border-color: #FFA500;\n}\n.text-input[data-v-dce75980]:disabled { opacity: 0.6; cursor: default;\n}\n\n/* Team choice */\n.team-choice-row[data-v-dce75980] { display: flex; gap: 12px;\n}\n.team-btn[data-v-dce75980] { flex: 1; padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); color: #fff; font-size: 0.9rem; font-weight: 700; font-family: 'Roboto', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-dce75980]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-dce75980] { background: #FFA500; border-color: #FFA500; color: #fff;\n}\n.team-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Dropdown */\n.dropdown-row[data-v-dce75980] { position: relative;\n}\n.select-input[data-v-dce75980] { width: 100%; padding: 12px 40px 12px 16px; -moz-appearance: none; appearance: none; -webkit-appearance: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 0.9rem; outline: none; cursor: pointer;\n}\n.select-input[data-v-dce75980]:focus { border-color: #FFA500;\n}\n.select-input[data-v-dce75980]:disabled { opacity: 0.7; cursor: default;\n}\n.select-input option[data-v-dce75980] { background: #1C1153; color: #fff;\n}\n.select-arrow[data-v-dce75980] { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n\n/* MCQ */\n.mcq-row[data-v-dce75980] { display: flex; flex-wrap: wrap; gap: 8px;\n}\n.mcq-btn[data-v-dce75980] { padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-dce75980] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-dce75980] { margin-top: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\n}\n.your-answer[data-v-dce75980] { color: rgba(255,255,255,0.5); font-size: 0.8rem;\n}\n.correct-badge[data-v-dce75980] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;\n}\n.wrong-badge[data-v-dce75980] { background: rgba(239,68,68,0.15); color: #f87171; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-dce75980] { display: flex; justify-content: flex-end; margin-top: 20px;\n}\n.submit-btn[data-v-dce75980] { background: #06B6D4; color: #fff; border: none; border-radius: 8px; padding: 12px 36px; font-size: 0.95rem; font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; cursor: pointer;\n}\n.submit-btn[data-v-dce75980]:hover { background: #0891b2;\n}\n.submit-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-dce75980] { background: linear-gradient(135deg, #FFA500, #FF8C00);\n}\n.champ-submit-btn[data-v-dce75980]:hover { background: linear-gradient(135deg, #FF8C00, #e67e00);\n}\n@media (max-width: 600px) {\n.team-choice-row[data-v-dce75980] { flex-direction: column;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-dce75980] { padding: 4px 0;\n}\n\n/* Two column grid */\n.pred-columns[data-v-dce75980] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 16px;\n    align-items: start;\n}\n\n/* Each column card */\n.pred-card[data-v-dce75980] {\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    border-radius: 12px;\n    overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n    display: flex;\n    flex-direction: column;\n}\n.champ-card[data-v-dce75980] { border-color: rgba(255,165,0,0.35);\n}\n\n/* Header */\n.pred-header[data-v-dce75980] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 0 12px 0 12px;\n    height: 66px; position: relative; overflow: hidden;\n    background: linear-gradient(135deg, #3E26B9 0%, #1C1153 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n}\n.champ-header[data-v-dce75980] { background: linear-gradient(135deg, #3E26B9 0%, #1C1153 100%);\n}\n.pred-icon-circle[data-v-dce75980] {\n    width: 42px; height: 42px; border-radius: 50%;\n    background: rgba(255,255,255,0.08);\n    border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.champ-icon-circle[data-v-dce75980] { border-color: rgba(255,165,0,0.3);\n}\n.pred-icon-img[data-v-dce75980] { width: 26px; height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-dce75980] { font-size: 1.3rem;\n}\n.pred-header-text[data-v-dce75980] { flex: 1; min-width: 0;\n}\n.pred-title[data-v-dce75980] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-dce75980] { color: rgba(255,255,255,0.6); font-size: 0.68rem;\n}\n.pred-header-logo[data-v-dce75980] { flex-shrink: 0;\n}\n.pred-trophy-img[data-v-dce75980] { height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n\n/* Body */\n.pred-body[data-v-dce75980] { padding: 14px; flex: 1;\n}\n.empty-state[data-v-dce75980] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem;\n}\n.submitted-banner[data-v-dce75980] {\n    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);\n    border-radius: 8px; color: #4ade80; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem;\n}\n\n/* Question block */\n.question-block[data-v-dce75980] {\n    background: rgba(255,255,255,0.04); border-radius: 8px;\n    padding: 12px 14px; margin-bottom: 10px;\n}\n.q-header[data-v-dce75980] { display: flex; align-items: center; gap: 8px; margin-bottom: 12px;\n}\n.q-num[data-v-dce75980] {\n    background: #FFA500; color: #fff;\n    width: 24px; height: 24px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center;\n    font-weight: 700; font-size: 0.75rem; flex-shrink: 0;\n}\n.champ-num[data-v-dce75980] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.q-text[data-v-dce75980] { color: #fff; font-size: 0.85rem; flex: 1; line-height: 1.3;\n}\n.q-points[data-v-dce75980] { color: rgba(255,255,255,0.5); font-size: 0.75rem; white-space: nowrap;\n}\n.q-points strong[data-v-dce75980] { color: #FFA500; font-size: 1rem;\n}\n\n/* Inputs */\n.text-input[data-v-dce75980] {\n    width: 100%; padding: 10px 12px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.text-input[data-v-dce75980]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-dce75980]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-dce75980]:focus { border-color: #FFA500;\n}\n.text-input[data-v-dce75980]:disabled { opacity: 0.6;\n}\n.team-choice-row[data-v-dce75980] { display: flex; gap: 8px;\n}\n.team-btn[data-v-dce75980] {\n    flex: 1; padding: 10px 8px; border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.08); color: #fff;\n    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;\n    cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-dce75980]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-dce75980] { background: #FFA500; border-color: #FFA500;\n}\n.team-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: default;\n}\n.dropdown-row[data-v-dce75980] { position: relative;\n}\n.select-input[data-v-dce75980] {\n    width: 100%; padding: 10px 36px 10px 12px; -webkit-appearance: none; -moz-appearance: none; appearance: none;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;\n}\n.select-input option[data-v-dce75980] { background: #1C1153;\n}\n.select-input[data-v-dce75980]:disabled { opacity: 0.7;\n}\n.select-arrow[data-v-dce75980] { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n.mcq-row[data-v-dce75980] { display: flex; flex-wrap: wrap; gap: 6px;\n}\n.mcq-btn[data-v-dce75980] {\n    padding: 7px 12px; border-radius: 6px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.05); color: #fff;\n    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-dce75980] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-dce75980] { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.your-answer[data-v-dce75980] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.correct-badge[data-v-dce75980] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n.wrong-badge[data-v-dce75980] { background: rgba(239,68,68,0.15); color: #f87171; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-dce75980] { display: flex; justify-content: flex-end; margin-top: 16px;\n}\n.submit-btn[data-v-dce75980] {\n    background: #06B6D4; color: #fff; border: none;\n    border-radius: 8px; padding: 11px 28px;\n    font-size: 0.88rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1.5px; cursor: pointer;\n}\n.submit-btn[data-v-dce75980]:hover { background: #0891b2;\n}\n.submit-btn[data-v-dce75980]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-dce75980] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.champ-submit-btn[data-v-dce75980]:hover { background: linear-gradient(135deg, #FF6B00, #e05a00);\n}\n\n/* Ad Banner */\n.ad-banner[data-v-dce75980] {\n    margin: 16px 0 6px;\n    border-radius: 10px;\n    overflow: hidden;\n}\n.ad-img[data-v-dce75980] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n\n/* Mobile: stack columns */\n@media (max-width: 700px) {\n.pred-columns[data-v-dce75980] { grid-template-columns: 1fr;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -513,14 +521,23 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "prediction-page" }, [
-    _vm.champQuestions.length > 0
-      ? _c("div", { staticClass: "prediction-card champ-card" }, [
+    _c("div", { staticClass: "pred-columns" }, [
+      _c("div", { staticClass: "pred-col" }, [
+        _c("div", { staticClass: "pred-card" }, [
           _c("div", { staticClass: "pred-header" }, [
+            _c("div", { staticClass: "pred-icon-circle" }, [
+              _c("img", {
+                staticClass: "pred-icon-img",
+                attrs: {
+                  src: _vm.$imgBase + "/images/ball-icon.png",
+                  onerror: "this.style.display='none'",
+                },
+              }),
+            ]),
+            _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "pred-trophy-blob" }, [
+            _c("div", { staticClass: "pred-header-logo" }, [
               _c("img", {
                 staticClass: "pred-trophy-img",
                 attrs: {
@@ -531,483 +548,511 @@ var render = function () {
             ]),
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "pred-body" },
-            [
-              _vm.champAlreadySubmitted
-                ? _c("div", { staticClass: "submitted-banner" }, [
-                    _vm._v(
-                      "\n                ✓ You have already submitted your championship predictions. Good luck!\n            "
-                    ),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.champAlreadySubmitted
-                ? _c("div", { staticClass: "champ-intro" }, [
-                    _c("p", [
-                      _vm._v(
-                        "🎯 Predict the future champions of world football! Submit your predictions before the tournament begins."
-                      ),
-                    ]),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.champQuestions, function (q, idx) {
-                return _c(
+          _c("div", { staticClass: "pred-body" }, [
+            _vm.loading
+              ? _c("div", { staticClass: "empty-state" }, [
+                  _vm._v("Loading..."),
+                ])
+              : _vm.questions.length === 0
+              ? _c("div", { staticClass: "empty-state" }, [
+                  _vm._v("No active match right now."),
+                ])
+              : _c(
                   "div",
-                  { key: "champ-" + q.id, staticClass: "question-block" },
                   [
-                    _c("div", { staticClass: "q-header" }, [
-                      _c("span", { staticClass: "q-num" }, [
-                        _vm._v(_vm._s(idx + 1)),
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "q-text" }, [
-                        _vm._v(_vm._s(q.question_text)),
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "q-points" }, [
-                        _vm._v("Point "),
-                        _c("strong", [_vm._v(_vm._s(q.points))]),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    q.type === "text"
-                      ? _c("div", { staticClass: "text-input-row" }, [
-                          _c("input", {
-                            staticClass: "text-input",
-                            attrs: {
-                              type: "text",
-                              disabled: _vm.champAlreadySubmitted,
-                              placeholder:
-                                q.selected_answer || "Type your answer...",
-                            },
-                            domProps: { value: _vm.champAnswers[q.id] || "" },
-                            on: {
-                              input: function ($event) {
-                                return _vm.setChampAnswer(
-                                  q.id,
-                                  $event.target.value
-                                )
-                              },
-                            },
-                          }),
-                        ])
-                      : q.type === "dropdown"
-                      ? _c("div", { staticClass: "dropdown-row" }, [
-                          _c(
-                            "select",
-                            {
-                              staticClass: "select-input",
-                              attrs: { disabled: _vm.champAlreadySubmitted },
-                              domProps: { value: _vm.champAnswers[q.id] || "" },
-                              on: {
-                                change: function ($event) {
-                                  return _vm.setChampAnswer(
-                                    q.id,
-                                    $event.target.value
-                                  )
-                                },
-                              },
-                            },
-                            [
-                              _c("option", { attrs: { value: "" } }, [
-                                _vm._v("Select"),
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(q.options, function (opt) {
-                                return _c(
-                                  "option",
-                                  { key: opt, domProps: { value: opt } },
-                                  [_vm._v(_vm._s(opt))]
-                                )
-                              }),
-                            ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "svg",
-                            {
-                              staticClass: "select-arrow",
-                              attrs: {
-                                width: "14",
-                                height: "14",
-                                viewBox: "0 0 24 24",
-                                fill: "none",
-                                stroke: "currentColor",
-                                "stroke-width": "2",
-                              },
-                            },
-                            [
-                              _c("polyline", {
-                                attrs: { points: "6 9 12 15 18 9" },
-                              }),
-                            ]
+                    _vm.alreadySubmitted
+                      ? _c("div", { staticClass: "submitted-banner" }, [
+                          _vm._v(
+                            "\n                            ✓ Already submitted for this match.\n                        "
                           ),
                         ])
-                      : q.type === "mcq"
-                      ? _c(
-                          "div",
-                          { staticClass: "mcq-row" },
-                          _vm._l(q.options, function (opt) {
-                            return _c(
-                              "button",
-                              {
-                                key: opt,
-                                staticClass: "mcq-btn",
-                                class: {
-                                  selected: _vm.champAnswers[q.id] === opt,
-                                },
-                                attrs: {
-                                  type: "button",
-                                  disabled: _vm.champAlreadySubmitted,
-                                },
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.setChampAnswer(q.id, opt)
-                                  },
-                                },
-                              },
-                              [_vm._v(_vm._s(opt))]
-                            )
-                          }),
-                          0
-                        )
                       : _vm._e(),
                     _vm._v(" "),
-                    q.selected_answer
-                      ? _c("div", { staticClass: "q-result" }, [
-                          _c("span", { staticClass: "your-answer" }, [
-                            _vm._v("Your answer: " + _vm._s(q.selected_answer)),
+                    _vm._l(_vm.questions, function (q, idx) {
+                      return _c(
+                        "div",
+                        { key: q.id, staticClass: "question-block" },
+                        [
+                          _c("div", { staticClass: "q-header" }, [
+                            _c("span", { staticClass: "q-num" }, [
+                              _vm._v(_vm._s(idx + 1)),
+                            ]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "q-text" }, [
+                              _vm._v(_vm._s(q.question_text)),
+                            ]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "q-points" }, [
+                              _vm._v("Point "),
+                              _c("strong", [_vm._v(_vm._s(q.points))]),
+                            ]),
                           ]),
                           _vm._v(" "),
-                          q.is_correct === true
-                            ? _c("span", { staticClass: "correct-badge" }, [
-                                _vm._v("✓ Correct +" + _vm._s(q.points_earned)),
-                              ])
-                            : q.is_correct === false
-                            ? _c("span", { staticClass: "wrong-badge" }, [
-                                _vm._v("✗ Wrong"),
-                              ])
-                            : _vm._e(),
-                        ])
-                      : _vm._e(),
-                  ]
-                )
-              }),
-              _vm._v(" "),
-              !_vm.champAlreadySubmitted
-                ? _c("div", { staticClass: "submit-row" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "submit-btn champ-submit-btn",
-                        attrs: { disabled: _vm.champSubmitting },
-                        on: { click: _vm.submitChampionship },
-                      },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(
-                              _vm.champSubmitting
-                                ? "Submitting..."
-                                : "SUBMIT PREDICTIONS"
-                            ) +
-                            "\n                "
-                        ),
-                      ]
-                    ),
-                  ])
-                : _vm._e(),
-            ],
-            2
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("div", { staticClass: "prediction-card" }, [
-      _c("div", { staticClass: "pred-header" }, [
-        _c("div", { staticClass: "pred-ball-circle" }, [
-          _c("img", {
-            staticClass: "pred-ball-img",
-            attrs: {
-              src: _vm.$imgBase + "/images/ball-icon.png",
-              onerror: "this.style.display='none'",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _c("div", { staticClass: "pred-trophy-blob" }, [
-          _c("img", {
-            staticClass: "pred-trophy-img",
-            attrs: {
-              src: _vm.$imgBase + "/images/livescoretropy.png",
-              onerror: "this.style.display='none'",
-            },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "pred-body" }, [
-        _vm.loading
-          ? _c("div", { staticClass: "loading-state" }, [
-              _vm._v("Loading questions..."),
-            ])
-          : _vm.questions.length === 0 && !_vm.match
-          ? _c("div", { staticClass: "empty-state" }, [
-              _vm._v("No active match for prediction right now."),
-            ])
-          : _c(
-              "div",
-              [
-                _vm.alreadySubmitted
-                  ? _c("div", { staticClass: "submitted-banner" }, [
-                      _vm._v(
-                        "\n                    ✓ You have already submitted predictions for this match.\n                "
-                      ),
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.questions, function (q, idx) {
-                  return _c(
-                    "div",
-                    { key: q.id, staticClass: "question-block" },
-                    [
-                      _c("div", { staticClass: "q-header" }, [
-                        _c("span", { staticClass: "q-num" }, [
-                          _vm._v(_vm._s(idx + 1)),
-                        ]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "q-text" }, [
-                          _vm._v(_vm._s(q.question_text)),
-                        ]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "q-points" }, [
-                          _vm._v("Point "),
-                          _c("strong", [_vm._v(_vm._s(q.points))]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      q.type === "team_choice"
-                        ? _c("div", { staticClass: "team-choice-row" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "team-btn",
-                                class: {
-                                  selected:
-                                    _vm.answers[q.id] ===
-                                    (q.team1 && q.team1.name),
-                                },
-                                attrs: {
-                                  type: "button",
-                                  disabled: _vm.alreadySubmitted,
-                                },
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.setAnswer(
-                                      q.id,
-                                      q.team1 && q.team1.name
-                                    )
+                          q.type === "team_choice"
+                            ? _c("div", { staticClass: "team-choice-row" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "team-btn",
+                                    class: {
+                                      selected:
+                                        _vm.answers[q.id] ===
+                                        (q.team1 && q.team1.name),
+                                    },
+                                    attrs: {
+                                      type: "button",
+                                      disabled: _vm.alreadySubmitted,
+                                    },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.setAnswer(
+                                          q.id,
+                                          q.team1 && q.team1.name
+                                        )
+                                      },
+                                    },
                                   },
-                                },
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(q.team1 && q.team1.name) +
-                                    "\n                        "
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(q.team1 && q.team1.name) +
+                                        "\n                                "
+                                    ),
+                                  ]
                                 ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "team-btn",
-                                class: {
-                                  selected:
-                                    _vm.answers[q.id] ===
-                                    (q.team2 && q.team2.name),
-                                },
-                                attrs: {
-                                  type: "button",
-                                  disabled: _vm.alreadySubmitted,
-                                },
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.setAnswer(
-                                      q.id,
-                                      q.team2 && q.team2.name
-                                    )
-                                  },
-                                },
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(q.team2 && q.team2.name) +
-                                    "\n                        "
-                                ),
-                              ]
-                            ),
-                          ])
-                        : q.type === "dropdown"
-                        ? _c("div", { staticClass: "dropdown-row" }, [
-                            _c(
-                              "select",
-                              {
-                                staticClass: "select-input",
-                                attrs: { disabled: _vm.alreadySubmitted },
-                                domProps: { value: _vm.answers[q.id] || "" },
-                                on: {
-                                  change: function ($event) {
-                                    return _vm.setAnswer(
-                                      q.id,
-                                      $event.target.value
-                                    )
-                                  },
-                                },
-                              },
-                              [
-                                _c("option", { attrs: { value: "" } }, [
-                                  _vm._v("Select"),
-                                ]),
                                 _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "team-btn",
+                                    class: {
+                                      selected:
+                                        _vm.answers[q.id] ===
+                                        (q.team2 && q.team2.name),
+                                    },
+                                    attrs: {
+                                      type: "button",
+                                      disabled: _vm.alreadySubmitted,
+                                    },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.setAnswer(
+                                          q.id,
+                                          q.team2 && q.team2.name
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(q.team2 && q.team2.name) +
+                                        "\n                                "
+                                    ),
+                                  ]
+                                ),
+                              ])
+                            : q.type === "dropdown"
+                            ? _c("div", { staticClass: "dropdown-row" }, [
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "select-input",
+                                    attrs: { disabled: _vm.alreadySubmitted },
+                                    domProps: {
+                                      value: _vm.answers[q.id] || "",
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.setAnswer(
+                                          q.id,
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("Select"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._l(q.options, function (opt) {
+                                      return _c(
+                                        "option",
+                                        { key: opt, domProps: { value: opt } },
+                                        [_vm._v(_vm._s(opt))]
+                                      )
+                                    }),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "select-arrow",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24",
+                                      fill: "none",
+                                      stroke: "currentColor",
+                                      "stroke-width": "2",
+                                    },
+                                  },
+                                  [
+                                    _c("polyline", {
+                                      attrs: { points: "6 9 12 15 18 9" },
+                                    }),
+                                  ]
+                                ),
+                              ])
+                            : q.type === "mcq"
+                            ? _c(
+                                "div",
+                                { staticClass: "mcq-row" },
                                 _vm._l(q.options, function (opt) {
                                   return _c(
-                                    "option",
-                                    { key: opt, domProps: { value: opt } },
+                                    "button",
+                                    {
+                                      key: opt,
+                                      staticClass: "mcq-btn",
+                                      class: {
+                                        selected: _vm.answers[q.id] === opt,
+                                      },
+                                      attrs: {
+                                        type: "button",
+                                        disabled: _vm.alreadySubmitted,
+                                      },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.setAnswer(q.id, opt)
+                                        },
+                                      },
+                                    },
                                     [_vm._v(_vm._s(opt))]
                                   )
                                 }),
-                              ],
-                              2
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "svg",
-                              {
-                                staticClass: "select-arrow",
-                                attrs: {
-                                  width: "14",
-                                  height: "14",
-                                  viewBox: "0 0 24 24",
-                                  fill: "none",
-                                  stroke: "currentColor",
-                                  "stroke-width": "2",
-                                },
-                              },
-                              [
-                                _c("polyline", {
-                                  attrs: { points: "6 9 12 15 18 9" },
-                                }),
-                              ]
-                            ),
-                          ])
-                        : q.type === "mcq"
-                        ? _c(
-                            "div",
-                            { staticClass: "mcq-row" },
-                            _vm._l(q.options, function (opt) {
-                              return _c(
-                                "button",
-                                {
-                                  key: opt,
-                                  staticClass: "mcq-btn",
-                                  class: {
-                                    selected: _vm.answers[q.id] === opt,
-                                  },
+                                0
+                              )
+                            : q.type === "text"
+                            ? _c("div", { staticClass: "text-input-row" }, [
+                                _c("input", {
+                                  staticClass: "text-input",
                                   attrs: {
-                                    type: "button",
+                                    type: "text",
                                     disabled: _vm.alreadySubmitted,
+                                    placeholder: "Type your answer...",
                                   },
+                                  domProps: { value: _vm.answers[q.id] || "" },
                                   on: {
-                                    click: function ($event) {
-                                      return _vm.setAnswer(q.id, opt)
+                                    input: function ($event) {
+                                      return _vm.setAnswer(
+                                        q.id,
+                                        $event.target.value
+                                      )
                                     },
                                   },
-                                },
-                                [_vm._v(_vm._s(opt))]
-                              )
-                            }),
-                            0
-                          )
-                        : q.type === "text"
-                        ? _c("div", { staticClass: "text-input-row" }, [
-                            _c("input", {
-                              staticClass: "text-input",
-                              attrs: {
-                                type: "text",
-                                disabled: _vm.alreadySubmitted,
-                                placeholder: "Type your answer...",
-                              },
-                              domProps: { value: _vm.answers[q.id] || "" },
-                              on: {
-                                input: function ($event) {
-                                  return _vm.setAnswer(
-                                    q.id,
-                                    $event.target.value
-                                  )
-                                },
-                              },
-                            }),
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      q.selected_answer
-                        ? _c("div", { staticClass: "q-result" }, [
-                            _c("span", { staticClass: "your-answer" }, [
+                                }),
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          q.selected_answer
+                            ? _c("div", { staticClass: "q-result" }, [
+                                _c("span", { staticClass: "your-answer" }, [
+                                  _vm._v(
+                                    "Your answer: " + _vm._s(q.selected_answer)
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                q.is_correct === true
+                                  ? _c(
+                                      "span",
+                                      { staticClass: "correct-badge" },
+                                      [_vm._v("✓ +" + _vm._s(q.points_earned))]
+                                    )
+                                  : q.is_correct === false
+                                  ? _c("span", { staticClass: "wrong-badge" }, [
+                                      _vm._v("✗ Wrong"),
+                                    ])
+                                  : _vm._e(),
+                              ])
+                            : _vm._e(),
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "ad-banner" }, [
+                      _c("img", {
+                        staticClass: "ad-img",
+                        attrs: {
+                          src: _vm.$imgBase + "/images/prediction-add.png",
+                          alt: "Advertisement",
+                          onerror:
+                            "this.closest('.ad-banner').style.display='none'",
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    !_vm.alreadySubmitted && _vm.questions.length > 0
+                      ? _c("div", { staticClass: "submit-row" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "submit-btn",
+                              attrs: { disabled: _vm.submitting },
+                              on: { click: _vm.submitPredictions },
+                            },
+                            [
                               _vm._v(
-                                "Your answer: " + _vm._s(q.selected_answer)
+                                "\n                                " +
+                                  _vm._s(
+                                    _vm.submitting ? "Submitting..." : "SUBMIT"
+                                  ) +
+                                  "\n                            "
                               ),
+                            ]
+                          ),
+                        ])
+                      : _vm._e(),
+                  ],
+                  2
+                ),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "pred-col" }, [
+        _c("div", { staticClass: "pred-card champ-card" }, [
+          _c("div", { staticClass: "pred-header champ-header" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "pred-header-logo" }, [
+              _c("img", {
+                staticClass: "pred-trophy-img",
+                attrs: {
+                  src: _vm.$imgBase + "/images/livescoretropy.png",
+                  onerror: "this.style.display='none'",
+                },
+              }),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "pred-body" }, [
+            _vm.champQuestions.length === 0
+              ? _c("div", { staticClass: "empty-state" }, [
+                  _vm._v("No championship questions yet."),
+                ])
+              : _c(
+                  "div",
+                  [
+                    _vm.champAlreadySubmitted
+                      ? _c("div", { staticClass: "submitted-banner" }, [
+                          _vm._v(
+                            "\n                            ✓ Championship predictions submitted. Good luck!\n                        "
+                          ),
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(_vm.champQuestions, function (q, idx) {
+                      return _c(
+                        "div",
+                        { key: "champ-" + q.id, staticClass: "question-block" },
+                        [
+                          _c("div", { staticClass: "q-header" }, [
+                            _c("span", { staticClass: "q-num champ-num" }, [
+                              _vm._v(_vm._s(idx + 1)),
                             ]),
                             _vm._v(" "),
-                            q.is_correct === true
-                              ? _c("span", { staticClass: "correct-badge" }, [
+                            _c("span", { staticClass: "q-text" }, [
+                              _vm._v(_vm._s(q.question_text)),
+                            ]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "q-points" }, [
+                              _vm._v("Point "),
+                              _c("strong", [_vm._v(_vm._s(q.points))]),
+                            ]),
+                          ]),
+                          _vm._v(" "),
+                          q.type === "text"
+                            ? _c("div", { staticClass: "text-input-row" }, [
+                                _c("input", {
+                                  staticClass: "text-input",
+                                  attrs: {
+                                    type: "text",
+                                    disabled: _vm.champAlreadySubmitted,
+                                    placeholder:
+                                      q.selected_answer ||
+                                      "Type your answer...",
+                                  },
+                                  domProps: {
+                                    value: _vm.champAnswers[q.id] || "",
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      return _vm.setChampAnswer(
+                                        q.id,
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ])
+                            : q.type === "dropdown"
+                            ? _c("div", { staticClass: "dropdown-row" }, [
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "select-input",
+                                    attrs: {
+                                      disabled: _vm.champAlreadySubmitted,
+                                    },
+                                    domProps: {
+                                      value: _vm.champAnswers[q.id] || "",
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.setChampAnswer(
+                                          q.id,
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("Select"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._l(q.options, function (opt) {
+                                      return _c(
+                                        "option",
+                                        { key: opt, domProps: { value: opt } },
+                                        [_vm._v(_vm._s(opt))]
+                                      )
+                                    }),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "select-arrow",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24",
+                                      fill: "none",
+                                      stroke: "currentColor",
+                                      "stroke-width": "2",
+                                    },
+                                  },
+                                  [
+                                    _c("polyline", {
+                                      attrs: { points: "6 9 12 15 18 9" },
+                                    }),
+                                  ]
+                                ),
+                              ])
+                            : q.type === "mcq"
+                            ? _c(
+                                "div",
+                                { staticClass: "mcq-row" },
+                                _vm._l(q.options, function (opt) {
+                                  return _c(
+                                    "button",
+                                    {
+                                      key: opt,
+                                      staticClass: "mcq-btn",
+                                      class: {
+                                        selected:
+                                          _vm.champAnswers[q.id] === opt,
+                                      },
+                                      attrs: {
+                                        type: "button",
+                                        disabled: _vm.champAlreadySubmitted,
+                                      },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.setChampAnswer(q.id, opt)
+                                        },
+                                      },
+                                    },
+                                    [_vm._v(_vm._s(opt))]
+                                  )
+                                }),
+                                0
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          q.selected_answer
+                            ? _c("div", { staticClass: "q-result" }, [
+                                _c("span", { staticClass: "your-answer" }, [
                                   _vm._v(
-                                    "✓ Correct +" + _vm._s(q.points_earned)
+                                    "Your answer: " + _vm._s(q.selected_answer)
                                   ),
-                                ])
-                              : q.is_correct === false
-                              ? _c("span", { staticClass: "wrong-badge" }, [
-                                  _vm._v("✗ Wrong"),
-                                ])
-                              : _vm._e(),
-                          ])
-                        : _vm._e(),
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                !_vm.alreadySubmitted && _vm.questions.length > 0
-                  ? _c("div", { staticClass: "submit-row" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "submit-btn",
-                          attrs: { disabled: _vm.submitting },
-                          on: { click: _vm.submitPredictions },
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                _vm.submitting ? "Submitting..." : "SUBMIT"
-                              ) +
-                              "\n                    "
-                          ),
+                                ]),
+                                _vm._v(" "),
+                                q.is_correct === true
+                                  ? _c(
+                                      "span",
+                                      { staticClass: "correct-badge" },
+                                      [_vm._v("✓ +" + _vm._s(q.points_earned))]
+                                    )
+                                  : q.is_correct === false
+                                  ? _c("span", { staticClass: "wrong-badge" }, [
+                                      _vm._v("✗ Wrong"),
+                                    ])
+                                  : _vm._e(),
+                              ])
+                            : _vm._e(),
                         ]
-                      ),
-                    ])
-                  : _vm._e(),
-              ],
-              2
-            ),
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "ad-banner" }, [
+                      _c("img", {
+                        staticClass: "ad-img",
+                        attrs: {
+                          src: _vm.$imgBase + "/images/prediction-add.png",
+                          alt: "Advertisement",
+                          onerror:
+                            "this.closest('.ad-banner').style.display='none'",
+                        },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    !_vm.champAlreadySubmitted
+                      ? _c("div", { staticClass: "submit-row" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "submit-btn champ-submit-btn",
+                              attrs: { disabled: _vm.champSubmitting },
+                              on: { click: _vm.submitChampionship },
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(
+                                    _vm.champSubmitting
+                                      ? "Submitting..."
+                                      : "SUBMIT PREDICTIONS"
+                                  ) +
+                                  "\n                            "
+                              ),
+                            ]
+                          ),
+                        ])
+                      : _vm._e(),
+                  ],
+                  2
+                ),
+          ]),
+        ]),
       ]),
     ]),
   ])
@@ -1017,7 +1062,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pred-ball-circle" }, [
+    return _c("div", { staticClass: "pred-header-text" }, [
+      _c("div", { staticClass: "pred-title" }, [_vm._v("Today Prediction")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "pred-sub" }, [_vm._v("FIFA World Cup 2026™")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pred-icon-circle champ-icon-circle" }, [
       _c("span", { staticClass: "champ-trophy-icon" }, [_vm._v("🏆")]),
     ])
   },
@@ -1027,22 +1082,12 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "pred-header-text" }, [
       _c("div", { staticClass: "pred-title" }, [
-        _vm._v("Championship Predictions"),
+        _vm._v("World Cup Predictions"),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pred-sub" }, [
-        _vm._v("FIFA World Cup 2026™ — One-time submission"),
+        _vm._v("FIFA World Cup 2026™ — One-time"),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pred-header-text" }, [
-      _c("div", { staticClass: "pred-title" }, [_vm._v("Today Prediction")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "pred-sub" }, [_vm._v("FIFA World Cup 2026™")]),
     ])
   },
 ]

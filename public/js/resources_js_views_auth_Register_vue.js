@@ -87,6 +87,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Register',
@@ -187,7 +193,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.auth-title[data-v-0a273bdb] { text-align: center; margin-bottom: 20px;\n}\n.auth-org-logo[data-v-0a273bdb] { width: 100%; max-width: 320px; height: auto; -o-object-fit: contain; object-fit: contain; display: block; margin: 0 auto 6px;\n}\n.auth-subtitle[data-v-0a273bdb] { color: #ffffff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; margin-top: 4px;\n}\n.auth-page[data-v-0a273bdb] {\n    min-height: 100vh;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: #1C1153;\n    position: relative;\n    padding: 80px 16px 24px;\n}\n.auth-bg-overlay[data-v-0a273bdb] { position: absolute; inset: 0; background: rgba(61, 37, 182, 0.80);\n}\n.auth-brand[data-v-0a273bdb] {\n    position: fixed; top: 0; left: 0; right: 0;\n    display: flex; justify-content: space-between; align-items: center;\n    padding: 14px 28px; z-index: 10;\n    background: none;\n}\n.brand-logo[data-v-0a273bdb] { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));\n}\n.brand-aci img[data-v-0a273bdb] { height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4);\n}\n.auth-container[data-v-0a273bdb] { position: relative; z-index: 2; width: 100%; max-width: 420px;\n}\n.auth-card[data-v-0a273bdb] {\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    border-radius: 16px; padding: 32px 28px;\n    box-shadow: 0 20px 60px rgba(0,0,0,0.5);\n}\n.form-input[data-v-0a273bdb] {\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 12px 16px; color: #ffffff; font-size: 0.95rem;\n    outline: none; transition: border-color 0.2s; box-sizing: border-box;\n}\n.form-input[data-v-0a273bdb]::-moz-placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-0a273bdb]::placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-0a273bdb]:focus { border-color: rgba(255,165,0,0.6);\n}\n.form-group[data-v-0a273bdb] { margin-bottom: 14px;\n}\n.file-upload-label[data-v-0a273bdb] {\n    display: flex; align-items: center; justify-content: space-between;\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 10px 16px; color: rgba(255,255,255,0.5);\n    font-size: 0.95rem; cursor: pointer; box-sizing: border-box;\n    min-height: 46px; overflow: hidden;\n}\n.file-placeholder[data-v-0a273bdb] { display: flex; justify-content: space-between; align-items: center; width: 100%;\n}\n.file-input-hidden[data-v-0a273bdb] { display: none;\n}\n.preview-img[data-v-0a273bdb] { height: 32px; border-radius: 4px;\n}\n.errors-box[data-v-0a273bdb] { margin-bottom: 12px;\n}\n.error-item[data-v-0a273bdb] { color: #ff6b6b; font-size: 0.8rem; margin-bottom: 4px;\n}\n.btn-primary-orange[data-v-0a273bdb] {\n    width: 100%; background: linear-gradient(135deg, #FFA500, #FF8C00);\n    color: #fff; border: none; border-radius: 8px; padding: 14px;\n    font-size: 1rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1px; cursor: pointer; display: flex;\n    align-items: center; justify-content: center; gap: 8px;\n}\n.btn-primary-orange[data-v-0a273bdb]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.btn-spinner[data-v-0a273bdb] {\n    width: 16px; height: 16px;\n    border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;\n    border-radius: 50%; animation: spin-data-v-0a273bdb 0.7s linear infinite;\n}\n@keyframes spin-data-v-0a273bdb {\nto { transform: rotate(360deg);\n}\n}\n.auth-separator[data-v-0a273bdb] { text-align: center; margin: 16px 0; color: rgba(255,255,255,0.5); font-size: 0.85rem;\n}\n.btn-outline-white[data-v-0a273bdb] {\n    display: block; width: 100%; background: #ffffff; color: #1a0a6e;\n    border: none; border-radius: 8px; padding: 13px; font-size: 1rem;\n    font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;\n    text-align: center; text-decoration: none; box-sizing: border-box;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.auth-title[data-v-0a273bdb] { text-align: center; margin-bottom: 20px;\n}\n.auth-org-logo[data-v-0a273bdb] { width: 100%; max-width: 320px; height: auto; -o-object-fit: contain; object-fit: contain; display: block; margin: 0 auto 6px;\n}\n.auth-subtitle[data-v-0a273bdb] { color: #ffffff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; margin-top: 4px;\n}\n.auth-page[data-v-0a273bdb] {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    padding: 80px 24px 32px;\n}\n.auth-brand[data-v-0a273bdb] {\n    position: fixed; top: 0; left: 0; right: 0;\n    display: flex; justify-content: space-between; align-items: center;\n    padding: 14px 28px; z-index: 10;\n    background: none;\n}\n.brand-logo[data-v-0a273bdb] { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));\n}\n.brand-aci img[data-v-0a273bdb] { height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4);\n}\n.auth-wrapper[data-v-0a273bdb] {\n    position: relative; z-index: 2;\n    display: flex; align-items: stretch; justify-content: center;\n    gap: 20px; width: 100%;\n}\n.auth-side-img[data-v-0a273bdb] {\n    width: 200px;\n    flex-shrink: 0;\n    -o-object-fit: contain;\n       object-fit: contain;\n    -o-object-position: center;\n       object-position: center;\n    border-radius: 12px;\n    align-self: stretch;\n    min-height: 100%;\n}\n.auth-container[data-v-0a273bdb] { width: 100%; max-width: 420px;\n}\n\n/* Center brand image in top bar — desktop hidden, mobile shown */\n.brand-center-img[data-v-0a273bdb] { display: none;\n}\n@media (max-width: 768px) {\n.auth-wrapper[data-v-0a273bdb] { flex-direction: column; align-items: center;\n}\n.auth-side-img[data-v-0a273bdb] { display: none;\n}\n.brand-center-img[data-v-0a273bdb] {\n        display: block;\n        height: 44px; width: auto;\n        -o-object-fit: contain;\n           object-fit: contain;\n}\n}\n.auth-card[data-v-0a273bdb] {\n    background: rgba(255,255,255,0.05);\n    border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 16px; padding: 32px 28px;\n    box-shadow: 0 8px 32px rgba(0,0,0,0.3);\n}\n.form-input[data-v-0a273bdb] {\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 12px 16px; color: #ffffff; font-size: 0.95rem;\n    outline: none; transition: border-color 0.2s; box-sizing: border-box;\n}\n.form-input[data-v-0a273bdb]::-moz-placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-0a273bdb]::placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-0a273bdb]:focus { border-color: rgba(255,165,0,0.6);\n}\n.form-group[data-v-0a273bdb] { margin-bottom: 14px;\n}\n.file-upload-label[data-v-0a273bdb] {\n    display: flex; align-items: center; justify-content: space-between;\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 10px 16px; color: rgba(255,255,255,0.5);\n    font-size: 0.95rem; cursor: pointer; box-sizing: border-box;\n    min-height: 46px; overflow: hidden;\n}\n.file-placeholder[data-v-0a273bdb] { display: flex; justify-content: space-between; align-items: center; width: 100%;\n}\n.file-input-hidden[data-v-0a273bdb] { display: none;\n}\n.preview-img[data-v-0a273bdb] { height: 32px; border-radius: 4px;\n}\n.errors-box[data-v-0a273bdb] { margin-bottom: 12px;\n}\n.error-item[data-v-0a273bdb] { color: #ff6b6b; font-size: 0.8rem; margin-bottom: 4px;\n}\n.btn-primary-orange[data-v-0a273bdb] {\n    width: 100%; background: linear-gradient(135deg, #FFA500, #FF8C00);\n    color: #fff; border: none; border-radius: 8px; padding: 14px;\n    font-size: 1rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1px; cursor: pointer; display: flex;\n    align-items: center; justify-content: center; gap: 8px;\n}\n.btn-primary-orange[data-v-0a273bdb]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.btn-spinner[data-v-0a273bdb] {\n    width: 16px; height: 16px;\n    border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;\n    border-radius: 50%; animation: spin-data-v-0a273bdb 0.7s linear infinite;\n}\n@keyframes spin-data-v-0a273bdb {\nto { transform: rotate(360deg);\n}\n}\n.auth-separator[data-v-0a273bdb] { text-align: center; margin: 16px 0; color: rgba(255,255,255,0.5); font-size: 0.85rem;\n}\n.btn-outline-white[data-v-0a273bdb] {\n    display: block; width: 100%; background: #ffffff; color: #1a0a6e;\n    border: none; border-radius: 8px; padding: 13px; font-size: 1rem;\n    font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;\n    text-align: center; text-decoration: none; box-sizing: border-box;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -321,21 +327,36 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "auth-page",
-      style: {
-        background:
-          "#1C1153 url(" +
-          _vm.$imgBase +
-          "/images/login-bg.jpg) center/cover no-repeat",
-      },
-    },
-    [
-      _c("div", { staticClass: "auth-bg-overlay" }),
+  return _c("div", { staticClass: "auth-page" }, [
+    _c("div", { staticClass: "auth-brand" }, [
+      _c("img", {
+        staticClass: "brand-logo",
+        attrs: {
+          src: "/fifa2026/public/images/fifa-logo.png",
+          alt: "FIFA",
+          onerror: "this.style.display='none'",
+        },
+      }),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "brand-center-img",
+        attrs: {
+          src: _vm.$imgBase + "/images/signup.png",
+          onerror: "this.style.display='none'",
+        },
+      }),
       _vm._v(" "),
       _vm._m(0),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "auth-wrapper" }, [
+      _c("img", {
+        staticClass: "auth-side-img",
+        attrs: {
+          src: _vm.$imgBase + "/images/signup.png",
+          onerror: "this.style.display='none'",
+        },
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "auth-container" }, [
         _c(
@@ -669,33 +690,30 @@ var render = function () {
           1
         ),
       ]),
-    ]
-  )
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "auth-side-img",
+        attrs: {
+          src: _vm.$imgBase + "/images/signup.png",
+          onerror: "this.style.display='none'",
+        },
+      }),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "auth-brand" }, [
+    return _c("div", { staticClass: "brand-aci" }, [
       _c("img", {
-        staticClass: "brand-logo",
         attrs: {
-          src: "/fifa2026/public/images/fifa-logo.png",
-          alt: "FIFA",
+          src: "/fifa2026/public/images/aci-logo.png",
+          alt: "ACI",
           onerror: "this.style.display='none'",
         },
       }),
-      _vm._v(" "),
-      _c("div", { staticClass: "brand-aci" }, [
-        _c("img", {
-          attrs: {
-            src: "/fifa2026/public/images/aci-logo.png",
-            alt: "ACI",
-            onerror: "this.style.display='none'",
-          },
-        }),
-      ]),
     ])
   },
   function () {

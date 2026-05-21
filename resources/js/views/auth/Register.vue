@@ -1,13 +1,16 @@
 <template>
-    <div class="auth-page" :style="{ background: '#1C1153 url(' + $imgBase + '/images/login-bg.jpg) center/cover no-repeat' }">
-        <div class="auth-bg-overlay"></div>
+    <div class="auth-page">
 
         <div class="auth-brand">
             <img src="/fifa2026/public/images/fifa-logo.png" alt="FIFA" class="brand-logo" onerror="this.style.display='none'">
+            <img :src="$imgBase + '/images/signup.png'" class="brand-center-img" onerror="this.style.display='none'">
             <div class="brand-aci">
                 <img src="/fifa2026/public/images/aci-logo.png" alt="ACI" onerror="this.style.display='none'">
             </div>
         </div>
+
+        <div class="auth-wrapper">
+            <img :src="$imgBase + '/images/signup.png'" class="auth-side-img" onerror="this.style.display='none'">
 
         <div class="auth-container">
             <div class="auth-card">
@@ -59,9 +62,12 @@
                 </form>
                 <div class="auth-separator"><span>Already have an account?</span></div>
                 <router-link to="/fifa2026/login" class="btn-outline-white">Login</router-link>
-            </div>
-        </div>
-    </div>
+            </div><!-- end auth-card -->
+        </div><!-- end auth-container -->
+
+            <img :src="$imgBase + '/images/signup.png'" class="auth-side-img" onerror="this.style.display='none'">
+        </div><!-- end auth-wrapper -->
+    </div><!-- end auth-page -->
 </template>
 
 <script>
@@ -120,15 +126,12 @@ export default {
 .auth-subtitle { color: #ffffff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; margin-top: 4px; }
 
 .auth-page {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1C1153;
-    position: relative;
-    padding: 80px 16px 24px;
+    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    padding: 80px 24px 32px;
 }
-.auth-bg-overlay { position: absolute; inset: 0; background: rgba(61, 37, 182, 0.80); }
 .auth-brand {
     position: fixed; top: 0; left: 0; right: 0;
     display: flex; justify-content: space-between; align-items: center;
@@ -137,11 +140,39 @@ export default {
 }
 .brand-logo { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
 .brand-aci img { height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
-.auth-container { position: relative; z-index: 2; width: 100%; max-width: 420px; }
+.auth-wrapper {
+    position: relative; z-index: 2;
+    display: flex; align-items: stretch; justify-content: center;
+    gap: 20px; width: 100%;
+}
+.auth-side-img {
+    width: 200px;
+    flex-shrink: 0;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 12px;
+    align-self: stretch;
+    min-height: 100%;
+}
+.auth-container { width: 100%; max-width: 420px; }
+
+/* Center brand image in top bar — desktop hidden, mobile shown */
+.brand-center-img { display: none; }
+
+@media (max-width: 768px) {
+    .auth-wrapper { flex-direction: column; align-items: center; }
+    .auth-side-img { display: none; }
+    .brand-center-img {
+        display: block;
+        height: 44px; width: auto;
+        object-fit: contain;
+    }
+}
 .auth-card {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 16px; padding: 32px 28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 .form-input {
     width: 100%; background: rgba(255,255,255,0.08);

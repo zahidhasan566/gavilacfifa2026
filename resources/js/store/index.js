@@ -4,7 +4,7 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
-const API = '/fifa2026/api';
+const API = (process.env.MIX_APP_BASE || '') + '/api';
 
 function setAuthHeader(token) {
     if (token) {
