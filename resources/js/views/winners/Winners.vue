@@ -27,8 +27,11 @@
                 <template v-else-if="carousel.length > 0">
                     <div class="carousel-stage">
                         <transition :name="slideDir" mode="out-in">
-                            <div :key="activeIdx" class="carousel-slide"
-                                 :style="slideBg(carousel[activeIdx])">
+                            <div :key="activeIdx" class="carousel-slide">
+                                <!-- Winner photo as actual img tag -->
+                                <img :src="carousel[activeIdx].profile_picture_url"
+                                     class="cs-bg-img"
+                                     @error="e => e.target.src = $imgBase + '/images/default-avatar.png'">
                                 <div class="cs-overlay"></div>
 
                                 <div v-if="carousel[activeIdx].prize_points" class="cs-prize-badge">
@@ -190,10 +193,6 @@ export default {
             const idx = this.carousel.findIndex(c => c.id === w.id);
             if (idx !== -1) this.goToSlide(idx);
         },
-        slideBg(winner) {
-            if (!winner || !winner.profile_picture_url) return {};
-            return { backgroundImage: `url(${winner.profile_picture_url})` };
-        },
         hideImg(e) { e.target.style.display = 'none'; },
     },
 };
@@ -246,9 +245,14 @@ export default {
 .carousel-stage { position: relative; border-radius: 12px; overflow: hidden; min-height: 420px; }
 .carousel-slide {
     width: 100%; min-height: 420px;
-    background-color: #1A0040; background-size: cover; background-position: center;
+    background-color: #1A0040;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-    padding-bottom: 18px; position: relative;
+    padding-bottom: 18px; position: relative; overflow: hidden;
+}
+.cs-bg-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    z-index: 0;
 }
 .cs-overlay {
     position: absolute; inset: 0;
