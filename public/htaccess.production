@@ -1,15 +1,11 @@
+Options +FollowSymLinks
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
-    Options +FollowSymLinks
-
     RewriteEngine On
-
-    # Fix asset paths from dev build: /fifa2026/public/* → /*
-    RewriteCond %{REQUEST_URI} ^/fifa2026/public/
-    RewriteRule ^fifa2026/public/(.*)$ /$1 [L,R=301]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
