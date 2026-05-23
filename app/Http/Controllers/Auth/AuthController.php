@@ -30,7 +30,10 @@ class AuthController extends Controller
 
         $picturePath = null;
         if ($request->hasFile('profile_picture')) {
-            $picturePath = $request->file('profile_picture')->store('profiles', 'public');
+            $file     = $request->file('profile_picture');
+            $filename = uniqid('prof_', true) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/profiles'), $filename);
+            $picturePath = 'profiles/' . $filename;
         }
 
         $user = User::create([
@@ -116,10 +119,13 @@ class AuthController extends Controller
             return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
         }
         if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
+            $old = public_path('images/' . $user->profile_picture);
+            if (file_exists($old)) @unlink($old);
         }
-        $path = $request->file('profile_picture')->store('profiles', 'public');
-        $user->profile_picture = $path;
+        $file     = $request->file('profile_picture');
+        $filename = uniqid('prof_', true) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/profiles'), $filename);
+        $user->profile_picture = 'profiles/' . $filename;
         $user->save();
         return response()->json(['status' => 'success', 'user' => $this->userResource($user)]);
     }

@@ -24,10 +24,9 @@ deployment:
     - /bin/cp -f $REPOROOT/public/manifest.production.json $PUBDEST/manifest.json
     - /bin/cp -f $REPOROOT/public/sw.production.js $PUBDEST/sw.js
 
-    # Create storage symlink in public_html (web root) so uploaded files are accessible
-    - mkdir -p $APPROOT/storage/app/public/profiles
-    - chmod -R 775 $APPROOT/storage
-    - ln -sfn $APPROOT/storage/app/public $PUBDEST/storage
+    # Create profiles folder directly in public_html/images (no symlink needed)
+    - mkdir -p $PUBDEST/images/profiles
+    - chmod -R 775 $PUBDEST/images/profiles
 
     # Run artisan commands
     - /usr/local/bin/php $APPROOT/artisan config:cache

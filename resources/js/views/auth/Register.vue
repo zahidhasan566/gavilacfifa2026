@@ -159,7 +159,7 @@ export default {
     align-items: center;
     justify-content: center;
     background: transparent;
-    padding: 90px 24px 80px;
+    padding: calc(90px + env(safe-area-inset-top)) 24px calc(80px + env(safe-area-inset-bottom));
     box-sizing: border-box;
     z-index: 1;
 }
@@ -205,6 +205,10 @@ export default {
     }
     .auth-brand { justify-content: space-between; }
     .auth-brand-bottom { display: none; }
+    .auth-fifa-logo { height: 48px; }
+    .auth-abetis-logo { height: 40px; }
+    .auth-brand-divider { height: 36px; }
+    .auth-title { margin-bottom: 16px; }
 }
 
 .auth-card {

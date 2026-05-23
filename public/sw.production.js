@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fifa2026-v1';
+const CACHE_NAME = 'fifa2026-v20260523114942';
 const STATIC_ASSETS = [
     '/',
     '/css/app.css',
@@ -28,6 +28,21 @@ self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
     if (url.pathname.includes('/api/')) return;
+
+    // Network-first for JS/CSS so fresh assets load after every deploy
+    const isAsset = url.pathname.endsWith('.js') || url.pathname.endsWith('.css');
+    if (isAsset) {
+        event.respondWith(
+            fetch(event.request).then(response => {
+                if (response && response.status === 200) {
+                    const clone = response.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                }
+                return response;
+            }).catch(() => caches.match(event.request))
+        );
+        return;
+    }
 
     event.respondWith(
         caches.match(event.request).then(cached => {

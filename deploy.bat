@@ -8,6 +8,14 @@ if not exist ".env.local" (
     exit /b 1
 )
 
+REM Generate cache-busting version from current timestamp
+for /f %%i in ('powershell -command "Get-Date -Format yyyyMMddHHmmss"') do set CACHE_VER=%%i
+echo [0/5] Cache version: %CACHE_VER%
+
+REM Inject new cache version into service worker so browsers clear old cached assets
+powershell -Command "(Get-Content 'public\sw.production.js') -replace 'fifa2026-v[\w]+', 'fifa2026-v%CACHE_VER%' | Set-Content 'public\sw.production.js'"
+echo [0/5] Service worker updated (all browsers will refresh)
+
 REM Switch to production env for build
 copy .env.production .env >nul
 echo [1/5] Switched to production .env
@@ -43,5 +51,6 @@ echo.
 echo === DONE! ===
 echo    Production: https://abecab-abetis-fifa.com
 echo    Local still works: http://localhost/fifa2026
+echo    Cache version pushed: %CACHE_VER%
 echo.
 pause
