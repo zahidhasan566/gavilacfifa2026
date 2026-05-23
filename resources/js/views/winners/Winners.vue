@@ -39,10 +39,13 @@
                                 <div class="cs-bottom">
                                     <img :src="$imgBase + '/images/winnerhistory.png'" class="cs-deco" @error="hideImg">
                                     <div class="cs-info">
-                                        <div class="cs-match">{{ carousel[activeIdx].match_label }}</div>
                                         <div class="cs-winner-label">🏆 Raffle Winner</div>
                                         <div class="cs-name">{{ carousel[activeIdx].name }}</div>
                                         <div class="cs-code">Doctor Code: {{ carousel[activeIdx].unique_code }}</div>
+                                        <div class="cs-match-pill">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+                                            Won in: {{ carousel[activeIdx].match_label }}
+                                        </div>
                                         <div class="cs-date">{{ carousel[activeIdx].draw_date }}</div>
                                     </div>
                                     <img :src="$imgBase + '/images/winnerhistory.png'" class="cs-deco" @error="hideImg">
@@ -71,31 +74,33 @@
             <div class="cards-panel">
                 <!-- Search bar -->
                 <div class="search-bar">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                     <input v-model="search" class="search-input" placeholder="Search name or doctor code…">
                     <button class="refresh-btn" :class="{ spinning: refreshing }" @click="manualRefresh" title="Refresh">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                     </button>
                 </div>
 
                 <!-- Winner photo cards grid -->
                 <div v-if="loading" class="empty-state">Loading…</div>
                 <div v-else-if="filteredCarousel.length === 0" class="empty-state">No winners found.</div>
-                <div v-else class="cards-grid">
-                    <div v-for="w in filteredCarousel" :key="w.id"
-                         class="winner-card" :class="{ highlighted: carousel[activeIdx] && carousel[activeIdx].id === w.id }"
+                <div v-else class="winners-list">
+                    <div v-for="(w, i) in filteredCarousel" :key="w.id"
+                         class="wl-item" :class="{ highlighted: carousel[activeIdx] && carousel[activeIdx].id === w.id }"
                          @click="jumpToWinner(w)">
-                        <div class="wc-photo-wrap">
-                            <img :src="w.profile_picture_url" class="wc-photo"
-                                 @error="e => e.target.src = $imgBase + '/images/default-avatar.png'">
-                            <div class="wc-photo-overlay"></div>
+                        <span class="wl-rank">{{ i + 1 }}</span>
+                        <div class="wl-info">
+                            <div class="wl-name">{{ w.name }}</div>
+                            <div class="wl-code">{{ w.unique_code }}</div>
+                            <div class="wl-match">
+                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+                                {{ w.match_label }}
+                            </div>
                         </div>
-                        <div class="wc-body">
-                            <div class="wc-name">{{ w.name }}</div>
-                            <div class="wc-code">{{ w.unique_code }}</div>
-                            <div class="wc-match">{{ w.match_label }}</div>
+                        <div class="wl-right">
+                            <span v-if="w.prize_points" class="wl-pts">+{{ w.prize_points }} pts</span>
+                            <span class="wl-date">{{ w.draw_date }}</span>
                         </div>
-                        <div v-if="w.prize_points" class="wc-pts">+{{ w.prize_points }} pts</div>
                     </div>
                 </div>
 
@@ -263,7 +268,6 @@ export default {
 }
 .cs-deco { width: 72px; height: auto; object-fit: contain; flex-shrink: 0; }
 .cs-info { flex: 1; text-align: center; min-width: 0; }
-.cs-match { color: rgba(255,255,255,.6); font-size: .7rem; margin-bottom: 2px; }
 .cs-winner-label { color: #FFA500; font-weight: 700; font-size: 1rem; margin-bottom: 3px; }
 .cs-name { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: 2px; }
 .cs-code { color: rgba(255,255,255,.7); font-size: .72rem; margin-bottom: 2px; }
@@ -300,38 +304,42 @@ export default {
     background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
     border-radius: 8px; padding: 10px 12px;
 }
-.search-input { flex: 1; background: none; border: none; color: #fff; font-size: .85rem; outline: none; }
+.search-icon { flex-shrink: 0; display: block; }
+.search-input { flex: 1; background: none; border: none; color: #fff; font-size: .85rem; outline: none; min-width: 0; }
 .search-input::placeholder { color: rgba(255,255,255,.4); }
 .refresh-btn {
-    background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; padding: 2px; display: flex;
+    flex-shrink: 0; background: none; border: none; color: rgba(255,255,255,.5);
+    cursor: pointer; padding: 2px; display: flex; align-items: center;
 }
-.refresh-btn:hover { color: #FFA500; }
+.refresh-btn:hover svg { stroke: #FFA500; }
 .refresh-btn.spinning svg { animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Photo cards grid */
-.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; overflow-y: auto; max-height: 420px; }
-.winner-card {
-    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
-    border-radius: 10px; overflow: hidden; cursor: pointer;
-    transition: border-color .2s, transform .15s;
+/* Winners list */
+.winners-list { display: flex; flex-direction: column; overflow-y: auto; max-height: 420px; }
+.wl-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.04);
+    cursor: pointer; transition: background .15s;
+    border-left: 3px solid transparent;
 }
-.winner-card:hover { border-color: rgba(255,165,0,.4); transform: translateY(-2px); }
-.winner-card.highlighted { border-color: #FFA500; box-shadow: 0 0 0 2px rgba(255,165,0,.25); }
-.wc-photo-wrap { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; }
-.wc-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
-.wc-photo-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, transparent 50%, rgba(26,0,64,.7) 100%);
-}
-.wc-body { padding: 8px 10px 4px; }
-.wc-name { color: #fff; font-size: .8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.wc-code { color: rgba(255,255,255,.45); font-size: .62rem; margin-bottom: 2px; }
-.wc-match { color: rgba(255,165,0,.8); font-size: .62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.wc-pts {
-    margin: 0 10px 8px; display: inline-block;
-    background: rgba(34,197,94,.15); color: #4ade80;
-    border-radius: 8px; padding: 2px 8px; font-size: .7rem; font-weight: 700;
+.wl-item:hover { background: rgba(255,255,255,.04); }
+.wl-item.highlighted { background: rgba(255,165,0,.07); border-left-color: #FFA500; }
+.wl-rank { color: rgba(255,255,255,.3); font-size: .75rem; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0; }
+.wl-info { flex: 1; min-width: 0; }
+.wl-name { color: #fff; font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wl-code { color: rgba(255,255,255,.4); font-size: .68rem; margin-bottom: 2px; }
+.wl-match { display: flex; align-items: center; gap: 4px; color: #FFA500; font-size: .68rem; font-weight: 600; }
+.wl-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+.wl-pts { background: rgba(34,197,94,.15); color: #4ade80; border-radius: 8px; padding: 2px 8px; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+.wl-date { color: rgba(255,255,255,.3); font-size: .62rem; white-space: nowrap; }
+
+/* Carousel match pill */
+.cs-match-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,165,0,.15); color: #FFA500;
+    border: 1px solid rgba(255,165,0,.3); border-radius: 20px;
+    padding: 3px 10px; font-size: .7rem; font-weight: 600; margin: 4px 0;
 }
 
 .empty-state { color: rgba(255,255,255,.35); text-align: center; padding: 30px; font-size: .85rem; }

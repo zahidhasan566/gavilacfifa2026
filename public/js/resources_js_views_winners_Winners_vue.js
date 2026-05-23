@@ -126,6 +126,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 var POLL_INTERVAL = 60000;
 var AUTO_SLIDE_MS = 3500;
@@ -282,7 +287,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.winners-page[data-v-73408fca] { display: flex; flex-direction: column; gap: 16px;\n}\n\n/* ── Header ── */\n.section-header[data-v-73408fca] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 16px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; height: 70px; overflow: hidden;\n}\n.sh-ball-circle[data-v-73408fca] {\n    width: 46px; height: 46px; border-radius: 50%;\n    background: #1A0040; border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.sh-ball-img[data-v-73408fca] { width: 28px; height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-73408fca] { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;\n}\n.section-title[data-v-73408fca] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; white-space: nowrap;\n}\n.section-sub[data-v-73408fca] { color: #fff; font-size: 0.72rem; white-space: nowrap;\n}\n.sh-trophy-area[data-v-73408fca] { display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-73408fca] { height: 50px; -o-object-fit: contain; object-fit: contain;\n}\n.auto-refresh-badge[data-v-73408fca] {\n    display: flex; align-items: center; gap: 5px;\n    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);\n    border-radius: 20px; padding: 3px 10px;\n    font-size: 0.7rem; color: #4ade80; font-weight: 600;\n}\n.refresh-dot[data-v-73408fca] { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse-dot-data-v-73408fca 1.5s infinite;\n}\n@keyframes pulse-dot-data-v-73408fca {\n0%,100%{opacity:1}\n50%{opacity:.3}\n}\n\n/* ── Body ── */\n.winners-body[data-v-73408fca] { display: flex; gap: 20px; align-items: flex-start;\n}\n.carousel-empty[data-v-73408fca] {\n    display: flex; flex-direction: column; align-items: center; justify-content: center;\n    min-height: 420px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n}\n.ce-icon[data-v-73408fca] { font-size: 3.5rem; margin-bottom: 12px; opacity: .5;\n}\n.ce-title[data-v-73408fca] { color: rgba(255,255,255,.5); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700;\n}\n.ce-sub[data-v-73408fca] { color: rgba(255,255,255,.3); font-size: .78rem; margin-top: 6px;\n}\n\n/* ── Carousel ── */\n.carousel-wrap[data-v-73408fca] { flex: 3; display: flex; flex-direction: column; gap: 10px;\n}\n.carousel-loading[data-v-73408fca] { color: rgba(255,255,255,0.4); text-align: center; padding: 40px;\n}\n.carousel-stage[data-v-73408fca] { position: relative; border-radius: 12px; overflow: hidden; min-height: 420px;\n}\n.carousel-slide[data-v-73408fca] {\n    width: 100%; min-height: 420px;\n    background-color: #1A0040; background-size: cover; background-position: center;\n    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;\n    padding-bottom: 18px; position: relative;\n}\n.cs-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, rgba(28,17,83,.15) 0%, rgba(28,17,83,.55) 55%, rgba(28,17,83,.92) 100%);\n    z-index: 1;\n}\n.cs-prize-badge[data-v-73408fca] {\n    position: absolute; top: 14px; right: 14px; z-index: 3;\n    background: #06B6D4; border-radius: 20px; padding: 6px 16px;\n    text-align: center; line-height: 1.2; display: flex; flex-direction: column; align-items: center;\n}\n.cs-prize-num[data-v-73408fca] { color: #fff; font-weight: 800; font-size: 1.15rem; font-family: 'Rajdhani', sans-serif;\n}\n.cs-prize-lbl[data-v-73408fca] { color: #FFA500; font-size: 0.6rem; font-weight: 600;\n}\n.cs-bottom[data-v-73408fca] {\n    position: relative; z-index: 3; width: 100%;\n    display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 6px;\n}\n.cs-deco[data-v-73408fca] { width: 72px; height: auto; -o-object-fit: contain; object-fit: contain; flex-shrink: 0;\n}\n.cs-info[data-v-73408fca] { flex: 1; text-align: center; min-width: 0;\n}\n.cs-match[data-v-73408fca] { color: rgba(255,255,255,.6); font-size: .7rem; margin-bottom: 2px;\n}\n.cs-winner-label[data-v-73408fca] { color: #FFA500; font-weight: 700; font-size: 1rem; margin-bottom: 3px;\n}\n.cs-name[data-v-73408fca] { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: 2px;\n}\n.cs-code[data-v-73408fca] { color: rgba(255,255,255,.7); font-size: .72rem; margin-bottom: 2px;\n}\n.cs-date[data-v-73408fca] { color: rgba(255,255,255,.45); font-size: .65rem;\n}\n.cs-arrow[data-v-73408fca] {\n    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;\n    background: rgba(0,0,0,.4); border: none; color: #fff; font-size: 2rem; cursor: pointer;\n    width: 40px; height: 60px; display: flex; align-items: center; justify-content: center;\n    transition: background .2s;\n}\n.cs-arrow[data-v-73408fca]:hover { background: rgba(255,165,0,.4);\n}\n.cs-prev[data-v-73408fca] { left: 0; border-radius: 0 8px 8px 0;\n}\n.cs-next[data-v-73408fca] { right: 0; border-radius: 8px 0 0 8px;\n}\n.cs-dots[data-v-73408fca] { display: flex; justify-content: center; gap: 7px;\n}\n.cs-dot[data-v-73408fca] { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s;\n}\n.cs-dot.active[data-v-73408fca] { background: #FFA500;\n}\n.slide-left-enter-active[data-v-73408fca],.slide-left-leave-active[data-v-73408fca],\n.slide-right-enter-active[data-v-73408fca],.slide-right-leave-active[data-v-73408fca] { transition: all .45s ease;\n}\n.slide-left-enter[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n.slide-left-leave-to[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-enter[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-leave-to[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n\n/* ── Right panel ── */\n.cards-panel[data-v-73408fca] {\n    flex: 2; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;\n}\n\n/* Search bar */\n.search-bar[data-v-73408fca] {\n    display: flex; align-items: center; gap: 8px;\n    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);\n    border-radius: 8px; padding: 10px 12px;\n}\n.search-input[data-v-73408fca] { flex: 1; background: none; border: none; color: #fff; font-size: .85rem; outline: none;\n}\n.search-input[data-v-73408fca]::-moz-placeholder { color: rgba(255,255,255,.4);\n}\n.search-input[data-v-73408fca]::placeholder { color: rgba(255,255,255,.4);\n}\n.refresh-btn[data-v-73408fca] {\n    background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; padding: 2px; display: flex;\n}\n.refresh-btn[data-v-73408fca]:hover { color: #FFA500;\n}\n.refresh-btn.spinning svg[data-v-73408fca] { animation: spin-data-v-73408fca .8s linear infinite;\n}\n@keyframes spin-data-v-73408fca {\nto { transform: rotate(360deg);\n}\n}\n\n/* Photo cards grid */\n.cards-grid[data-v-73408fca] { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; overflow-y: auto; max-height: 420px;\n}\n.winner-card[data-v-73408fca] {\n    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);\n    border-radius: 10px; overflow: hidden; cursor: pointer;\n    transition: border-color .2s, transform .15s;\n}\n.winner-card[data-v-73408fca]:hover { border-color: rgba(255,165,0,.4); transform: translateY(-2px);\n}\n.winner-card.highlighted[data-v-73408fca] { border-color: #FFA500; box-shadow: 0 0 0 2px rgba(255,165,0,.25);\n}\n.wc-photo-wrap[data-v-73408fca] { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden;\n}\n.wc-photo[data-v-73408fca] { width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover; display: block;\n}\n.wc-photo-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, transparent 50%, rgba(26,0,64,.7) 100%);\n}\n.wc-body[data-v-73408fca] { padding: 8px 10px 4px;\n}\n.wc-name[data-v-73408fca] { color: #fff; font-size: .8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.wc-code[data-v-73408fca] { color: rgba(255,255,255,.45); font-size: .62rem; margin-bottom: 2px;\n}\n.wc-match[data-v-73408fca] { color: rgba(255,165,0,.8); font-size: .62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.wc-pts[data-v-73408fca] {\n    margin: 0 10px 8px; display: inline-block;\n    background: rgba(34,197,94,.15); color: #4ade80;\n    border-radius: 8px; padding: 2px 8px; font-size: .7rem; font-weight: 700;\n}\n.empty-state[data-v-73408fca] { color: rgba(255,255,255,.35); text-align: center; padding: 30px; font-size: .85rem;\n}\n@media (max-width: 900px) {\n.winners-body[data-v-73408fca] { flex-direction: column;\n}\n.carousel-wrap[data-v-73408fca], .cards-panel[data-v-73408fca] { width: 100%;\n}\n.cards-grid[data-v-73408fca] { max-height: 360px;\n}\n}\n@media (max-width: 600px) {\n.sh-trophy-area[data-v-73408fca] { display: none;\n}\n.section-header[data-v-73408fca] { gap: 10px; padding: 0 12px;\n}\n.cs-deco[data-v-73408fca] { width: 48px;\n}\n.cards-grid[data-v-73408fca] { grid-template-columns: 1fr 1fr;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.winners-page[data-v-73408fca] { display: flex; flex-direction: column; gap: 16px;\n}\n\n/* ── Header ── */\n.section-header[data-v-73408fca] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 16px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; height: 70px; overflow: hidden;\n}\n.sh-ball-circle[data-v-73408fca] {\n    width: 46px; height: 46px; border-radius: 50%;\n    background: #1A0040; border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.sh-ball-img[data-v-73408fca] { width: 28px; height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-73408fca] { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;\n}\n.section-title[data-v-73408fca] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; white-space: nowrap;\n}\n.section-sub[data-v-73408fca] { color: #fff; font-size: 0.72rem; white-space: nowrap;\n}\n.sh-trophy-area[data-v-73408fca] { display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-73408fca] { height: 50px; -o-object-fit: contain; object-fit: contain;\n}\n.auto-refresh-badge[data-v-73408fca] {\n    display: flex; align-items: center; gap: 5px;\n    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);\n    border-radius: 20px; padding: 3px 10px;\n    font-size: 0.7rem; color: #4ade80; font-weight: 600;\n}\n.refresh-dot[data-v-73408fca] { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse-dot-data-v-73408fca 1.5s infinite;\n}\n@keyframes pulse-dot-data-v-73408fca {\n0%,100%{opacity:1}\n50%{opacity:.3}\n}\n\n/* ── Body ── */\n.winners-body[data-v-73408fca] { display: flex; gap: 20px; align-items: flex-start;\n}\n.carousel-empty[data-v-73408fca] {\n    display: flex; flex-direction: column; align-items: center; justify-content: center;\n    min-height: 420px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n}\n.ce-icon[data-v-73408fca] { font-size: 3.5rem; margin-bottom: 12px; opacity: .5;\n}\n.ce-title[data-v-73408fca] { color: rgba(255,255,255,.5); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700;\n}\n.ce-sub[data-v-73408fca] { color: rgba(255,255,255,.3); font-size: .78rem; margin-top: 6px;\n}\n\n/* ── Carousel ── */\n.carousel-wrap[data-v-73408fca] { flex: 3; display: flex; flex-direction: column; gap: 10px;\n}\n.carousel-loading[data-v-73408fca] { color: rgba(255,255,255,0.4); text-align: center; padding: 40px;\n}\n.carousel-stage[data-v-73408fca] { position: relative; border-radius: 12px; overflow: hidden; min-height: 420px;\n}\n.carousel-slide[data-v-73408fca] {\n    width: 100%; min-height: 420px;\n    background-color: #1A0040; background-size: cover; background-position: center;\n    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;\n    padding-bottom: 18px; position: relative;\n}\n.cs-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, rgba(28,17,83,.15) 0%, rgba(28,17,83,.55) 55%, rgba(28,17,83,.92) 100%);\n    z-index: 1;\n}\n.cs-prize-badge[data-v-73408fca] {\n    position: absolute; top: 14px; right: 14px; z-index: 3;\n    background: #06B6D4; border-radius: 20px; padding: 6px 16px;\n    text-align: center; line-height: 1.2; display: flex; flex-direction: column; align-items: center;\n}\n.cs-prize-num[data-v-73408fca] { color: #fff; font-weight: 800; font-size: 1.15rem; font-family: 'Rajdhani', sans-serif;\n}\n.cs-prize-lbl[data-v-73408fca] { color: #FFA500; font-size: 0.6rem; font-weight: 600;\n}\n.cs-bottom[data-v-73408fca] {\n    position: relative; z-index: 3; width: 100%;\n    display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 6px;\n}\n.cs-deco[data-v-73408fca] { width: 72px; height: auto; -o-object-fit: contain; object-fit: contain; flex-shrink: 0;\n}\n.cs-info[data-v-73408fca] { flex: 1; text-align: center; min-width: 0;\n}\n.cs-winner-label[data-v-73408fca] { color: #FFA500; font-weight: 700; font-size: 1rem; margin-bottom: 3px;\n}\n.cs-name[data-v-73408fca] { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: 2px;\n}\n.cs-code[data-v-73408fca] { color: rgba(255,255,255,.7); font-size: .72rem; margin-bottom: 2px;\n}\n.cs-date[data-v-73408fca] { color: rgba(255,255,255,.45); font-size: .65rem;\n}\n.cs-arrow[data-v-73408fca] {\n    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;\n    background: rgba(0,0,0,.4); border: none; color: #fff; font-size: 2rem; cursor: pointer;\n    width: 40px; height: 60px; display: flex; align-items: center; justify-content: center;\n    transition: background .2s;\n}\n.cs-arrow[data-v-73408fca]:hover { background: rgba(255,165,0,.4);\n}\n.cs-prev[data-v-73408fca] { left: 0; border-radius: 0 8px 8px 0;\n}\n.cs-next[data-v-73408fca] { right: 0; border-radius: 8px 0 0 8px;\n}\n.cs-dots[data-v-73408fca] { display: flex; justify-content: center; gap: 7px;\n}\n.cs-dot[data-v-73408fca] { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s;\n}\n.cs-dot.active[data-v-73408fca] { background: #FFA500;\n}\n.slide-left-enter-active[data-v-73408fca],.slide-left-leave-active[data-v-73408fca],\n.slide-right-enter-active[data-v-73408fca],.slide-right-leave-active[data-v-73408fca] { transition: all .45s ease;\n}\n.slide-left-enter[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n.slide-left-leave-to[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-enter[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-leave-to[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n\n/* ── Right panel ── */\n.cards-panel[data-v-73408fca] {\n    flex: 2; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;\n}\n\n/* Search bar */\n.search-bar[data-v-73408fca] {\n    display: flex; align-items: center; gap: 8px;\n    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);\n    border-radius: 8px; padding: 10px 12px;\n}\n.search-icon[data-v-73408fca] { flex-shrink: 0; display: block;\n}\n.search-input[data-v-73408fca] { flex: 1; background: none; border: none; color: #fff; font-size: .85rem; outline: none; min-width: 0;\n}\n.search-input[data-v-73408fca]::-moz-placeholder { color: rgba(255,255,255,.4);\n}\n.search-input[data-v-73408fca]::placeholder { color: rgba(255,255,255,.4);\n}\n.refresh-btn[data-v-73408fca] {\n    flex-shrink: 0; background: none; border: none; color: rgba(255,255,255,.5);\n    cursor: pointer; padding: 2px; display: flex; align-items: center;\n}\n.refresh-btn:hover svg[data-v-73408fca] { stroke: #FFA500;\n}\n.refresh-btn.spinning svg[data-v-73408fca] { animation: spin-data-v-73408fca .8s linear infinite;\n}\n@keyframes spin-data-v-73408fca {\nto { transform: rotate(360deg);\n}\n}\n\n/* Winners list */\n.winners-list[data-v-73408fca] { display: flex; flex-direction: column; overflow-y: auto; max-height: 420px;\n}\n.wl-item[data-v-73408fca] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.04);\n    cursor: pointer; transition: background .15s;\n    border-left: 3px solid transparent;\n}\n.wl-item[data-v-73408fca]:hover { background: rgba(255,255,255,.04);\n}\n.wl-item.highlighted[data-v-73408fca] { background: rgba(255,165,0,.07); border-left-color: #FFA500;\n}\n.wl-rank[data-v-73408fca] { color: rgba(255,255,255,.3); font-size: .75rem; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0;\n}\n.wl-info[data-v-73408fca] { flex: 1; min-width: 0;\n}\n.wl-name[data-v-73408fca] { color: #fff; font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.wl-code[data-v-73408fca] { color: rgba(255,255,255,.4); font-size: .68rem; margin-bottom: 2px;\n}\n.wl-match[data-v-73408fca] { display: flex; align-items: center; gap: 4px; color: #FFA500; font-size: .68rem; font-weight: 600;\n}\n.wl-right[data-v-73408fca] { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0;\n}\n.wl-pts[data-v-73408fca] { background: rgba(34,197,94,.15); color: #4ade80; border-radius: 8px; padding: 2px 8px; font-size: .7rem; font-weight: 700; white-space: nowrap;\n}\n.wl-date[data-v-73408fca] { color: rgba(255,255,255,.3); font-size: .62rem; white-space: nowrap;\n}\n\n/* Carousel match pill */\n.cs-match-pill[data-v-73408fca] {\n    display: inline-flex; align-items: center; gap: 4px;\n    background: rgba(255,165,0,.15); color: #FFA500;\n    border: 1px solid rgba(255,165,0,.3); border-radius: 20px;\n    padding: 3px 10px; font-size: .7rem; font-weight: 600; margin: 4px 0;\n}\n.empty-state[data-v-73408fca] { color: rgba(255,255,255,.35); text-align: center; padding: 30px; font-size: .85rem;\n}\n@media (max-width: 900px) {\n.winners-body[data-v-73408fca] { flex-direction: column;\n}\n.carousel-wrap[data-v-73408fca], .cards-panel[data-v-73408fca] { width: 100%;\n}\n.cards-grid[data-v-73408fca] { max-height: 360px;\n}\n}\n@media (max-width: 600px) {\n.sh-trophy-area[data-v-73408fca] { display: none;\n}\n.section-header[data-v-73408fca] { gap: 10px; padding: 0 12px;\n}\n.cs-deco[data-v-73408fca] { width: 48px;\n}\n.cards-grid[data-v-73408fca] { grid-template-columns: 1fr 1fr;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -497,14 +502,6 @@ var render = function () {
                               }),
                               _vm._v(" "),
                               _c("div", { staticClass: "cs-info" }, [
-                                _c("div", { staticClass: "cs-match" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.carousel[_vm.activeIdx].match_label
-                                    )
-                                  ),
-                                ]),
-                                _vm._v(" "),
                                 _c("div", { staticClass: "cs-winner-label" }, [
                                   _vm._v("🏆 Raffle Winner"),
                                 ]),
@@ -521,6 +518,34 @@ var render = function () {
                                       _vm._s(
                                         _vm.carousel[_vm.activeIdx].unique_code
                                       )
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "cs-match-pill" }, [
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        width: "10",
+                                        height: "10",
+                                        viewBox: "0 0 24 24",
+                                        fill: "none",
+                                        stroke: "currentColor",
+                                        "stroke-width": "2.5",
+                                      },
+                                    },
+                                    [
+                                      _c("circle", {
+                                        attrs: { cx: "12", cy: "12", r: "10" },
+                                      }),
+                                    ]
+                                  ),
+                                  _vm._v(
+                                    "\n                                        Won in: " +
+                                      _vm._s(
+                                        _vm.carousel[_vm.activeIdx].match_label
+                                      ) +
+                                      "\n                                    "
                                   ),
                                 ]),
                                 _vm._v(" "),
@@ -612,12 +637,13 @@ var render = function () {
           _c(
             "svg",
             {
+              staticClass: "search-icon",
               attrs: {
-                width: "14",
-                height: "14",
+                width: "15",
+                height: "15",
                 viewBox: "0 0 24 24",
                 fill: "none",
-                stroke: "currentColor",
+                stroke: "rgba(255,255,255,0.45)",
                 "stroke-width": "2",
               },
             },
@@ -662,11 +688,11 @@ var render = function () {
                 "svg",
                 {
                   attrs: {
-                    width: "14",
-                    height: "14",
+                    width: "15",
+                    height: "15",
                     viewBox: "0 0 24 24",
                     fill: "none",
-                    stroke: "currentColor",
+                    stroke: "rgba(255,255,255,0.45)",
                     "stroke-width": "2",
                   },
                 },
@@ -689,13 +715,13 @@ var render = function () {
             ])
           : _c(
               "div",
-              { staticClass: "cards-grid" },
-              _vm._l(_vm.filteredCarousel, function (w) {
+              { staticClass: "winners-list" },
+              _vm._l(_vm.filteredCarousel, function (w, i) {
                 return _c(
                   "div",
                   {
                     key: w.id,
-                    staticClass: "winner-card",
+                    staticClass: "wl-item",
                     class: {
                       highlighted:
                         _vm.carousel[_vm.activeIdx] &&
@@ -708,40 +734,57 @@ var render = function () {
                     },
                   },
                   [
-                    _c("div", { staticClass: "wc-photo-wrap" }, [
-                      _c("img", {
-                        staticClass: "wc-photo",
-                        attrs: { src: w.profile_picture_url },
-                        on: {
-                          error: function (e) {
-                            return (e.target.src =
-                              _vm.$imgBase + "/images/default-avatar.png")
-                          },
-                        },
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "wc-photo-overlay" }),
+                    _c("span", { staticClass: "wl-rank" }, [
+                      _vm._v(_vm._s(i + 1)),
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "wc-body" }, [
-                      _c("div", { staticClass: "wc-name" }, [
+                    _c("div", { staticClass: "wl-info" }, [
+                      _c("div", { staticClass: "wl-name" }, [
                         _vm._v(_vm._s(w.name)),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "wc-code" }, [
+                      _c("div", { staticClass: "wl-code" }, [
                         _vm._v(_vm._s(w.unique_code)),
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "wc-match" }, [
-                        _vm._v(_vm._s(w.match_label)),
+                      _c("div", { staticClass: "wl-match" }, [
+                        _c(
+                          "svg",
+                          {
+                            attrs: {
+                              width: "9",
+                              height: "9",
+                              viewBox: "0 0 24 24",
+                              fill: "none",
+                              stroke: "#FFA500",
+                              "stroke-width": "2.5",
+                            },
+                          },
+                          [
+                            _c("circle", {
+                              attrs: { cx: "12", cy: "12", r: "10" },
+                            }),
+                          ]
+                        ),
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(w.match_label) +
+                            "\n                        "
+                        ),
                       ]),
                     ]),
                     _vm._v(" "),
-                    w.prize_points
-                      ? _c("div", { staticClass: "wc-pts" }, [
-                          _vm._v("+" + _vm._s(w.prize_points) + " pts"),
-                        ])
-                      : _vm._e(),
+                    _c("div", { staticClass: "wl-right" }, [
+                      w.prize_points
+                        ? _c("span", { staticClass: "wl-pts" }, [
+                            _vm._v("+" + _vm._s(w.prize_points) + " pts"),
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "wl-date" }, [
+                        _vm._v(_vm._s(w.draw_date)),
+                      ]),
+                    ]),
                   ]
                 )
               }),
