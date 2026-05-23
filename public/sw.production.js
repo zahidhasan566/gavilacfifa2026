@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fifa2026-v20260523114942';
+const CACHE_NAME = 'fifa2026-v20260523115658';
 const STATIC_ASSETS = [
     '/',
     '/css/app.css',
