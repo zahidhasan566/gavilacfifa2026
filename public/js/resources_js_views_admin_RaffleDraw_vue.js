@@ -95,15 +95,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'AdminRaffle',
   data: function data() {
     return {
+      matches: [],
+      selectedMatchId: null,
       eligible: [],
       history: [],
       selectedUserId: null,
       minPoints: 0,
+      maxWinners: 10,
+      winnerCount: 0,
       prizePoints: 0,
       notes: '',
       randomWinner: null
@@ -118,11 +141,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
+    this.fetchMatches();
     this.fetchEligible();
     this.fetchHistory();
+    this.fetchWinnerCount();
   },
   methods: {
-    fetchEligible: function fetchEligible() {
+    fetchMatches: function fetchMatches() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var _yield$_this2$$http$g, data;
@@ -130,15 +155,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _this2.$http.get('/api/admin/raffle/eligible', {
-                params: {
-                  min_points: _this2.minPoints
-                }
-              });
+              return _this2.$http.get('/api/admin/matches');
             case 2:
               _yield$_this2$$http$g = _context.sent;
               data = _yield$_this2$$http$g.data;
-              _this2.eligible = data.data;
+              _this2.matches = (data.data || data).map(function (m) {
+                var _m$team, _m$team2;
+                return {
+                  id: m.id,
+                  label: "".concat(((_m$team = m.team1) === null || _m$team === void 0 ? void 0 : _m$team.name) || '?', " vs ").concat(((_m$team2 = m.team2) === null || _m$team2 === void 0 ? void 0 : _m$team2.name) || '?', " (").concat(m.match_date || '', ")")
+                };
+              });
             case 5:
             case "end":
               return _context.stop();
@@ -146,100 +173,166 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    fetchHistory: function fetchHistory() {
+    onMatchChange: function onMatchChange() {
+      this.selectedUserId = null;
+      this.fetchEligible();
+      this.fetchHistory();
+      this.fetchWinnerCount();
+    },
+    fetchEligible: function fetchEligible() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _yield$_this3$$http$g, data;
+        var params, _yield$_this3$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return _this3.$http.get('/api/admin/raffle/history');
-            case 2:
+              params = {
+                min_points: _this3.minPoints
+              };
+              if (_this3.selectedMatchId) params.match_id = _this3.selectedMatchId;
+              _context2.next = 4;
+              return _this3.$http.get('/api/admin/raffle/eligible', {
+                params: params
+              });
+            case 4:
               _yield$_this3$$http$g = _context2.sent;
               data = _yield$_this3$$http$g.data;
-              _this3.history = data.data;
-            case 5:
+              _this3.eligible = data.data;
+            case 7:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
       }))();
     },
-    randomDraw: function randomDraw() {
+    fetchHistory: function fetchHistory() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var _yield$_this4$$http$p, data, _e$response, _e$response$data;
+        var params, _yield$_this4$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return _this4.$http.post('/api/admin/raffle/random', {
-                min_points: _this4.minPoints
+              params = {};
+              if (_this4.selectedMatchId) params.match_id = _this4.selectedMatchId;
+              _context3.next = 4;
+              return _this4.$http.get('/api/admin/raffle/history', {
+                params: params
               });
-            case 3:
-              _yield$_this4$$http$p = _context3.sent;
-              data = _yield$_this4$$http$p.data;
-              _this4.randomWinner = data.data;
-              _context3.next = 11;
-              break;
-            case 8:
-              _context3.prev = 8;
-              _context3.t0 = _context3["catch"](0);
-              _this4.$toaster.error(((_e$response = _context3.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'No eligible users.');
-            case 11:
+            case 4:
+              _yield$_this4$$http$g = _context3.sent;
+              data = _yield$_this4$$http$g.data;
+              _this4.history = data.data;
+            case 7:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 8]]);
+        }, _callee3);
       }))();
     },
-    selectRandomWinner: function selectRandomWinner() {
+    fetchWinnerCount: function fetchWinnerCount() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var params, _yield$_this5$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _this5.selectedUserId = _this5.randomWinner.id;
-              _this5.randomWinner = null;
-            case 2:
+              params = {};
+              if (_this5.selectedMatchId) params.match_id = _this5.selectedMatchId;
+              _context4.next = 4;
+              return _this5.$http.get('/api/admin/raffle/winner-count', {
+                params: params
+              });
+            case 4:
+              _yield$_this5$$http$g = _context4.sent;
+              data = _yield$_this5$$http$g.data;
+              _this5.winnerCount = data.data.count;
+            case 7:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
       }))();
     },
-    confirmDraw: function confirmDraw() {
+    randomDraw: function randomDraw() {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var payload, _yield$_this6$$http$p, data, _e$response, _e$response$data;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               _context5.prev = 0;
-              _context5.next = 3;
-              return _this6.$http.post('/api/admin/raffle/draw', {
-                user_id: _this6.selectedUserId,
-                prize_points: _this6.prizePoints,
-                notes: _this6.notes
-              });
-            case 3:
-              _this6.$toaster.success('Winner confirmed!');
-              _this6.selectedUserId = null;
-              _this6.prizePoints = 0;
-              _this6.notes = '';
-              _this6.fetchHistory();
+              payload = {
+                min_points: _this6.minPoints
+              };
+              if (_this6.selectedMatchId) payload.match_id = _this6.selectedMatchId;
+              _context5.next = 5;
+              return _this6.$http.post('/api/admin/raffle/random', payload);
+            case 5:
+              _yield$_this6$$http$p = _context5.sent;
+              data = _yield$_this6$$http$p.data;
+              _this6.randomWinner = data.data;
               _context5.next = 13;
               break;
             case 10:
               _context5.prev = 10;
               _context5.t0 = _context5["catch"](0);
-              _this6.$toaster.error('Failed.');
+              _this6.$toaster.error(((_e$response = _context5.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'No eligible users.');
             case 13:
             case "end":
               return _context5.stop();
           }
         }, _callee5, null, [[0, 10]]);
+      }))();
+    },
+    selectRandomWinner: function selectRandomWinner() {
+      var _this7 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _this7.selectedUserId = _this7.randomWinner.id;
+              _this7.randomWinner = null;
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
+    confirmDraw: function confirmDraw() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        var _e$response2, _e$response2$data;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.prev = 0;
+              _context7.next = 3;
+              return _this8.$http.post('/api/admin/raffle/draw', {
+                user_id: _this8.selectedUserId,
+                match_id: _this8.selectedMatchId,
+                prize_points: _this8.prizePoints,
+                notes: _this8.notes,
+                max_winners: _this8.maxWinners
+              });
+            case 3:
+              _this8.$toaster.success('Winner confirmed!');
+              _this8.selectedUserId = null;
+              _this8.prizePoints = 0;
+              _this8.notes = '';
+              _this8.fetchHistory();
+              _this8.fetchWinnerCount();
+              _context7.next = 14;
+              break;
+            case 11:
+              _context7.prev = 11;
+              _context7.t0 = _context7["catch"](0);
+              _this8.$toaster.error(((_e$response2 = _context7.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Failed.');
+            case 14:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7, null, [[0, 11]]);
       }))();
     }
   }
@@ -263,7 +356,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-raffle[data-v-ad6827aa] {\n}\n.page-heading[data-v-ad6827aa] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;\n}\n.raffle-layout[data-v-ad6827aa] { display: flex; gap: 20px;\n}\n.raffle-left[data-v-ad6827aa] { flex: 1; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.raffle-right[data-v-ad6827aa] { width: 300px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.card-header[data-v-ad6827aa] { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 0.9rem;\n}\n.filter-label[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.78rem;\n}\n.mini-input[data-v-ad6827aa] { width: 70px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 5px 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.btn-random[data-v-ad6827aa] { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; margin-left: auto;\n}\n.eligible-list[data-v-ad6827aa] { max-height: 400px; overflow-y: auto;\n}\n.eligible-item[data-v-ad6827aa] { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.15s;\n}\n.eligible-item[data-v-ad6827aa]:hover { background: rgba(255,255,255,0.04);\n}\n.eligible-item.selected[data-v-ad6827aa] { background: rgba(255,165,0,0.1); border-left: 3px solid #FFA500;\n}\n.rank[data-v-ad6827aa] { color: rgba(255,255,255,0.3); font-size: 0.78rem; width: 20px;\n}\n.e-avatar[data-v-ad6827aa] { width: 36px; height: 36px; border-radius: 50%; -o-object-fit: cover; object-fit: cover;\n}\n.e-info[data-v-ad6827aa] { flex: 1;\n}\n.e-name[data-v-ad6827aa] { color: #fff; font-size: 0.85rem; font-weight: 600;\n}\n.e-code[data-v-ad6827aa] { color: rgba(255,255,255,0.4); font-size: 0.7rem;\n}\n.e-notes[data-v-ad6827aa] { color: rgba(255,255,255,0.3); font-size: 0.68rem; font-style: italic;\n}\n.e-points[data-v-ad6827aa] { background: #FFA500; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700;\n}\n.confirm-draw[data-v-ad6827aa] { padding: 16px; border-top: 1px solid rgba(255,255,255,0.06);\n}\n.confirm-label[data-v-ad6827aa] { color: #FFA500; font-weight: 600; font-size: 0.9rem; margin-bottom: 12px;\n}\n.form-group[data-v-ad6827aa] { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px;\n}\n.form-group label[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.form-input[data-v-ad6827aa] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box;\n}\n.btn-orange[data-v-ad6827aa] { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif;\n}\n.history-item[data-v-ad6827aa] { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);\n}\n.prize-badge[data-v-ad6827aa] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap;\n}\n.empty-state[data-v-ad6827aa] { color: rgba(255,255,255,0.3); text-align: center; padding: 30px; font-size: 0.85rem;\n}\n.modal-overlay[data-v-ad6827aa] { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500;\n}\n.modal-box[data-v-ad6827aa] { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px;\n}\n.winner-modal[data-v-ad6827aa] { text-align: center;\n}\n.winner-emoji[data-v-ad6827aa] { font-size: 3rem; margin-bottom: 8px;\n}\n.winner-label[data-v-ad6827aa] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 16px;\n}\n.winner-avatar[data-v-ad6827aa] { width: 100px; height: 100px; border-radius: 50%; -o-object-fit: cover; object-fit: cover; border: 3px solid #FFA500; margin-bottom: 12px;\n}\n.winner-name[data-v-ad6827aa] { color: #fff; font-weight: 700; font-size: 1.1rem;\n}\n.winner-code[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 4px;\n}\n.winner-pts[data-v-ad6827aa] { color: #FFA500; font-size: 1.4rem; font-weight: 700; font-family: 'Rajdhani', sans-serif; margin-bottom: 20px;\n}\n.modal-actions[data-v-ad6827aa] { display: flex; justify-content: center; gap: 10px;\n}\n.btn-cancel[data-v-ad6827aa] { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer;\n}\n@media (max-width: 768px) {\n.raffle-layout[data-v-ad6827aa] { flex-direction: column;\n}\n.raffle-right[data-v-ad6827aa] { width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-raffle[data-v-ad6827aa] {\n}\n.page-heading[data-v-ad6827aa] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;\n}\n.raffle-layout[data-v-ad6827aa] { display: flex; gap: 20px;\n}\n.raffle-left[data-v-ad6827aa] { flex: 1; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.raffle-right[data-v-ad6827aa] { width: 300px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.card-header[data-v-ad6827aa] { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 0.9rem; flex-wrap: wrap;\n}\n.filter-label[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.78rem;\n}\n.mini-input[data-v-ad6827aa] { width: 70px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 5px 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.mini-select[data-v-ad6827aa] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 5px 8px; color: #fff; font-size: 0.78rem; outline: none; max-width: 160px;\n}\n.mini-select option[data-v-ad6827aa] { background: #1A0040; color: #fff;\n}\n.winner-count-badge[data-v-ad6827aa] { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); border-radius: 12px; padding: 3px 10px; font-size: 0.75rem; font-weight: 600; white-space: nowrap;\n}\n.winner-count-badge.full[data-v-ad6827aa] { background: rgba(239,68,68,0.15); color: #f87171; border-color: rgba(239,68,68,0.3);\n}\n.btn-random[data-v-ad6827aa] { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; margin-left: auto;\n}\n.btn-random[data-v-ad6827aa]:disabled { opacity: 0.4; cursor: not-allowed;\n}\n.eligible-list[data-v-ad6827aa] { max-height: 400px; overflow-y: auto;\n}\n.eligible-item[data-v-ad6827aa] { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.15s;\n}\n.eligible-item[data-v-ad6827aa]:hover { background: rgba(255,255,255,0.04);\n}\n.eligible-item.selected[data-v-ad6827aa] { background: rgba(255,165,0,0.1); border-left: 3px solid #FFA500;\n}\n.rank[data-v-ad6827aa] { color: rgba(255,255,255,0.3); font-size: 0.78rem; width: 20px;\n}\n.e-avatar[data-v-ad6827aa] { width: 36px; height: 36px; border-radius: 50%; -o-object-fit: cover; object-fit: cover;\n}\n.e-info[data-v-ad6827aa] { flex: 1;\n}\n.e-name[data-v-ad6827aa] { color: #fff; font-size: 0.85rem; font-weight: 600;\n}\n.e-code[data-v-ad6827aa] { color: rgba(255,255,255,0.4); font-size: 0.7rem;\n}\n.e-notes[data-v-ad6827aa] { color: rgba(255,255,255,0.3); font-size: 0.68rem; font-style: italic;\n}\n.e-points[data-v-ad6827aa] { background: #FFA500; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700;\n}\n.confirm-draw[data-v-ad6827aa] { padding: 16px; border-top: 1px solid rgba(255,255,255,0.06);\n}\n.confirm-label[data-v-ad6827aa] { color: #FFA500; font-weight: 600; font-size: 0.9rem; margin-bottom: 12px;\n}\n.max-reached-msg[data-v-ad6827aa] { color: #f87171; font-size: 0.85rem; text-align: center; padding: 12px 0;\n}\n.form-group[data-v-ad6827aa] { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px;\n}\n.form-group label[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.form-input[data-v-ad6827aa] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box;\n}\n.btn-orange[data-v-ad6827aa] { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif;\n}\n.history-item[data-v-ad6827aa] { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);\n}\n.prize-badge[data-v-ad6827aa] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap;\n}\n.empty-state[data-v-ad6827aa] { color: rgba(255,255,255,0.3); text-align: center; padding: 30px; font-size: 0.85rem;\n}\n.modal-overlay[data-v-ad6827aa] { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500;\n}\n.modal-box[data-v-ad6827aa] { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px;\n}\n.winner-modal[data-v-ad6827aa] { text-align: center;\n}\n.winner-emoji[data-v-ad6827aa] { font-size: 3rem; margin-bottom: 8px;\n}\n.winner-label[data-v-ad6827aa] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 16px;\n}\n.winner-avatar[data-v-ad6827aa] { width: 100px; height: 100px; border-radius: 50%; -o-object-fit: cover; object-fit: cover; border: 3px solid #FFA500; margin-bottom: 12px;\n}\n.winner-name[data-v-ad6827aa] { color: #fff; font-weight: 700; font-size: 1.1rem;\n}\n.winner-code[data-v-ad6827aa] { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 4px;\n}\n.winner-pts[data-v-ad6827aa] { color: #FFA500; font-size: 1.4rem; font-weight: 700; font-family: 'Rajdhani', sans-serif; margin-bottom: 20px;\n}\n.modal-actions[data-v-ad6827aa] { display: flex; justify-content: center; gap: 10px;\n}\n.btn-cancel[data-v-ad6827aa] { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer;\n}\n@media (max-width: 768px) {\n.raffle-layout[data-v-ad6827aa] { flex-direction: column;\n}\n.raffle-right[data-v-ad6827aa] { width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -406,6 +499,57 @@ var render = function () {
           _c("span", [_vm._v("Eligible Participants")]),
           _vm._v(" "),
           _c("div", { staticClass: "filter-row-inline" }, [
+            _c("label", { staticClass: "filter-label" }, [_vm._v("Match:")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedMatchId,
+                    expression: "selectedMatchId",
+                  },
+                ],
+                staticClass: "mini-select",
+                on: {
+                  change: [
+                    function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedMatchId = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.onMatchChange,
+                  ],
+                },
+              },
+              [
+                _c("option", { domProps: { value: null } }, [
+                  _vm._v("All Matches"),
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.matches, function (m) {
+                  return _c(
+                    "option",
+                    { key: m.id, domProps: { value: m.id } },
+                    [_vm._v(_vm._s(m.label))]
+                  )
+                }),
+              ],
+              2
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "filter-row-inline" }, [
             _c("label", { staticClass: "filter-label" }, [
               _vm._v("Min Points:"),
             ]),
@@ -438,9 +582,63 @@ var render = function () {
             }),
           ]),
           _vm._v(" "),
+          _c("div", { staticClass: "filter-row-inline" }, [
+            _c("label", { staticClass: "filter-label" }, [
+              _vm._v("Max Winners:"),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model.number",
+                  value: _vm.maxWinners,
+                  expression: "maxWinners",
+                  modifiers: { number: true },
+                },
+              ],
+              staticClass: "mini-input",
+              staticStyle: { width: "55px" },
+              attrs: { type: "number", min: "1" },
+              domProps: { value: _vm.maxWinners },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.maxWinners = _vm._n($event.target.value)
+                },
+                blur: function ($event) {
+                  return _vm.$forceUpdate()
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "winner-count-badge",
+              class: { full: _vm.winnerCount >= _vm.maxWinners },
+            },
+            [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.winnerCount) +
+                  " / " +
+                  _vm._s(_vm.maxWinners) +
+                  " winners\n                "
+              ),
+            ]
+          ),
+          _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn-random", on: { click: _vm.randomDraw } },
+            {
+              staticClass: "btn-random",
+              attrs: { disabled: _vm.winnerCount >= _vm.maxWinners },
+              on: { click: _vm.randomDraw },
+            },
             [_vm._v("🎲 Random Draw")]
           ),
         ]),
@@ -501,76 +699,94 @@ var render = function () {
         ),
         _vm._v(" "),
         _vm.selectedUserId
-          ? _c("div", { staticClass: "confirm-draw" }, [
-              _c("div", { staticClass: "confirm-label" }, [
-                _vm._v(
-                  "Selected: " +
-                    _vm._s(_vm.selectedUser && _vm.selectedUser.name)
-                ),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Prize Points")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model.number",
-                      value: _vm.prizePoints,
-                      expression: "prizePoints",
-                      modifiers: { number: true },
-                    },
-                  ],
-                  staticClass: "form-input",
-                  attrs: { type: "number", min: "0" },
-                  domProps: { value: _vm.prizePoints },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.prizePoints = _vm._n($event.target.value)
-                    },
-                    blur: function ($event) {
-                      return _vm.$forceUpdate()
-                    },
-                  },
-                }),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Notes")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.notes,
-                      expression: "notes",
-                    },
-                  ],
-                  staticClass: "form-input",
-                  attrs: { placeholder: "Optional note..." },
-                  domProps: { value: _vm.notes },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.notes = $event.target.value
-                    },
-                  },
-                }),
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn-orange", on: { click: _vm.confirmDraw } },
-                [_vm._v("Confirm Winner")]
-              ),
-            ])
+          ? _c(
+              "div",
+              { staticClass: "confirm-draw" },
+              [
+                _vm.winnerCount >= _vm.maxWinners
+                  ? _c("div", { staticClass: "max-reached-msg" }, [
+                      _vm._v(
+                        "\n                    Maximum winners (" +
+                          _vm._s(_vm.maxWinners) +
+                          ") reached for this match.\n                "
+                      ),
+                    ])
+                  : [
+                      _c("div", { staticClass: "confirm-label" }, [
+                        _vm._v(
+                          "Selected: " +
+                            _vm._s(_vm.selectedUser && _vm.selectedUser.name)
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Prize Points")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model.number",
+                              value: _vm.prizePoints,
+                              expression: "prizePoints",
+                              modifiers: { number: true },
+                            },
+                          ],
+                          staticClass: "form-input",
+                          attrs: { type: "number", min: "0" },
+                          domProps: { value: _vm.prizePoints },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.prizePoints = _vm._n($event.target.value)
+                            },
+                            blur: function ($event) {
+                              return _vm.$forceUpdate()
+                            },
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Notes")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.notes,
+                              expression: "notes",
+                            },
+                          ],
+                          staticClass: "form-input",
+                          attrs: { placeholder: "Optional note..." },
+                          domProps: { value: _vm.notes },
+                          on: {
+                            input: function ($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.notes = $event.target.value
+                            },
+                          },
+                        }),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn-orange",
+                          on: { click: _vm.confirmDraw },
+                        },
+                        [_vm._v("Confirm Winner")]
+                      ),
+                    ],
+              ],
+              2
+            )
           : _vm._e(),
       ]),
       _vm._v(" "),

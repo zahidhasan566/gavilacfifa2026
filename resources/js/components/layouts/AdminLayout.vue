@@ -7,9 +7,11 @@
         <!-- Sidebar -->
         <aside class="admin-sidebar" :class="{ open: sidebarOpen }">
             <div class="sidebar-brand">
-                <img :src="$imgBase + '/images/fifa-logo.png'" alt="FIFA" class="sidebar-logo" onerror="this.style.display='none'">
-                <img :src="$imgBase + '/images/abecab-abetis-logo.png'" alt="Abecab Abetis" class="sidebar-partner-logo" onerror="this.style.display='none'">
-                <span class="sidebar-title">FIFA 2026<br><small>Admin Panel</small></span>
+                <div class="sidebar-brand-logos">
+                    <img :src="$imgBase + '/images/fifa-logo.png'" alt="FIFA" class="sidebar-logo" onerror="this.style.display='none'">
+                    <img :src="$imgBase + '/images/abecab-abetis-logo.png'" alt="Abecab Abetis" class="sidebar-partner-logo" onerror="this.style.display='none'">
+                </div>
+                <span class="sidebar-title">Admin Panel</span>
                 <button class="sidebar-close" @click="sidebarOpen = false">&#10005;</button>
             </div>
             <nav class="sidebar-nav">
@@ -98,11 +100,11 @@ export default {
     border-right: 1px solid rgba(255,165,0,0.2);
     position: sticky; top: 0; height: 100vh;
 }
-.sidebar-brand { display: flex; align-items: center; gap: 10px; padding: 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.sidebar-brand { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.sidebar-brand-logos { display: flex; align-items: center; gap: 8px; }
 .sidebar-logo { height: 32px; }
-.sidebar-partner-logo { height: 28px; object-fit: contain; }
-.sidebar-title { color: #fff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem; line-height: 1.2; }
-.sidebar-title small { color: #FFA500; font-size: 0.7rem; font-weight: 400; }
+.sidebar-partner-logo { height: 26px; object-fit: contain; }
+.sidebar-title { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
 .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
 .sidebar-link {
     display: flex; align-items: center; gap: 10px;

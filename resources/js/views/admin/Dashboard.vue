@@ -52,19 +52,19 @@
         <div class="quick-links">
             <h2 class="section-heading">Quick Actions</h2>
             <div class="quick-grid">
-                <router-link to="/admin/matches" class="quick-card">
+                <router-link :to="{ name: 'AdminMatches' }" class="quick-card">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                     Manage Matches
                 </router-link>
-                <router-link to="/admin/questions" class="quick-card">
+                <router-link :to="{ name: 'AdminQuestions' }" class="quick-card">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     Configure Questions
                 </router-link>
-                <router-link to="/admin/raffle" class="quick-card orange">
+                <router-link :to="{ name: 'AdminRaffle' }" class="quick-card orange">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     Raffle Draw
                 </router-link>
-                <router-link to="/admin/reports" class="quick-card">
+                <router-link :to="{ name: 'AdminReports' }" class="quick-card">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     View Reports
                 </router-link>

@@ -95,10 +95,11 @@ Route::middleware(['jwt', 'admin'])->prefix('admin')->group(function () {
     Route::post('questions/{id}/correct-answer',  [AdminQuestionController::class, 'setCorrectAnswer']);
 
     // Raffle Draw
-    Route::get('raffle/eligible',  [AdminRaffleController::class, 'eligibleUsers']);
-    Route::post('raffle/draw',     [AdminRaffleController::class, 'draw']);
-    Route::post('raffle/random',   [AdminRaffleController::class, 'randomDraw']);
-    Route::get('raffle/history',   [AdminRaffleController::class, 'history']);
+    Route::get('raffle/eligible',      [AdminRaffleController::class, 'eligibleUsers']);
+    Route::get('raffle/winner-count',  [AdminRaffleController::class, 'winnerCount']);
+    Route::post('raffle/draw',         [AdminRaffleController::class, 'draw']);
+    Route::post('raffle/random',       [AdminRaffleController::class, 'randomDraw']);
+    Route::get('raffle/history',       [AdminRaffleController::class, 'history']);
 
     // Reports
     Route::get('reports/points',        [AdminReportController::class, 'pointsReport']);

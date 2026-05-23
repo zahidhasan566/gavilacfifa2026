@@ -92,14 +92,14 @@ export default new Vuex.Store({
 
         async markNotificationRead({ commit }, id) {
             try {
-                await axios.put(API + `/notifications/${id}/read`);
+                await axios.post(API + `/notifications/${id}/read`);
                 commit('MARK_READ', id);
             } catch (_) {}
         },
 
         async markAllRead({ commit }) {
             try {
-                await axios.put(API + '/notifications/read-all');
+                await axios.post(API + '/notifications/read-all');
                 commit('MARK_ALL_READ');
             } catch (_) {}
         },

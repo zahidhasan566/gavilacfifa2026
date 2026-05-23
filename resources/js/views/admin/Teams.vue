@@ -88,7 +88,7 @@ export default {
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; }
-.form-input option { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
+.form-input option { background: #ffffff; color: #1A0040; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .btn-cancel { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; }
 @media (max-width: 900px) { .groups-view { grid-template-columns: repeat(2, 1fr); } }

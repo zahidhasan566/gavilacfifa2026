@@ -98,6 +98,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -149,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-layout[data-v-432ed138] { display: flex; min-height: 100vh; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n}\n.admin-sidebar[data-v-432ed138] {\n    width: 220px; flex-shrink: 0; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    display: flex; flex-direction: column;\n    border-right: 1px solid rgba(255,165,0,0.2);\n    position: sticky; top: 0; height: 100vh;\n}\n.sidebar-brand[data-v-432ed138] { display: flex; align-items: center; gap: 10px; padding: 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);\n}\n.sidebar-logo[data-v-432ed138] { height: 32px;\n}\n.sidebar-partner-logo[data-v-432ed138] { height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.sidebar-title[data-v-432ed138] { color: #fff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.9rem; line-height: 1.2;\n}\n.sidebar-title small[data-v-432ed138] { color: #FFA500; font-size: 0.7rem; font-weight: 400;\n}\n.sidebar-nav[data-v-432ed138] { flex: 1; padding: 12px 0; overflow-y: auto;\n}\n.sidebar-link[data-v-432ed138] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 11px 18px; color: rgba(255,255,255,0.65);\n    font-family: 'Roboto', sans-serif;\n    font-weight: 800;\n    font-style: normal;\n    font-size: 0.85rem;\n    line-height: 1.4;\n    letter-spacing: 0;\n    text-decoration: none;\n    transition: all 0.2s; border-left: 3px solid transparent;\n}\n.sidebar-link[data-v-432ed138]:hover { color: #fff; background: rgba(255,255,255,0.04);\n}\n.sidebar-link.active[data-v-432ed138] { color: #FFA500; border-left-color: #FFA500; background: rgba(255,165,0,0.08);\n}\n.sidebar-footer[data-v-432ed138] { padding: 16px; border-top: 1px solid rgba(255,255,255,0.06);\n}\n.logout-link[data-v-432ed138] {\n    display: flex; align-items: center; gap: 8px;\n    color: rgba(255,255,255,0.5); background: none; border: none;\n    font-size: 0.85rem; cursor: pointer; padding: 8px 0;\n}\n.logout-link[data-v-432ed138]:hover { color: #ff6b6b;\n}\n.admin-main[data-v-432ed138] { flex: 1; display: flex; flex-direction: column; min-width: 0;\n}\n.admin-header[data-v-432ed138] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); padding: 0 24px;\n    height: 56px; display: flex; align-items: center; gap: 16px;\n    border-bottom: 2px solid #FFA500; position: sticky; top: 0; z-index: 50;\n}\n.mobile-menu-btn[data-v-432ed138] { display: none; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;\n}\n.header-title[data-v-432ed138] { color: rgba(255,255,255,0.6); font-size: 0.85rem; flex: 1;\n}\n.header-user[data-v-432ed138] { display: flex; align-items: center; gap: 10px;\n}\n.admin-badge[data-v-432ed138] { background: #FFA500; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;\n}\n.admin-name[data-v-432ed138] { color: #fff; font-size: 0.85rem; font-weight: 600;\n}\n.admin-content[data-v-432ed138] { flex: 1; padding: 24px; overflow-y: auto;\n}\n/* ── Mobile sidebar drawer ──────────────────── */\n.sidebar-overlay[data-v-432ed138] {\n    display: none;\n    position: fixed; inset: 0;\n    background: rgba(0,0,0,0.55);\n    z-index: 200;\n}\n.sidebar-close[data-v-432ed138] {\n    display: none;\n    margin-left: auto; background: none; border: none;\n    color: rgba(255,255,255,0.6); font-size: 1rem; cursor: pointer; padding: 4px;\n}\n@media (max-width: 768px) {\n.admin-sidebar[data-v-432ed138] {\n        position: fixed; left: 0; top: 0; bottom: 0;\n        z-index: 300; width: 240px;\n        transform: translateX(-100%);\n        transition: transform 0.25s ease;\n}\n.admin-sidebar.open[data-v-432ed138] { transform: translateX(0);\n}\n.sidebar-overlay[data-v-432ed138] { display: block;\n}\n.sidebar-close[data-v-432ed138] { display: block;\n}\n.mobile-menu-btn[data-v-432ed138] { display: block;\n}\n.admin-content[data-v-432ed138] { padding: 16px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-layout[data-v-432ed138] { display: flex; min-height: 100vh; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n}\n.admin-sidebar[data-v-432ed138] {\n    width: 220px; flex-shrink: 0; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    display: flex; flex-direction: column;\n    border-right: 1px solid rgba(255,165,0,0.2);\n    position: sticky; top: 0; height: 100vh;\n}\n.sidebar-brand[data-v-432ed138] { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);\n}\n.sidebar-brand-logos[data-v-432ed138] { display: flex; align-items: center; gap: 8px;\n}\n.sidebar-logo[data-v-432ed138] { height: 32px;\n}\n.sidebar-partner-logo[data-v-432ed138] { height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.sidebar-title[data-v-432ed138] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;\n}\n.sidebar-nav[data-v-432ed138] { flex: 1; padding: 12px 0; overflow-y: auto;\n}\n.sidebar-link[data-v-432ed138] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 11px 18px; color: rgba(255,255,255,0.65);\n    font-family: 'Roboto', sans-serif;\n    font-weight: 800;\n    font-style: normal;\n    font-size: 0.85rem;\n    line-height: 1.4;\n    letter-spacing: 0;\n    text-decoration: none;\n    transition: all 0.2s; border-left: 3px solid transparent;\n}\n.sidebar-link[data-v-432ed138]:hover { color: #fff; background: rgba(255,255,255,0.04);\n}\n.sidebar-link.active[data-v-432ed138] { color: #FFA500; border-left-color: #FFA500; background: rgba(255,165,0,0.08);\n}\n.sidebar-footer[data-v-432ed138] { padding: 16px; border-top: 1px solid rgba(255,255,255,0.06);\n}\n.logout-link[data-v-432ed138] {\n    display: flex; align-items: center; gap: 8px;\n    color: rgba(255,255,255,0.5); background: none; border: none;\n    font-size: 0.85rem; cursor: pointer; padding: 8px 0;\n}\n.logout-link[data-v-432ed138]:hover { color: #ff6b6b;\n}\n.admin-main[data-v-432ed138] { flex: 1; display: flex; flex-direction: column; min-width: 0;\n}\n.admin-header[data-v-432ed138] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); padding: 0 24px;\n    height: 56px; display: flex; align-items: center; gap: 16px;\n    border-bottom: 2px solid #FFA500; position: sticky; top: 0; z-index: 50;\n}\n.mobile-menu-btn[data-v-432ed138] { display: none; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;\n}\n.header-title[data-v-432ed138] { color: rgba(255,255,255,0.6); font-size: 0.85rem; flex: 1;\n}\n.header-user[data-v-432ed138] { display: flex; align-items: center; gap: 10px;\n}\n.admin-badge[data-v-432ed138] { background: #FFA500; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 1px;\n}\n.admin-name[data-v-432ed138] { color: #fff; font-size: 0.85rem; font-weight: 600;\n}\n.admin-content[data-v-432ed138] { flex: 1; padding: 24px; overflow-y: auto;\n}\n/* ── Mobile sidebar drawer ──────────────────── */\n.sidebar-overlay[data-v-432ed138] {\n    display: none;\n    position: fixed; inset: 0;\n    background: rgba(0,0,0,0.55);\n    z-index: 200;\n}\n.sidebar-close[data-v-432ed138] {\n    display: none;\n    margin-left: auto; background: none; border: none;\n    color: rgba(255,255,255,0.6); font-size: 1rem; cursor: pointer; padding: 4px;\n}\n@media (max-width: 768px) {\n.admin-sidebar[data-v-432ed138] {\n        position: fixed; left: 0; top: 0; bottom: 0;\n        z-index: 300; width: 240px;\n        transform: translateX(-100%);\n        transition: transform 0.25s ease;\n}\n.admin-sidebar.open[data-v-432ed138] { transform: translateX(0);\n}\n.sidebar-overlay[data-v-432ed138] { display: block;\n}\n.sidebar-close[data-v-432ed138] { display: block;\n}\n.mobile-menu-btn[data-v-432ed138] { display: block;\n}\n.admin-content[data-v-432ed138] { padding: 16px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -300,25 +302,27 @@ var render = function () {
       { staticClass: "admin-sidebar", class: { open: _vm.sidebarOpen } },
       [
         _c("div", { staticClass: "sidebar-brand" }, [
-          _c("img", {
-            staticClass: "sidebar-logo",
-            attrs: {
-              src: _vm.$imgBase + "/images/fifa-logo.png",
-              alt: "FIFA",
-              onerror: "this.style.display='none'",
-            },
-          }),
+          _c("div", { staticClass: "sidebar-brand-logos" }, [
+            _c("img", {
+              staticClass: "sidebar-logo",
+              attrs: {
+                src: _vm.$imgBase + "/images/fifa-logo.png",
+                alt: "FIFA",
+                onerror: "this.style.display='none'",
+              },
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "sidebar-partner-logo",
+              attrs: {
+                src: _vm.$imgBase + "/images/abecab-abetis-logo.png",
+                alt: "Abecab Abetis",
+                onerror: "this.style.display='none'",
+              },
+            }),
+          ]),
           _vm._v(" "),
-          _c("img", {
-            staticClass: "sidebar-partner-logo",
-            attrs: {
-              src: _vm.$imgBase + "/images/abecab-abetis-logo.png",
-              alt: "Abecab Abetis",
-              onerror: "this.style.display='none'",
-            },
-          }),
-          _vm._v(" "),
-          _vm._m(0),
+          _c("span", { staticClass: "sidebar-title" }, [_vm._v("Admin Panel")]),
           _vm._v(" "),
           _c(
             "button",
@@ -759,18 +763,7 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "sidebar-title" }, [
-      _vm._v("FIFA 2026"),
-      _c("br"),
-      _c("small", [_vm._v("Admin Panel")]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

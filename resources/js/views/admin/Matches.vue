@@ -129,7 +129,7 @@ export default {
         },
         openAdd() { this.editId = null; this.form = { group_name:'A', round_number:1, team1_id:null, team2_id:null, venue:'', match_date:'', match_time:'', status:'upcoming' }; this.modal = true; },
         openEdit(m) { this.editId = m.id; this.form = { group_name:m.group_name, round_number:m.round_number, team1_id:m.team1?.id, team2_id:m.team2?.id, venue:m.venue, match_date:m.match_date, match_time:m.match_time, status:m.status }; this.modal = true; },
-        openScore(m) { this.scoreMatch = m; this.scoreForm = { status:m.status, team1_score:m.team1_score||0, team2_score:m.team2_score||0, team1_half1:m.team1_half1||0, team2_half1:m.team2_half1||0, team1_half2:m.team1_half2||0, team2_half2:m.team2_half2||0 }; this.scoreModal = true; },
+        openScore(m) { this.scoreMatch = m; this.scoreForm = { status:'completed', team1_score:m.team1_score||0, team2_score:m.team2_score||0, team1_half1:m.team1_half1||0, team2_half1:m.team2_half1||0, team1_half2:m.team1_half2||0, team2_half2:m.team2_half2||0 }; this.scoreModal = true; },
         closeModal() { this.modal = false; },
         async saveMatch() {
             this.saving = true;
@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style scoped>
-.admin-matches { }
+.admin-matches { display: block; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
 .btn-orange { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif; }
@@ -193,7 +193,7 @@ export default {
 .form-group.full { grid-column: 1 / -1; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; }
-.form-input option { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
+.form-input option { background: #ffffff; color: #1A0040; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .btn-cancel { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; }
 </style>

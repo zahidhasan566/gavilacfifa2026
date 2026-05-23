@@ -113,7 +113,7 @@ export default {
 .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; }
-.form-input option { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
+.form-input option { background: #ffffff; color: #1A0040; }
 .file-input { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
 .form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }

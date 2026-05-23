@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RaffleDraw extends Model
 {
-    protected $fillable = ['user_id', 'draw_date', 'notes', 'prize_points'];
+    protected $fillable = ['user_id', 'match_id', 'draw_date', 'notes', 'prize_points'];
 
     protected $casts = ['draw_date' => 'date'];
 

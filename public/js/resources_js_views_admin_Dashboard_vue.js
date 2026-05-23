@@ -437,7 +437,10 @@ var render = function () {
         [
           _c(
             "router-link",
-            { staticClass: "quick-card", attrs: { to: "/admin/matches" } },
+            {
+              staticClass: "quick-card",
+              attrs: { to: { name: "AdminMatches" } },
+            },
             [
               _c(
                 "svg",
@@ -459,7 +462,10 @@ var render = function () {
           _vm._v(" "),
           _c(
             "router-link",
-            { staticClass: "quick-card", attrs: { to: "/admin/questions" } },
+            {
+              staticClass: "quick-card",
+              attrs: { to: { name: "AdminQuestions" } },
+            },
             [
               _c(
                 "svg",
@@ -491,7 +497,7 @@ var render = function () {
             "router-link",
             {
               staticClass: "quick-card orange",
-              attrs: { to: "/admin/raffle" },
+              attrs: { to: { name: "AdminRaffle" } },
             },
             [
               _c(
@@ -520,7 +526,10 @@ var render = function () {
           _vm._v(" "),
           _c(
             "router-link",
-            { staticClass: "quick-card", attrs: { to: "/admin/reports" } },
+            {
+              staticClass: "quick-card",
+              attrs: { to: { name: "AdminReports" } },
+            },
             [
               _c(
                 "svg",
