@@ -13,8 +13,6 @@ class WinnersController extends Controller
 {
     public function leaderboard(Request $request)
     {
-        $date = $request->date ?? now()->toDateString();
-
         $winners = User::select('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
             ->selectRaw('SUM(predictions.points_earned) as total_points')
             ->join('predictions', 'users.id', '=', 'predictions.user_id')
@@ -26,12 +24,12 @@ class WinnersController extends Controller
             ->get()
             ->map(function ($u, $index) {
                 return [
-                    'rank'             => $index + 1,
-                    'id'               => $u->id,
-                    'name'             => $u->name,
-                    'unique_code'      => $u->unique_code,
-                    'total_points'     => (int) $u->total_points,
-                    'profile_picture_url' => $u->profile_picture ? asset('storage/' . $u->profile_picture) : asset('images/default-avatar.png'),
+                    'rank'                => $index + 1,
+                    'id'                  => $u->id,
+                    'name'                => $u->name,
+                    'unique_code'         => $u->unique_code,
+                    'total_points'        => (int) $u->total_points,
+                    'profile_picture_url' => $u->profile_picture_url,
                 ];
             });
 
@@ -58,13 +56,13 @@ class WinnersController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => [
-                'id'               => $winner->id,
-                'name'             => $winner->name,
-                'unique_code'      => $winner->unique_code,
-                'total_points'     => (int) $winner->total_points,
-                'profile_picture_url' => $winner->profile_picture ? asset('storage/' . $winner->profile_picture) : asset('images/default-avatar.png'),
-                'date'             => $today,
+            'data'   => [
+                'id'                  => $winner->id,
+                'name'                => $winner->name,
+                'unique_code'         => $winner->unique_code,
+                'total_points'        => (int) $winner->total_points,
+                'profile_picture_url' => $winner->profile_picture_url,
+                'date'                => $today,
             ],
         ]);
     }
@@ -83,9 +81,7 @@ class WinnersController extends Controller
             'prize_points'        => $d->prize_points,
             'draw_date'           => $d->draw_date?->format('d/m/Y'),
             'notes'               => $d->notes,
-            'profile_picture_url' => $d->user?->profile_picture
-                ? asset('storage/' . $d->user->profile_picture)
-                : asset('images/default-avatar.png'),
+            'profile_picture_url' => $d->user?->profile_picture_url,
             'match_label'         => $d->match
                 ? ($d->match->team1?->name . ' vs ' . $d->match->team2?->name)
                 : 'General Draw',
@@ -107,22 +103,20 @@ class WinnersController extends Controller
                         'prize_points'        => $d->prize_points,
                         'draw_date'           => $d->draw_date?->format('d/m/Y'),
                         'notes'               => $d->notes,
-                        'profile_picture_url' => $d->user?->profile_picture
-                            ? asset('storage/' . $d->user->profile_picture)
-                            : asset('images/default-avatar.png'),
+                        'profile_picture_url' => $d->user?->profile_picture_url,
                     ])->values(),
                 ];
             })->values();
 
         return response()->json([
-            'status'   => 'success',
-            'data'     => ['carousel' => $carousel, 'by_match' => $byMatch],
+            'status' => 'success',
+            'data'   => ['carousel' => $carousel, 'by_match' => $byMatch],
         ]);
     }
 
     public function myPoints(Request $request)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $user  = JWTAuth::parseToken()->authenticate();
         $total = Prediction::where('user_id', $user->id)->sum('points_earned');
 
         $rank = User::select('users.id')

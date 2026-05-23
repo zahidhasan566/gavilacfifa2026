@@ -31,9 +31,7 @@ class RaffleController extends Controller
                 'prize_points' => $latest->prize_points,
                 'notes'        => $latest->notes,
                 'is_me'        => $u->id === $user->id,
-                'profile_picture_url' => $u->profile_picture
-                    ? asset('storage/' . $u->profile_picture)
-                    : asset('images/default-avatar.png'),
+                'profile_picture_url' => $u->profile_picture_url,
                 'created_at'   => $latest->created_at ? $latest->created_at->toIso8601String() : null,
             ];
         }

@@ -40,7 +40,7 @@ class AdminRaffleController extends Controller
             'unique_code'         => $u->unique_code,
             'mobile'              => $u->mobile,
             'total_points'        => (int) $u->total_points,
-            'profile_picture_url' => $u->profile_picture ? asset('storage/' . $u->profile_picture) : asset('images/default-avatar.png'),
+            'profile_picture_url' => $u->profile_picture_url,
         ]);
 
         return response()->json(['status' => 'success', 'data' => $users]);
@@ -141,7 +141,7 @@ class AdminRaffleController extends Controller
                 'name'                => $user->name,
                 'unique_code'         => $user->unique_code,
                 'total_points'        => (int) $winner->total_points,
-                'profile_picture_url' => $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/default-avatar.png'),
+                'profile_picture_url' => $user->profile_picture_url,
             ],
         ]);
     }
