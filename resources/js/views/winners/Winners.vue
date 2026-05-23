@@ -232,7 +232,7 @@ export default {
 .winners-body { display: flex; gap: 20px; align-items: flex-start; }
 .carousel-empty {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: 420px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    height: 480px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px;
 }
 .ce-icon { font-size: 3.5rem; margin-bottom: 12px; opacity: .5; }
@@ -242,16 +242,16 @@ export default {
 /* ── Carousel ── */
 .carousel-wrap { flex: 3; display: flex; flex-direction: column; gap: 10px; }
 .carousel-loading { color: rgba(255,255,255,0.4); text-align: center; padding: 40px; }
-.carousel-stage { position: relative; border-radius: 12px; overflow: hidden; min-height: 420px; }
+.carousel-stage { position: relative; border-radius: 12px; overflow: hidden; height: 480px; }
 .carousel-slide {
-    width: 100%; min-height: 420px;
+    width: 100%; height: 100%;
     background-color: #1A0040;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
     padding-bottom: 18px; position: relative; overflow: hidden;
 }
 .cs-bg-img {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
+    object-fit: cover; object-position: center center;
     z-index: 0;
 }
 .cs-overlay {
