@@ -177,9 +177,9 @@ export default {
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .sh-ball-img { width: 28px; height: 28px; object-fit: contain; }
-.sh-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.section-title { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; }
-.section-sub { color: #fff; font-size: 0.72rem; }
+.sh-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+.section-title { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; white-space: nowrap; }
+.section-sub { color: #fff; font-size: 0.72rem; white-space: nowrap; }
 .sh-trophy-area { display: flex; align-items: center; }
 .sh-trophy-img { height: 50px; width: auto; object-fit: contain; }
 .auto-refresh-badge {
@@ -292,6 +292,10 @@ export default {
     .winners-body { flex-direction: column; }
     .today-winner-card { width: 100%; min-height: 340px; }
     .lb-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+    .sh-trophy-area { display: none; }
+    .section-header { gap: 10px; padding: 0 12px; }
 }
 @media (max-width: 480px) {
     .lb-grid { grid-template-columns: 1fr; }

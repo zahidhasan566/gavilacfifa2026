@@ -92,7 +92,7 @@
             <div class="results-col">
                 <div class="col-header">
                     <div class="col-icon-circle trophy-circle">
-                        <img :src="$imgBase + '/images/trophy-icon.png'" class="col-trophy-img" onerror="this.style.display='none'">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
                     </div>
                     <div>
                         <div class="col-title">Results</div>
@@ -373,23 +373,23 @@ export default {
     border: 1px solid rgba(255,255,255,0.08);
 }
 .col-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
-    background: rgba(0,0,0,0.2);
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 2px solid rgba(255,165,0,0.35);
+    background: rgba(255,165,0,0.07);
 }
 .col-icon-circle {
     width: 48px; height: 48px; border-radius: 50%;
-    background: #1A0040;
-    border: 2px solid rgba(255,255,255,0.12);
+    background: rgba(255,165,0,0.12);
+    border: 2px solid rgba(255,165,0,0.4);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
-.trophy-circle { background: #1A0040; }
+.trophy-circle { background: rgba(255,165,0,0.12); border-color: rgba(255,165,0,0.4); }
 .col-ball { width: 30px; height: 30px; object-fit: contain; }
-.col-trophy-img { width: 30px; height: 30px; object-fit: contain; }
-.col-title { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 0.9rem; }
-.col-sub { color: #fff; font-size: 0.68rem; margin-top: 2px; }
-.col-logo { height: 30px; object-fit: contain; margin-left: auto; }
+.col-title { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.5px; }
+.col-sub { color: rgba(255,255,255,0.7); font-size: 0.7rem; margin-top: 1px; }
+.col-logo { height: 32px; object-fit: contain; margin-left: auto; }
 
 /* ── Cards Grid ────────────────────────────── */
 .cards-grid {
@@ -521,7 +521,7 @@ export default {
     .col-header { padding: 8px 10px; gap: 6px; }
     .col-icon-circle { width: 34px; height: 34px; }
     .col-ball { width: 20px; height: 20px; }
-    .col-title { font-size: 0.75rem; }
+    .col-title { font-size: 0.82rem; }
     .col-sub { font-size: 0.6rem; }
     .col-logo { height: 22px; }
     .cards-grid { padding: 6px; gap: 6px; max-height: 420px; }
