@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prediction;
+use App\Models\RaffleDraw;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +66,57 @@ class WinnersController extends Controller
                 'profile_picture_url' => $winner->profile_picture ? asset('storage/' . $winner->profile_picture) : asset('images/default-avatar.png'),
                 'date'             => $today,
             ],
+        ]);
+    }
+
+    public function raffleWinners()
+    {
+        $draws = RaffleDraw::with(['user', 'match.team1', 'match.team2'])
+            ->orderBy('match_id')
+            ->orderByDesc('draw_date')
+            ->get();
+
+        $carousel = $draws->map(fn($d) => [
+            'id'                  => $d->id,
+            'name'                => $d->user?->name,
+            'unique_code'         => $d->user?->unique_code,
+            'prize_points'        => $d->prize_points,
+            'draw_date'           => $d->draw_date?->format('d/m/Y'),
+            'notes'               => $d->notes,
+            'profile_picture_url' => $d->user?->profile_picture
+                ? asset('storage/' . $d->user->profile_picture)
+                : asset('images/default-avatar.png'),
+            'match_label'         => $d->match
+                ? ($d->match->team1?->name . ' vs ' . $d->match->team2?->name)
+                : 'General Draw',
+            'match_date'          => $d->match?->match_date?->format('d/m/Y'),
+        ])->values();
+
+        $byMatch = $draws->groupBy(fn($d) => $d->match_id ?? 'general')
+            ->map(function ($group) {
+                $first = $group->first();
+                return [
+                    'match_label' => $first->match
+                        ? ($first->match->team1?->name . ' vs ' . $first->match->team2?->name)
+                        : 'General Draw',
+                    'match_date'  => $first->match?->match_date?->format('d/m/Y'),
+                    'winners'     => $group->map(fn($d) => [
+                        'id'                  => $d->id,
+                        'name'                => $d->user?->name,
+                        'unique_code'         => $d->user?->unique_code,
+                        'prize_points'        => $d->prize_points,
+                        'draw_date'           => $d->draw_date?->format('d/m/Y'),
+                        'notes'               => $d->notes,
+                        'profile_picture_url' => $d->user?->profile_picture
+                            ? asset('storage/' . $d->user->profile_picture)
+                            : asset('images/default-avatar.png'),
+                    ])->values(),
+                ];
+            })->values();
+
+        return response()->json([
+            'status'   => 'success',
+            'data'     => ['carousel' => $carousel, 'by_match' => $byMatch],
         ]);
     }
 

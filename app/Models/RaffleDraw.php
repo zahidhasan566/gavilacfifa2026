@@ -14,4 +14,9 @@ class RaffleDraw extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function match()
+    {
+        return $this->belongsTo(\App\Models\MatchGame::class, 'match_id');
+    }
 }

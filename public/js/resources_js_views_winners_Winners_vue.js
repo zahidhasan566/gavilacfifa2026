@@ -12,11 +12,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -103,35 +98,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var POLL_INTERVAL = 60000;
+var AUTO_SLIDE_MS = 3500;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Winners',
   data: function data() {
     return {
-      topWinners: [],
-      todayWinner: null,
+      carousel: [],
+      byMatch: [],
       search: '',
       loading: true,
       refreshing: false,
-      _pollTimer: null
+      activeIdx: 0,
+      slideDir: 'slide-left',
+      _pollTimer: null,
+      _slideTimer: null
     };
   },
   computed: {
-    todayDate: function todayDate() {
-      return new Date().toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    },
-    winnerAvatar: function winnerAvatar() {
-      return this.todayWinner && this.todayWinner.profile_picture_url ? this.todayWinner.profile_picture_url : this.$imgBase + '/images/default-avatar.png';
-    },
-    filteredWinners: function filteredWinners() {
-      var s = this.search.toLowerCase();
-      if (!s) return this.topWinners;
-      return this.topWinners.filter(function (w) {
+    filteredCarousel: function filteredCarousel() {
+      var s = this.search.toLowerCase().trim();
+      if (!s) return this.carousel;
+      return this.carousel.filter(function (w) {
         return (w.name || '').toLowerCase().includes(s) || (w.unique_code || '').toLowerCase().includes(s);
       });
     }
@@ -146,8 +163,9 @@ var POLL_INTERVAL = 60000;
             return _this.loadData();
           case 2:
             _this.loading = false;
-            _this._pollTimer = setInterval(_this.autoFetch, POLL_INTERVAL);
-          case 4:
+            _this.startAutoSlide();
+            _this._pollTimer = setInterval(_this.loadData, POLL_INTERVAL);
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -155,141 +173,93 @@ var POLL_INTERVAL = 60000;
     }))();
   },
   beforeDestroy: function beforeDestroy() {
-    if (this._pollTimer) clearInterval(this._pollTimer);
+    clearInterval(this._pollTimer);
+    clearInterval(this._slideTimer);
   },
   methods: {
     loadData: function loadData() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var _yield$_this2$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return Promise.all([_this2.fetchWinners(), _this2.fetchToday()]);
-            case 2:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return _this2.$http.get('/api/winners/raffle');
+            case 3:
+              _yield$_this2$$http$g = _context2.sent;
+              data = _yield$_this2$$http$g.data;
+              _this2.carousel = data.data.carousel || [];
+              _this2.byMatch = data.data.by_match || [];
+              if (_this2.activeIdx >= _this2.carousel.length) _this2.activeIdx = 0;
+              _context2.next = 12;
+              break;
+            case 10:
+              _context2.prev = 10;
+              _context2.t0 = _context2["catch"](0);
+            case 12:
             case "end":
               return _context2.stop();
           }
-        }, _callee2);
-      }))();
-    },
-    fetchWinners: function fetchWinners() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var _yield$_this3$$http$g, data, list;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return _this3.$http.get('/api/winners');
-            case 3:
-              _yield$_this3$$http$g = _context3.sent;
-              data = _yield$_this3$$http$g.data;
-              list = data.data || data || [];
-              _this3.topWinners = list.map(function (w, i) {
-                return _objectSpread({
-                  rank: i + 1
-                }, w);
-              });
-              _context3.next = 12;
-              break;
-            case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](0);
-              _this3.topWinners = [];
-            case 12:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3, null, [[0, 9]]);
-      }))();
-    },
-    fetchToday: function fetchToday() {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var _yield$_this4$$http$g, data;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return _this4.$http.get('/api/winners/today');
-            case 3:
-              _yield$_this4$$http$g = _context4.sent;
-              data = _yield$_this4$$http$g.data;
-              _this4.todayWinner = data.data || data || null;
-              _context4.next = 11;
-              break;
-            case 8:
-              _context4.prev = 8;
-              _context4.t0 = _context4["catch"](0);
-              _this4.todayWinner = null;
-            case 11:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4, null, [[0, 8]]);
-      }))();
-    },
-    autoFetch: function autoFetch() {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return _this5.loadData();
-            case 3:
-              _context5.next = 7;
-              break;
-            case 5:
-              _context5.prev = 5;
-              _context5.t0 = _context5["catch"](0);
-            case 7:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, null, [[0, 5]]);
+        }, _callee2, null, [[0, 10]]);
       }))();
     },
     manualRefresh: function manualRefresh() {
-      var _this6 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _this6.refreshing = true;
-              _context6.prev = 1;
-              _context6.next = 4;
-              return _this6.loadData();
+              _this3.refreshing = true;
+              _context3.prev = 1;
+              _context3.next = 4;
+              return _this3.loadData();
             case 4:
-              _context6.prev = 4;
-              _this6.refreshing = false;
-              return _context6.finish(4);
+              _context3.prev = 4;
+              _this3.refreshing = false;
+              return _context3.finish(4);
             case 7:
             case "end":
-              return _context6.stop();
+              return _context3.stop();
           }
-        }, _callee6, null, [[1,, 4, 7]]);
+        }, _callee3, null, [[1,, 4, 7]]);
       }))();
+    },
+    startAutoSlide: function startAutoSlide() {
+      if (this._slideTimer) clearInterval(this._slideTimer);
+      this._slideTimer = setInterval(this.nextSlide, AUTO_SLIDE_MS);
+    },
+    nextSlide: function nextSlide() {
+      if (this.carousel.length < 2) return;
+      this.slideDir = 'slide-left';
+      this.activeIdx = (this.activeIdx + 1) % this.carousel.length;
+    },
+    prevSlide: function prevSlide() {
+      if (this.carousel.length < 2) return;
+      this.slideDir = 'slide-right';
+      this.activeIdx = (this.activeIdx - 1 + this.carousel.length) % this.carousel.length;
+      this.startAutoSlide();
+    },
+    goToSlide: function goToSlide(i) {
+      this.slideDir = i > this.activeIdx ? 'slide-left' : 'slide-right';
+      this.activeIdx = i;
+      this.startAutoSlide();
+    },
+    jumpToWinner: function jumpToWinner(w) {
+      var idx = this.carousel.findIndex(function (c) {
+        return c.id === w.id;
+      });
+      if (idx !== -1) this.goToSlide(idx);
+    },
+    slideBg: function slideBg(winner) {
+      if (!winner || !winner.profile_picture_url) return {};
+      return {
+        backgroundImage: "url(".concat(winner.profile_picture_url, ")")
+      };
     },
     hideImg: function hideImg(e) {
       e.target.style.display = 'none';
-    },
-    onAvatarError: function onAvatarError(e) {
-      e.target.src = this.$imgBase + '/images/default-avatar.png';
-    },
-    onLbAvatarError: function onLbAvatarError(e) {
-      e.target.src = this.$imgBase + '/images/default-avatar.png';
-    },
-    lbAvatar: function lbAvatar(w) {
-      return w.profile_picture_url || this.$imgBase + '/images/default-avatar.png';
-    },
-    pointsBg: function pointsBg(rank) {
-      var colors = ['#FFA500', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899'];
-      return 'background:' + (colors[(rank - 1) % colors.length] || '#6b7280');
     }
   }
 });
@@ -312,7 +282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.winners-page[data-v-73408fca] { display: flex; flex-direction: column; gap: 16px;\n}\n\n/* Header */\n.section-header[data-v-73408fca] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 16px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n    height: 70px; overflow: hidden;\n}\n.sh-ball-circle[data-v-73408fca] {\n    width: 46px; height: 46px; border-radius: 50%;\n    background: #1A0040; border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.sh-ball-img[data-v-73408fca] { width: 28px; height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-73408fca] { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; overflow: hidden;\n}\n.section-title[data-v-73408fca] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; white-space: nowrap;\n}\n.section-sub[data-v-73408fca] { color: #fff; font-size: 0.72rem; white-space: nowrap;\n}\n.sh-trophy-area[data-v-73408fca] { display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-73408fca] { height: 50px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n.auto-refresh-badge[data-v-73408fca] {\n    display: flex; align-items: center; gap: 5px;\n    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);\n    border-radius: 20px; padding: 3px 10px;\n    font-size: 0.7rem; color: #4ade80; font-weight: 600;\n}\n.refresh-dot[data-v-73408fca] { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse-dot-data-v-73408fca 1.5s infinite;\n}\n@keyframes pulse-dot-data-v-73408fca {\n0%, 100% { opacity: 1;\n}\n50% { opacity: 0.3;\n}\n}\n\n/* Body */\n.winners-body[data-v-73408fca] { display: flex; gap: 20px; align-items: stretch;\n}\n\n/* Today's Winner card */\n.today-winner-card[data-v-73408fca] {\n    flex: 3;\n    border-radius: 12px; overflow: hidden;\n    position: relative;\n    display: flex; flex-direction: column;\n    align-items: center; justify-content: flex-end;\n    padding-bottom: 18px;\n    min-height: 420px;\n    background-color: #1A0040;\n    background-size: cover;\n    background-position: center center;\n    background-repeat: no-repeat;\n}\n/* dark gradient so text is readable over photo */\n.tw-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, rgba(28,17,83,0.15) 0%, rgba(28,17,83,0.55) 55%, rgba(28,17,83,0.92) 100%);\n    z-index: 1;\n}\n/* bottom row: [brand img] [text] [brand img] */\n.tw-bottom[data-v-73408fca] {\n    position: relative; z-index: 3;\n    width: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    gap: 6px;\n    padding: 0 6px;\n}\n.tw-deco-img[data-v-73408fca] {\n    width: 72px;\n    height: auto;\n    -o-object-fit: contain;\n       object-fit: contain;\n    flex-shrink: 0;\n}\n.tw-points-badge[data-v-73408fca] {\n    position: absolute; top: 14px; right: 14px; z-index: 3;\n    background: #06B6D4; border-radius: 20px;\n    padding: 6px 16px; text-align: center; line-height: 1.2;\n}\n.tw-pts-num[data-v-73408fca] { color: #fff; font-weight: 800; font-size: 1.15rem; font-family: 'Rajdhani', sans-serif; display: block;\n}\n.tw-pts-label[data-v-73408fca] { color: #FFA500; font-size: 0.6rem; font-weight: 600;\n}\n.tw-info[data-v-73408fca] { flex: 1; text-align: center; min-width: 0;\n}\n.tw-label[data-v-73408fca] { color: #FFA500; font-weight: 700; font-size: 1rem; margin-bottom: 4px;\n}\n.tw-name[data-v-73408fca] { color: #fff; font-weight: 700; font-size: 0.9rem; margin-bottom: 3px;\n}\n.tw-code[data-v-73408fca] { color: rgba(255,255,255,0.7); font-size: 0.72rem; margin-bottom: 2px;\n}\n.tw-date[data-v-73408fca] { color: rgba(255,255,255,0.55); font-size: 0.68rem;\n}\n\n/* Leaderboard */\n.leaderboard-card[data-v-73408fca] {\n    flex: 2;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; padding: 16px;\n    min-height: 420px;\n    display: flex; flex-direction: column;\n}\n.lb-header[data-v-73408fca] { display: flex; gap: 10px; margin-bottom: 14px;\n}\n.search-box[data-v-73408fca] {\n    flex: 1; display: flex; align-items: center; gap: 8px;\n    background: rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px;\n}\n.search-input[data-v-73408fca] { background: none; border: none; color: #fff; font-size: 0.85rem; outline: none; flex: 1;\n}\n.search-input[data-v-73408fca]::-moz-placeholder { color: rgba(255,255,255,0.45);\n}\n.search-input[data-v-73408fca]::placeholder { color: rgba(255,255,255,0.45);\n}\n.refresh-btn[data-v-73408fca] {\n    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 8px; color: #fff; padding: 8px 12px; cursor: pointer;\n}\n.refresh-btn.spinning svg[data-v-73408fca] { animation: spin-data-v-73408fca 0.8s linear infinite;\n}\n@keyframes spin-data-v-73408fca {\nto { transform: rotate(360deg);\n}\n}\n.lb-item[data-v-73408fca] {\n    display: flex; align-items: center; gap: 6px;\n    background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px;\n}\n.lb-rank[data-v-73408fca] { color: #fff; font-size: 0.82rem; font-weight: 700; width: 16px; text-align: center; flex-shrink: 0;\n}\n.lb-avatar[data-v-73408fca] { width: 38px; height: 38px; border-radius: 50%; -o-object-fit: cover; object-fit: cover; flex-shrink: 0;\n}\n.lb-info[data-v-73408fca] { flex: 1; min-width: 0;\n}\n.lb-name[data-v-73408fca] { color: #fff; font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.lb-code[data-v-73408fca] { color: rgba(255,255,255,0.55); font-size: 0.62rem;\n}\n.lb-date[data-v-73408fca] { color: rgba(255,255,255,0.4); font-size: 0.6rem;\n}\n.lb-points[data-v-73408fca] {\n    color: #fff; font-weight: 700; padding: 5px 10px;\n    border-radius: 12px; font-size: 0.82rem;\n    text-align: center; line-height: 1.2; white-space: nowrap; flex-shrink: 0;\n}\n.lb-points small[data-v-73408fca] { font-size: 0.58rem; font-weight: 400; display: block; opacity: 0.85;\n}\n.lb-grid[data-v-73408fca] { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; align-content: start;\n}\n.winner-ad-banner[data-v-73408fca] { margin-top: auto; padding-top: 14px; border-radius: 10px; overflow: hidden;\n}\n.winner-ad-img[data-v-73408fca] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n.empty-state[data-v-73408fca] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px; font-size: 0.85rem;\n}\n@media (max-width: 900px) {\n.winners-body[data-v-73408fca] { flex-direction: column;\n}\n.today-winner-card[data-v-73408fca] { width: 100%; min-height: 340px;\n}\n.lb-grid[data-v-73408fca] { grid-template-columns: 1fr 1fr;\n}\n}\n@media (max-width: 600px) {\n.sh-trophy-area[data-v-73408fca] { display: none;\n}\n.section-header[data-v-73408fca] { gap: 10px; padding: 0 12px;\n}\n}\n@media (max-width: 480px) {\n.lb-grid[data-v-73408fca] { grid-template-columns: 1fr;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.winners-page[data-v-73408fca] { display: flex; flex-direction: column; gap: 16px;\n}\n\n/* ── Header ── */\n.section-header[data-v-73408fca] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 16px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; height: 70px; overflow: hidden;\n}\n.sh-ball-circle[data-v-73408fca] {\n    width: 46px; height: 46px; border-radius: 50%;\n    background: #1A0040; border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.sh-ball-img[data-v-73408fca] { width: 28px; height: 28px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-73408fca] { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;\n}\n.section-title[data-v-73408fca] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 800; font-size: 1.2rem; white-space: nowrap;\n}\n.section-sub[data-v-73408fca] { color: #fff; font-size: 0.72rem; white-space: nowrap;\n}\n.sh-trophy-area[data-v-73408fca] { display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-73408fca] { height: 50px; -o-object-fit: contain; object-fit: contain;\n}\n.auto-refresh-badge[data-v-73408fca] {\n    display: flex; align-items: center; gap: 5px;\n    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);\n    border-radius: 20px; padding: 3px 10px;\n    font-size: 0.7rem; color: #4ade80; font-weight: 600;\n}\n.refresh-dot[data-v-73408fca] { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse-dot-data-v-73408fca 1.5s infinite;\n}\n@keyframes pulse-dot-data-v-73408fca {\n0%,100%{opacity:1}\n50%{opacity:.3}\n}\n\n/* ── Body ── */\n.winners-body[data-v-73408fca] { display: flex; gap: 20px; align-items: flex-start;\n}\n.carousel-empty[data-v-73408fca] {\n    display: flex; flex-direction: column; align-items: center; justify-content: center;\n    min-height: 420px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n}\n.ce-icon[data-v-73408fca] { font-size: 3.5rem; margin-bottom: 12px; opacity: .5;\n}\n.ce-title[data-v-73408fca] { color: rgba(255,255,255,.5); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700;\n}\n.ce-sub[data-v-73408fca] { color: rgba(255,255,255,.3); font-size: .78rem; margin-top: 6px;\n}\n\n/* ── Carousel ── */\n.carousel-wrap[data-v-73408fca] { flex: 3; display: flex; flex-direction: column; gap: 10px;\n}\n.carousel-loading[data-v-73408fca] { color: rgba(255,255,255,0.4); text-align: center; padding: 40px;\n}\n.carousel-stage[data-v-73408fca] { position: relative; border-radius: 12px; overflow: hidden; min-height: 420px;\n}\n.carousel-slide[data-v-73408fca] {\n    width: 100%; min-height: 420px;\n    background-color: #1A0040; background-size: cover; background-position: center;\n    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;\n    padding-bottom: 18px; position: relative;\n}\n.cs-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, rgba(28,17,83,.15) 0%, rgba(28,17,83,.55) 55%, rgba(28,17,83,.92) 100%);\n    z-index: 1;\n}\n.cs-prize-badge[data-v-73408fca] {\n    position: absolute; top: 14px; right: 14px; z-index: 3;\n    background: #06B6D4; border-radius: 20px; padding: 6px 16px;\n    text-align: center; line-height: 1.2; display: flex; flex-direction: column; align-items: center;\n}\n.cs-prize-num[data-v-73408fca] { color: #fff; font-weight: 800; font-size: 1.15rem; font-family: 'Rajdhani', sans-serif;\n}\n.cs-prize-lbl[data-v-73408fca] { color: #FFA500; font-size: 0.6rem; font-weight: 600;\n}\n.cs-bottom[data-v-73408fca] {\n    position: relative; z-index: 3; width: 100%;\n    display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 6px;\n}\n.cs-deco[data-v-73408fca] { width: 72px; height: auto; -o-object-fit: contain; object-fit: contain; flex-shrink: 0;\n}\n.cs-info[data-v-73408fca] { flex: 1; text-align: center; min-width: 0;\n}\n.cs-match[data-v-73408fca] { color: rgba(255,255,255,.6); font-size: .7rem; margin-bottom: 2px;\n}\n.cs-winner-label[data-v-73408fca] { color: #FFA500; font-weight: 700; font-size: 1rem; margin-bottom: 3px;\n}\n.cs-name[data-v-73408fca] { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: 2px;\n}\n.cs-code[data-v-73408fca] { color: rgba(255,255,255,.7); font-size: .72rem; margin-bottom: 2px;\n}\n.cs-date[data-v-73408fca] { color: rgba(255,255,255,.45); font-size: .65rem;\n}\n.cs-arrow[data-v-73408fca] {\n    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;\n    background: rgba(0,0,0,.4); border: none; color: #fff; font-size: 2rem; cursor: pointer;\n    width: 40px; height: 60px; display: flex; align-items: center; justify-content: center;\n    transition: background .2s;\n}\n.cs-arrow[data-v-73408fca]:hover { background: rgba(255,165,0,.4);\n}\n.cs-prev[data-v-73408fca] { left: 0; border-radius: 0 8px 8px 0;\n}\n.cs-next[data-v-73408fca] { right: 0; border-radius: 8px 0 0 8px;\n}\n.cs-dots[data-v-73408fca] { display: flex; justify-content: center; gap: 7px;\n}\n.cs-dot[data-v-73408fca] { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s;\n}\n.cs-dot.active[data-v-73408fca] { background: #FFA500;\n}\n.slide-left-enter-active[data-v-73408fca],.slide-left-leave-active[data-v-73408fca],\n.slide-right-enter-active[data-v-73408fca],.slide-right-leave-active[data-v-73408fca] { transition: all .45s ease;\n}\n.slide-left-enter[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n.slide-left-leave-to[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-enter[data-v-73408fca] { transform: translateX(-100%); opacity: 0;\n}\n.slide-right-leave-to[data-v-73408fca] { transform: translateX(100%); opacity: 0;\n}\n\n/* ── Right panel ── */\n.cards-panel[data-v-73408fca] {\n    flex: 2; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;\n}\n\n/* Search bar */\n.search-bar[data-v-73408fca] {\n    display: flex; align-items: center; gap: 8px;\n    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);\n    border-radius: 8px; padding: 10px 12px;\n}\n.search-input[data-v-73408fca] { flex: 1; background: none; border: none; color: #fff; font-size: .85rem; outline: none;\n}\n.search-input[data-v-73408fca]::-moz-placeholder { color: rgba(255,255,255,.4);\n}\n.search-input[data-v-73408fca]::placeholder { color: rgba(255,255,255,.4);\n}\n.refresh-btn[data-v-73408fca] {\n    background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; padding: 2px; display: flex;\n}\n.refresh-btn[data-v-73408fca]:hover { color: #FFA500;\n}\n.refresh-btn.spinning svg[data-v-73408fca] { animation: spin-data-v-73408fca .8s linear infinite;\n}\n@keyframes spin-data-v-73408fca {\nto { transform: rotate(360deg);\n}\n}\n\n/* Photo cards grid */\n.cards-grid[data-v-73408fca] { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; overflow-y: auto; max-height: 420px;\n}\n.winner-card[data-v-73408fca] {\n    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);\n    border-radius: 10px; overflow: hidden; cursor: pointer;\n    transition: border-color .2s, transform .15s;\n}\n.winner-card[data-v-73408fca]:hover { border-color: rgba(255,165,0,.4); transform: translateY(-2px);\n}\n.winner-card.highlighted[data-v-73408fca] { border-color: #FFA500; box-shadow: 0 0 0 2px rgba(255,165,0,.25);\n}\n.wc-photo-wrap[data-v-73408fca] { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden;\n}\n.wc-photo[data-v-73408fca] { width: 100%; height: 100%; -o-object-fit: cover; object-fit: cover; display: block;\n}\n.wc-photo-overlay[data-v-73408fca] {\n    position: absolute; inset: 0;\n    background: linear-gradient(to bottom, transparent 50%, rgba(26,0,64,.7) 100%);\n}\n.wc-body[data-v-73408fca] { padding: 8px 10px 4px;\n}\n.wc-name[data-v-73408fca] { color: #fff; font-size: .8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.wc-code[data-v-73408fca] { color: rgba(255,255,255,.45); font-size: .62rem; margin-bottom: 2px;\n}\n.wc-match[data-v-73408fca] { color: rgba(255,165,0,.8); font-size: .62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.wc-pts[data-v-73408fca] {\n    margin: 0 10px 8px; display: inline-block;\n    background: rgba(34,197,94,.15); color: #4ade80;\n    border-radius: 8px; padding: 2px 8px; font-size: .7rem; font-weight: 700;\n}\n.empty-state[data-v-73408fca] { color: rgba(255,255,255,.35); text-align: center; padding: 30px; font-size: .85rem;\n}\n@media (max-width: 900px) {\n.winners-body[data-v-73408fca] { flex-direction: column;\n}\n.carousel-wrap[data-v-73408fca], .cards-panel[data-v-73408fca] { width: 100%;\n}\n.cards-grid[data-v-73408fca] { max-height: 360px;\n}\n}\n@media (max-width: 600px) {\n.sh-trophy-area[data-v-73408fca] { display: none;\n}\n.section-header[data-v-73408fca] { gap: 10px; padding: 0 12px;\n}\n.cs-deco[data-v-73408fca] { width: 48px;\n}\n.cards-grid[data-v-73408fca] { grid-template-columns: 1fr 1fr;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -472,117 +442,212 @@ var render = function () {
     _c("div", { staticClass: "winners-body" }, [
       _c(
         "div",
-        {
-          staticClass: "today-winner-card",
-          style:
-            _vm.todayWinner && _vm.todayWinner.profile_picture_url
-              ? {
-                  backgroundImage:
-                    "url(" + _vm.todayWinner.profile_picture_url + ")",
-                }
-              : {},
-        },
+        { staticClass: "carousel-wrap" },
         [
-          _c("div", { staticClass: "tw-overlay" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "tw-points-badge" }, [
-            _c("span", { staticClass: "tw-pts-num" }, [
-              _vm._v(
-                _vm._s(_vm.todayWinner ? _vm.todayWinner.total_points : "—")
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "tw-pts-label" }, [_vm._v("Points")]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "tw-bottom" }, [
-            _c("img", {
-              staticClass: "tw-deco-img",
-              attrs: { src: _vm.$imgBase + "/images/winnerhistory.png" },
-              on: { error: _vm.hideImg },
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "tw-info" }, [
-              _c("div", { staticClass: "tw-label" }, [
-                _vm._v("Today's Winner"),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "tw-name" }, [
-                _vm._v(
-                  _vm._s(
-                    _vm.todayWinner ? _vm.todayWinner.name : "No winner yet"
-                  )
+          _vm.loading
+            ? _c("div", { staticClass: "carousel-loading" }, [
+                _vm._v("Loading..."),
+              ])
+            : _vm.carousel.length > 0
+            ? [
+                _c(
+                  "div",
+                  { staticClass: "carousel-stage" },
+                  [
+                    _c(
+                      "transition",
+                      { attrs: { name: _vm.slideDir, mode: "out-in" } },
+                      [
+                        _c(
+                          "div",
+                          {
+                            key: _vm.activeIdx,
+                            staticClass: "carousel-slide",
+                            style: _vm.slideBg(_vm.carousel[_vm.activeIdx]),
+                          },
+                          [
+                            _c("div", { staticClass: "cs-overlay" }),
+                            _vm._v(" "),
+                            _vm.carousel[_vm.activeIdx].prize_points
+                              ? _c("div", { staticClass: "cs-prize-badge" }, [
+                                  _c("span", { staticClass: "cs-prize-num" }, [
+                                    _vm._v(
+                                      "+" +
+                                        _vm._s(
+                                          _vm.carousel[_vm.activeIdx]
+                                            .prize_points
+                                        )
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "cs-prize-lbl" }, [
+                                    _vm._v("pts"),
+                                  ]),
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "cs-bottom" }, [
+                              _c("img", {
+                                staticClass: "cs-deco",
+                                attrs: {
+                                  src:
+                                    _vm.$imgBase + "/images/winnerhistory.png",
+                                },
+                                on: { error: _vm.hideImg },
+                              }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "cs-info" }, [
+                                _c("div", { staticClass: "cs-match" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.carousel[_vm.activeIdx].match_label
+                                    )
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "cs-winner-label" }, [
+                                  _vm._v("🏆 Raffle Winner"),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "cs-name" }, [
+                                  _vm._v(
+                                    _vm._s(_vm.carousel[_vm.activeIdx].name)
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "cs-code" }, [
+                                  _vm._v(
+                                    "Doctor Code: " +
+                                      _vm._s(
+                                        _vm.carousel[_vm.activeIdx].unique_code
+                                      )
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "cs-date" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.carousel[_vm.activeIdx].draw_date
+                                    )
+                                  ),
+                                ]),
+                              ]),
+                              _vm._v(" "),
+                              _c("img", {
+                                staticClass: "cs-deco",
+                                attrs: {
+                                  src:
+                                    _vm.$imgBase + "/images/winnerhistory.png",
+                                },
+                                on: { error: _vm.hideImg },
+                              }),
+                            ]),
+                          ]
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.carousel.length > 1
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "cs-arrow cs-prev",
+                            on: { click: _vm.prevSlide },
+                          },
+                          [_vm._v("‹")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.carousel.length > 1
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "cs-arrow cs-next",
+                            on: { click: _vm.nextSlide },
+                          },
+                          [_vm._v("›")]
+                        )
+                      : _vm._e(),
+                  ],
+                  1
                 ),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "tw-code" }, [
-                _vm._v(
-                  "Doctor Code: " +
-                    _vm._s(
-                      _vm.todayWinner && _vm.todayWinner.unique_code
-                        ? _vm.todayWinner.unique_code
-                        : "—"
+                _vm._v(" "),
+                _vm.carousel.length > 1
+                  ? _c(
+                      "div",
+                      { staticClass: "cs-dots" },
+                      _vm._l(_vm.carousel, function (_, i) {
+                        return _c("span", {
+                          key: i,
+                          staticClass: "cs-dot",
+                          class: { active: i === _vm.activeIdx },
+                          on: {
+                            click: function ($event) {
+                              return _vm.goToSlide(i)
+                            },
+                          },
+                        })
+                      }),
+                      0
                     )
-                ),
+                  : _vm._e(),
+              ]
+            : _c("div", { staticClass: "carousel-stage carousel-empty" }, [
+                _c("div", { staticClass: "ce-icon" }, [_vm._v("🏆")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "ce-title" }, [
+                  _vm._v("No Winners Yet"),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "ce-sub" }, [
+                  _vm._v("Raffle draw winners will appear here"),
+                ]),
               ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "tw-date" }, [
-                _vm._v(_vm._s(_vm.todayDate)),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "tw-deco-img",
-              attrs: { src: _vm.$imgBase + "/images/winnerhistory.png" },
-              on: { error: _vm.hideImg },
-            }),
-          ]),
-        ]
+        ],
+        2
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "leaderboard-card" }, [
-        _c("div", { staticClass: "lb-header" }, [
-          _c("div", { staticClass: "search-box" }, [
-            _c(
-              "svg",
+      _c("div", { staticClass: "cards-panel" }, [
+        _c("div", { staticClass: "search-bar" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                width: "14",
+                height: "14",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                "stroke-width": "2",
+              },
+            },
+            [
+              _c("circle", { attrs: { cx: "11", cy: "11", r: "8" } }),
+              _c("path", { attrs: { d: "m21 21-4.35-4.35" } }),
+            ]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
               {
-                attrs: {
-                  width: "14",
-                  height: "14",
-                  viewBox: "0 0 24 24",
-                  fill: "none",
-                  stroke: "currentColor",
-                  "stroke-width": "2",
-                },
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search",
               },
-              [
-                _c("circle", { attrs: { cx: "11", cy: "11", r: "8" } }),
-                _c("path", { attrs: { d: "m21 21-4.35-4.35" } }),
-              ]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search",
-                },
-              ],
-              staticClass: "search-input",
-              attrs: { placeholder: "Search name or doctor code" },
-              domProps: { value: _vm.search },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search = $event.target.value
-                },
+            ],
+            staticClass: "search-input",
+            attrs: { placeholder: "Search name or doctor code…" },
+            domProps: { value: _vm.search },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
               },
-            }),
-          ]),
+            },
+          }),
           _vm._v(" "),
           _c(
             "button",
@@ -597,8 +662,8 @@ var render = function () {
                 "svg",
                 {
                   attrs: {
-                    width: "16",
-                    height: "16",
+                    width: "14",
+                    height: "14",
                     viewBox: "0 0 24 24",
                     fill: "none",
                     stroke: "currentColor",
@@ -617,48 +682,68 @@ var render = function () {
         ]),
         _vm._v(" "),
         _vm.loading
-          ? _c("div", { staticClass: "empty-state" }, [_vm._v("Loading...")])
-          : _vm.filteredWinners.length === 0
+          ? _c("div", { staticClass: "empty-state" }, [_vm._v("Loading…")])
+          : _vm.filteredCarousel.length === 0
           ? _c("div", { staticClass: "empty-state" }, [
               _vm._v("No winners found."),
             ])
           : _c(
               "div",
-              { staticClass: "lb-grid" },
-              _vm._l(_vm.filteredWinners, function (w) {
-                return _c("div", { key: w.id, staticClass: "lb-item" }, [
-                  _c("span", { staticClass: "lb-rank" }, [
-                    _vm._v(_vm._s(w.rank)),
-                  ]),
-                  _vm._v(" "),
-                  _c("img", {
-                    staticClass: "lb-avatar",
-                    attrs: { src: _vm.lbAvatar(w) },
-                    on: { error: _vm.onLbAvatarError },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "lb-info" }, [
-                    _c("div", { staticClass: "lb-name" }, [
-                      _vm._v(_vm._s(w.name)),
+              { staticClass: "cards-grid" },
+              _vm._l(_vm.filteredCarousel, function (w) {
+                return _c(
+                  "div",
+                  {
+                    key: w.id,
+                    staticClass: "winner-card",
+                    class: {
+                      highlighted:
+                        _vm.carousel[_vm.activeIdx] &&
+                        _vm.carousel[_vm.activeIdx].id === w.id,
+                    },
+                    on: {
+                      click: function ($event) {
+                        return _vm.jumpToWinner(w)
+                      },
+                    },
+                  },
+                  [
+                    _c("div", { staticClass: "wc-photo-wrap" }, [
+                      _c("img", {
+                        staticClass: "wc-photo",
+                        attrs: { src: w.profile_picture_url },
+                        on: {
+                          error: function (e) {
+                            return (e.target.src =
+                              _vm.$imgBase + "/images/default-avatar.png")
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "wc-photo-overlay" }),
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "lb-code" }, [
-                      _vm._v(_vm._s(w.unique_code)),
+                    _c("div", { staticClass: "wc-body" }, [
+                      _c("div", { staticClass: "wc-name" }, [
+                        _vm._v(_vm._s(w.name)),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "wc-code" }, [
+                        _vm._v(_vm._s(w.unique_code)),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "wc-match" }, [
+                        _vm._v(_vm._s(w.match_label)),
+                      ]),
                     ]),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "lb-points", style: _vm.pointsBg(w.rank) },
-                    [
-                      _vm._v(
-                        "\n                        " + _vm._s(w.total_points)
-                      ),
-                      _c("br"),
-                      _c("small", [_vm._v("pts")]),
-                    ]
-                  ),
-                ])
+                    _vm._v(" "),
+                    w.prize_points
+                      ? _c("div", { staticClass: "wc-pts" }, [
+                          _vm._v("+" + _vm._s(w.prize_points) + " pts"),
+                        ])
+                      : _vm._e(),
+                  ]
+                )
               }),
               0
             ),
@@ -688,7 +773,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "sh-text" }, [
-      _c("div", { staticClass: "section-title" }, [_vm._v("Winners History")]),
+      _c("div", { staticClass: "section-title" }, [
+        _vm._v("Raffle Draw Winners"),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "section-sub" }, [
         _vm._v("FIFA World Cup 2026™"),

@@ -46,6 +46,7 @@ Route::middleware('jwt')->group(function () {
     // Winners / Leaderboard
     Route::get('winners',           [WinnersController::class, 'leaderboard']);
     Route::get('winners/today',     [WinnersController::class, 'todayWinner']);
+    Route::get('winners/raffle',    [WinnersController::class, 'raffleWinners']);
     Route::get('winners/my-points', [WinnersController::class, 'myPoints']);
 
     // FIFA Facts
