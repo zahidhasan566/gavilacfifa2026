@@ -64,7 +64,7 @@ class AdminMatchController extends Controller
             'team1_half1', 'team1_half2', 'team2_half1', 'team2_half2',
             'status',
         ]));
-        return response()->json(['status' => 'success', 'data' => $match]);
+        return response()->json(['status' => 'success', 'data' => $match->fresh(['team1', 'team2'])]);
     }
 
     public function destroy($id)

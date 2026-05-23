@@ -141,8 +141,14 @@ export default {
             finally { this.saving = false; }
         },
         async saveScore() {
-            await this.$http.post(`/api/admin/matches/${this.scoreMatch.id}/score`, this.scoreForm);
-            this.scoreModal = false; this.fetchMatches(); this.$toaster.success('Score updated.');
+            try {
+                await this.$http.post(`/api/admin/matches/${this.scoreMatch.id}/score`, this.scoreForm);
+                this.scoreModal = false;
+                await this.fetchMatches();
+                this.$toaster.success('Score updated.');
+            } catch (e) {
+                this.$toaster.error(e.response?.data?.message || 'Failed to update score.');
+            }
         },
         async calculateResults(id) {
             try {

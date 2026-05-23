@@ -13,39 +13,39 @@
                 <button class="sidebar-close" @click="sidebarOpen = false">&#10005;</button>
             </div>
             <nav class="sidebar-nav">
-                <router-link to="/admin/dashboard"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminDashboard' }"     class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     Dashboard
                 </router-link>
-                <router-link to="/admin/matches"    class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminMatches' }"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                     Matches
                 </router-link>
-                <router-link to="/admin/teams"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminTeams' }"        class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Teams
                 </router-link>
-                <router-link to="/admin/questions"  class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminQuestions' }"    class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     Questions
                 </router-link>
-                <router-link to="/admin/users"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminUsers' }"        class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Users
                 </router-link>
-                <router-link to="/admin/raffle"     class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminRaffle' }"       class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     Raffle Draw
                 </router-link>
-                <router-link to="/admin/reports"    class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminReports' }"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
                     Reports
                 </router-link>
-                <router-link to="/admin/facts"      class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminFacts' }"        class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     FIFA Facts
                 </router-link>
-                <router-link to="/admin/notifications" class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
+                <router-link :to="{ name: 'AdminNotifications' }" class="sidebar-link" active-class="active" @click.native="sidebarOpen = false">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
                     Notifications
                 </router-link>

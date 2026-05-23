@@ -342,7 +342,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/dashboard", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminDashboard" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -385,7 +388,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/matches", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminMatches" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -415,7 +421,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/teams", "active-class": "active" },
+                attrs: { to: { name: "AdminTeams" }, "active-class": "active" },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -452,7 +458,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/questions", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminQuestions" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -490,7 +499,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/users", "active-class": "active" },
+                attrs: { to: { name: "AdminUsers" }, "active-class": "active" },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -525,7 +534,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/raffle", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminRaffle" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -561,7 +573,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/reports", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminReports" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -601,7 +616,7 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/facts", "active-class": "active" },
+                attrs: { to: { name: "AdminFacts" }, "active-class": "active" },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false
@@ -639,7 +654,10 @@ var render = function () {
               "router-link",
               {
                 staticClass: "sidebar-link",
-                attrs: { to: "/admin/notifications", "active-class": "active" },
+                attrs: {
+                  to: { name: "AdminNotifications" },
+                  "active-class": "active",
+                },
                 nativeOn: {
                   click: function ($event) {
                     _vm.sidebarOpen = false

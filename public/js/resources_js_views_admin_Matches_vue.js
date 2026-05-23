@@ -291,26 +291,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     saveScore: function saveScore() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var _e$response2, _e$response2$data;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.next = 2;
+              _context4.prev = 0;
+              _context4.next = 3;
               return _this4.$http.post("/api/admin/matches/".concat(_this4.scoreMatch.id, "/score"), _this4.scoreForm);
-            case 2:
+            case 3:
               _this4.scoreModal = false;
-              _this4.fetchMatches();
+              _context4.next = 6;
+              return _this4.fetchMatches();
+            case 6:
               _this4.$toaster.success('Score updated.');
-            case 5:
+              _context4.next = 12;
+              break;
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](0);
+              _this4.$toaster.error(((_e$response2 = _context4.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Failed to update score.');
+            case 12:
             case "end":
               return _context4.stop();
           }
-        }, _callee4);
+        }, _callee4, null, [[0, 9]]);
       }))();
     },
     calculateResults: function calculateResults(id) {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var _yield$_this5$$http$p, data, _e$response2, _e$response2$data;
+        var _yield$_this5$$http$p, data, _e$response3, _e$response3$data;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
@@ -326,7 +336,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 8:
               _context5.prev = 8;
               _context5.t0 = _context5["catch"](0);
-              _this5.$toaster.error(((_e$response2 = _context5.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Failed.');
+              _this5.$toaster.error(((_e$response3 = _context5.t0.response) === null || _e$response3 === void 0 ? void 0 : (_e$response3$data = _e$response3.data) === null || _e$response3$data === void 0 ? void 0 : _e$response3$data.message) || 'Failed.');
             case 11:
             case "end":
               return _context5.stop();
