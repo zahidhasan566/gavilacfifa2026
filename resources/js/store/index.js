@@ -80,7 +80,7 @@ export default new Vuex.Store({
 
         async fetchMe({ commit }) {
             const { data } = await axios.get(API + '/auth/me');
-            commit('SET_USER', data);
+            commit('SET_USER', data.user);
         },
 
         async fetchNotifications({ commit }) {

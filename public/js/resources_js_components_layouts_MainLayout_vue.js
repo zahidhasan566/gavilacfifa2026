@@ -279,11 +279,7 @@ var RAFFLE_POLL_INTERVAL = 30000; // 30 seconds
               fd = new FormData();
               fd.append('profile_picture', _this3.profileFile);
               _context3.next = 8;
-              return _this3.$http.post('/api/auth/update-profile', fd, {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
-                }
-              });
+              return _this3.$http.post('/api/auth/update-profile', fd);
             case 8:
               _context3.next = 10;
               return _this3.$store.dispatch('fetchMe');

@@ -204,9 +204,7 @@ export default {
             try {
                 const fd = new FormData();
                 fd.append('profile_picture', this.profileFile);
-                await this.$http.post('/api/auth/update-profile', fd, {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
+                await this.$http.post('/api/auth/update-profile', fd);
                 await this.$store.dispatch('fetchMe');
                 this.showProfileModal = false;
                 this.profileFile = null;
