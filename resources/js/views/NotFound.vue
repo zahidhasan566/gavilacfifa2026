@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="not-found">
         <div class="nf-card">
             <div class="nf-title">404</div>
@@ -11,7 +11,7 @@
 export default { name: 'NotFound' };
 </script>
 <style scoped>
-.not-found { min-height: 100vh; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); display: flex; align-items: center; justify-content: center; }
+.not-found { min-height: 100vh; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); display: flex; align-items: center; justify-content: center; }
 .nf-card { text-align: center; }
 .nf-title { color: #FFA500; font-size: 5rem; font-family: 'Rajdhani', sans-serif; font-weight: 700; }
 .nf-sub { color: rgba(255,255,255,0.6); margin-bottom: 24px; }

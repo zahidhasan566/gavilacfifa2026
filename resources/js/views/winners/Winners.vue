@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="winners-page">
         <div class="section-header">
             <div class="sh-ball-circle">
@@ -63,13 +63,18 @@
                         <img :src="lbAvatar(w)" class="lb-avatar" @error="onLbAvatarError">
                         <div class="lb-info">
                             <div class="lb-name">{{ w.name }}</div>
-                            <div class="lb-code">Doctor Code: {{ w.unique_code }}</div>
-                            <div class="lb-date">{{ w.date || todayDate }}</div>
+                            <div class="lb-code">{{ w.unique_code }}</div>
                         </div>
                         <span class="lb-points" :style="pointsBg(w.rank)">
-                            {{ w.total_points }}<br><small>Points</small>
+                            {{ w.total_points }}<br><small>pts</small>
                         </span>
                     </div>
+                </div>
+
+                <!-- Ad banner after winners list -->
+                <div class="winner-ad-banner">
+                    <img :src="$imgBase + '/images/winneradd.png'" alt="Advertisement" class="winner-ad-img"
+                         @error="e => e.target.closest('.winner-ad-banner').style.display='none'">
                 </div>
             </div>
         </div>
@@ -162,13 +167,13 @@ export default {
 .section-header {
     display: flex; align-items: center; gap: 14px;
     padding: 0 16px;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px;
     height: 70px; overflow: hidden;
 }
 .sh-ball-circle {
     width: 46px; height: 46px; border-radius: 50%;
-    background: #1C1153; border: 2px solid rgba(255,255,255,0.15);
+    background: #1A0040; border: 2px solid rgba(255,255,255,0.15);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .sh-ball-img { width: 28px; height: 28px; object-fit: contain; }
@@ -191,14 +196,14 @@ export default {
 
 /* Today's Winner card */
 .today-winner-card {
-    width: 260px; flex-shrink: 0;
+    flex: 3;
     border-radius: 12px; overflow: hidden;
     position: relative;
     display: flex; flex-direction: column;
     align-items: center; justify-content: flex-end;
     padding-bottom: 18px;
-    min-height: 380px;
-    background-color: #1C1153;
+    min-height: 420px;
+    background-color: #1A0040;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -240,10 +245,11 @@ export default {
 
 /* Leaderboard */
 .leaderboard-card {
-    flex: 1;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    flex: 2;
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px; padding: 16px;
-    min-height: 380px;
+    min-height: 420px;
+    display: flex; flex-direction: column;
 }
 .lb-header { display: flex; gap: 10px; margin-bottom: 14px; }
 .search-box {
@@ -259,10 +265,9 @@ export default {
 .refresh-btn.spinning svg { animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .lb-item {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px;
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px;
 }
 .lb-rank { color: #fff; font-size: 0.82rem; font-weight: 700; width: 16px; text-align: center; flex-shrink: 0; }
 .lb-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
@@ -277,11 +282,18 @@ export default {
 }
 .lb-points small { font-size: 0.58rem; font-weight: 400; display: block; opacity: 0.85; }
 
+.lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; align-content: start; }
+.winner-ad-banner { margin-top: auto; padding-top: 14px; border-radius: 10px; overflow: hidden; }
+.winner-ad-img { width: 100%; height: auto; display: block; border-radius: 10px; }
+
 .empty-state { color: rgba(255,255,255,0.4); text-align: center; padding: 30px; font-size: 0.85rem; }
 
 @media (max-width: 900px) {
     .winners-body { flex-direction: column; }
     .today-winner-card { width: 100%; min-height: 340px; }
+    .lb-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
     .lb-grid { grid-template-columns: 1fr; }
 }
 </style>

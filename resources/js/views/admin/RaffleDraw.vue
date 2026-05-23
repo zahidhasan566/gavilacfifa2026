@@ -122,8 +122,8 @@ export default {
 .admin-raffle { }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
 .raffle-layout { display: flex; gap: 20px; }
-.raffle-left { flex: 1; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; overflow: hidden; }
-.raffle-right { width: 300px; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; overflow: hidden; }
+.raffle-left { flex: 1; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
+.raffle-right { width: 300px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .card-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 0.9rem; }
 .filter-label { color: rgba(255,255,255,0.5); font-size: 0.78rem; }
 .mini-input { width: 70px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 5px 8px; color: #fff; font-size: 0.85rem; outline: none; }
@@ -149,7 +149,7 @@ export default {
 .prize-badge { background: rgba(34,197,94,0.15); color: #4ade80; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
 .empty-state { color: rgba(255,255,255,0.3); text-align: center; padding: 30px; font-size: 0.85rem; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.modal-box { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 16px; padding: 32px; width: 360px; }
+.modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px; }
 .winner-modal { text-align: center; }
 .winner-emoji { font-size: 3rem; margin-bottom: 8px; }
 .winner-label { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 16px; }

@@ -61,6 +61,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Login',
@@ -133,7 +145,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.auth-title[data-v-46ec553e] { text-align: center; margin-bottom: 20px;\n}\n.auth-org-logo[data-v-46ec553e] { width: 100%; max-width: 320px; height: auto; -o-object-fit: contain; object-fit: contain; display: block; margin: 0 auto 6px;\n}\n.auth-subtitle[data-v-46ec553e] { color: #ffffff; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; margin-top: 4px;\n}\n.auth-page[data-v-46ec553e] {\n    min-height: 100vh;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);\n    padding: 90px 24px 32px;\n    box-sizing: border-box;\n}\n.auth-brand[data-v-46ec553e] {\n    position: fixed; top: 0; left: 0; right: 0;\n    display: flex; justify-content: space-between; align-items: center;\n    padding: 14px 28px; z-index: 10; background: none;\n}\n.brand-logo[data-v-46ec553e] { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));\n}\n.brand-aci img[data-v-46ec553e] { height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4);\n}\n.brand-center-img[data-v-46ec553e] { display: none;\n}\n.auth-wrapper[data-v-46ec553e] {\n    position: relative; z-index: 2;\n    display: flex; align-items: center; justify-content: center;\n    gap: 24px; width: 100%;\n}\n.auth-side-img[data-v-46ec553e] {\n    width: 220px; flex-shrink: 0;\n    height: 480px;\n    -o-object-fit: contain;\n       object-fit: contain; -o-object-position: center bottom; object-position: center bottom;\n    border-radius: 12px;\n}\n.auth-container[data-v-46ec553e] { width: 100%; max-width: 420px;\n}\n.auth-card[data-v-46ec553e] {\n    background: rgba(255,255,255,0.06);\n    border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 16px; padding: 32px 28px;\n    box-shadow: 0 8px 32px rgba(0,0,0,0.3);\n}\n@media (max-width: 768px) {\n.auth-wrapper[data-v-46ec553e] { flex-direction: column; align-items: center;\n}\n.auth-side-img[data-v-46ec553e] { display: none;\n}\n.brand-center-img[data-v-46ec553e] {\n        display: block;\n        height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n}\n.form-input[data-v-46ec553e] {\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 12px 16px; color: #ffffff; font-size: 0.95rem;\n    outline: none; transition: border-color 0.2s; box-sizing: border-box;\n}\n.form-input[data-v-46ec553e]::-moz-placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-46ec553e]::placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-46ec553e]:focus { border-color: rgba(255,165,0,0.6);\n}\n.form-group[data-v-46ec553e] { margin-bottom: 14px;\n}\n.errors-box[data-v-46ec553e] { margin-bottom: 12px;\n}\n.error-item[data-v-46ec553e] { color: #ff6b6b; font-size: 0.85rem; margin-bottom: 4px;\n}\n.btn-primary-orange[data-v-46ec553e] {\n    width: 100%; background: linear-gradient(135deg, #FFA500, #FF8C00);\n    color: #fff; border: none; border-radius: 8px; padding: 14px;\n    font-size: 1rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1px; cursor: pointer; display: flex;\n    align-items: center; justify-content: center; gap: 8px;\n    margin-top: 4px;\n}\n.btn-primary-orange[data-v-46ec553e]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.btn-spinner[data-v-46ec553e] {\n    width: 16px; height: 16px;\n    border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;\n    border-radius: 50%; animation: spin-data-v-46ec553e 0.7s linear infinite;\n}\n@keyframes spin-data-v-46ec553e {\nto { transform: rotate(360deg);\n}\n}\n.auth-separator[data-v-46ec553e] { text-align: center; margin: 16px 0; color: rgba(255,255,255,0.5); font-size: 0.85rem;\n}\n.btn-outline-white[data-v-46ec553e] {\n    display: block; width: 100%; background: #ffffff; color: #1a0a6e;\n    border: none; border-radius: 8px; padding: 13px; font-size: 1rem;\n    font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;\n    text-align: center; text-decoration: none; box-sizing: border-box;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.auth-title[data-v-46ec553e] { text-align: center; margin-bottom: 24px;\n}\n.auth-brand-row[data-v-46ec553e] { display: flex; align-items: center; justify-content: center; gap: 16px;\n}\n.auth-fifa-logo[data-v-46ec553e] { height: 72px; -o-object-fit: contain; object-fit: contain;\n}\n.auth-brand-divider[data-v-46ec553e] { display: inline-block; width: 2px; height: 56px; background: rgba(255,255,255,0.35); border-radius: 2px; flex-shrink: 0;\n}\n.auth-abetis-logo[data-v-46ec553e] { height: 60px; -o-object-fit: contain; object-fit: contain;\n}\n.auth-bg-img[data-v-46ec553e] {\n    position: fixed;\n    inset: 0;\n    background-size: cover;\n    background-position: center;\n    background-repeat: no-repeat;\n    z-index: 0;\n}\n.auth-bg-img[data-v-46ec553e]::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    opacity: 0.70;\n}\n.auth-page[data-v-46ec553e] {\n    position: relative;\n    min-height: 100vh;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    padding: 90px 24px 80px;\n    box-sizing: border-box;\n    z-index: 1;\n}\n\n/* Top bar — FIFA logo only */\n.auth-brand[data-v-46ec553e] {\n    position: fixed; top: 0; left: 0; right: 0;\n    display: flex; justify-content: flex-start; align-items: center;\n    padding: 14px 28px; z-index: 10; background: none;\n}\n.brand-logo[data-v-46ec553e] { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));\n}\n.brand-center-img[data-v-46ec553e] { display: none;\n}\n\n/* Bottom bar — ACI logo, left-aligned under FIFA logo */\n.auth-brand-bottom[data-v-46ec553e] {\n    position: fixed; bottom: 0; left: 0;\n    padding: 14px 28px; z-index: 10;\n}\n.brand-aci img[data-v-46ec553e] { height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4);\n}\n.auth-wrapper[data-v-46ec553e] {\n    position: relative; z-index: 2;\n    display: flex; align-items: stretch; justify-content: center;\n    gap: 24px; width: 100%;\n}\n.auth-side-img[data-v-46ec553e] {\n    flex-shrink: 0;\n    align-self: stretch;\n    width: auto;\n    max-width: 260px;\n    display: block;\n    border-radius: 12px;\n}\n.auth-container[data-v-46ec553e] { width: 100%; max-width: 420px;\n}\n.auth-card[data-v-46ec553e] {\n    background: rgba(255,255,255,0.06);\n    border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 16px; padding: 32px 28px;\n    box-shadow: 0 8px 32px rgba(0,0,0,0.3);\n}\n@media (max-width: 768px) {\n.auth-wrapper[data-v-46ec553e] { flex-direction: column; align-items: center;\n}\n.auth-side-img[data-v-46ec553e] { display: none;\n}\n.brand-center-img[data-v-46ec553e] {\n        display: block;\n        height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n        margin-left: auto;\n}\n.auth-brand[data-v-46ec553e] { justify-content: space-between;\n}\n.auth-brand-bottom[data-v-46ec553e] { display: none;\n}\n}\n.form-input[data-v-46ec553e] {\n    width: 100%; background: rgba(255,255,255,0.08);\n    border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;\n    padding: 12px 16px; color: #ffffff; font-size: 0.95rem;\n    outline: none; transition: border-color 0.2s; box-sizing: border-box;\n}\n.form-input[data-v-46ec553e]::-moz-placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-46ec553e]::placeholder { color: rgba(255,255,255,0.4);\n}\n.form-input[data-v-46ec553e]:focus { border-color: rgba(255,165,0,0.6);\n}\n.form-group[data-v-46ec553e] { margin-bottom: 14px;\n}\n.errors-box[data-v-46ec553e] { margin-bottom: 12px;\n}\n.error-item[data-v-46ec553e] { color: #ff6b6b; font-size: 0.85rem; margin-bottom: 4px;\n}\n.btn-primary-orange[data-v-46ec553e] {\n    width: 100%; background: linear-gradient(135deg, #FFA500, #FF8C00);\n    color: #fff; border: none; border-radius: 8px; padding: 14px;\n    font-size: 1rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1px; cursor: pointer; display: flex;\n    align-items: center; justify-content: center; gap: 8px;\n    margin-top: 4px;\n}\n.btn-primary-orange[data-v-46ec553e]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.btn-spinner[data-v-46ec553e] {\n    width: 16px; height: 16px;\n    border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;\n    border-radius: 50%; animation: spin-data-v-46ec553e 0.7s linear infinite;\n}\n@keyframes spin-data-v-46ec553e {\nto { transform: rotate(360deg);\n}\n}\n.auth-separator[data-v-46ec553e] { text-align: center; margin: 16px 0; color: rgba(255,255,255,0.5); font-size: 0.85rem;\n}\n.btn-outline-white[data-v-46ec553e] {\n    display: block; width: 100%; background: #ffffff; color: #1A0040;\n    border: none; border-radius: 8px; padding: 13px; font-size: 1rem;\n    font-weight: 700; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px;\n    text-align: center; text-decoration: none; box-sizing: border-box;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -268,6 +280,13 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "auth-page" }, [
+    _c("div", {
+      staticClass: "auth-bg-img",
+      style: {
+        backgroundImage: "url(" + _vm.$imgBase + "/images/login-bg1.png)",
+      },
+    }),
+    _vm._v(" "),
     _c("div", { staticClass: "auth-brand" }, [
       _c("img", {
         staticClass: "brand-logo",
@@ -286,7 +305,9 @@ var render = function () {
           onerror: "this.style.display='none'",
         },
       }),
-      _vm._v(" "),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "auth-brand-bottom" }, [
       _c("div", { staticClass: "brand-aci" }, [
         _c("img", {
           attrs: { src: _vm.$imgBase + "/images/aci-logo.png", alt: "ACI" },
@@ -300,35 +321,40 @@ var render = function () {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "auth-wrapper" }, [
-      _c("img", {
-        staticClass: "auth-side-img",
-        attrs: {
-          src: _vm.$imgBase + "/images/login-bg.jpg",
-          onerror: "this.style.display='none'",
-        },
-      }),
-      _vm._v(" "),
       _c("div", { staticClass: "auth-container" }, [
         _c(
           "div",
           { staticClass: "auth-card" },
           [
             _c("div", { staticClass: "auth-title" }, [
-              _c("img", {
-                staticClass: "auth-org-logo",
-                attrs: {
-                  src: _vm.$imgBase + "/images/abetis-logo.png",
-                  alt: "ABETIS",
-                },
-                on: {
-                  error: function (e) {
-                    return (e.target.style.display = "none")
+              _c("div", { staticClass: "auth-brand-row" }, [
+                _c("img", {
+                  staticClass: "auth-fifa-logo",
+                  attrs: {
+                    src: _vm.$imgBase + "/images/fifa-logo.png",
+                    alt: "FIFA",
                   },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "auth-subtitle" }, [
-                _vm._v("WORLD CUP 2026"),
+                  on: {
+                    error: function (e) {
+                      return (e.target.style.display = "none")
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "auth-brand-divider" }),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass: "auth-abetis-logo",
+                  attrs: {
+                    src: _vm.$imgBase + "/images/abecab-abetis-logo.png",
+                    alt: "Abecab Abetis",
+                  },
+                  on: {
+                    error: function (e) {
+                      return (e.target.style.display = "none")
+                    },
+                  },
+                }),
               ]),
             ]),
             _vm._v(" "),
@@ -418,9 +444,9 @@ var render = function () {
                       ? _c("span", { staticClass: "btn-spinner" })
                       : _vm._e(),
                     _vm._v(
-                      "\n                    " +
+                      "\n                        " +
                         _vm._s(_vm.loading ? "Signing in..." : "Login") +
-                        "\n                "
+                        "\n                    "
                     ),
                   ]
                 ),

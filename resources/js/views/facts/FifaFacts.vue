@@ -137,7 +137,7 @@ export default {
 
 /* Hero */
 .fifa-hero {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 14px; padding: 24px; display: flex;
     align-items: center; justify-content: space-between;
     border: 1px solid rgba(255,165,0,0.3);
@@ -154,7 +154,7 @@ export default {
 .hero-logo { height: 80px; opacity: 0.9; }
 
 /* Facts sections */
-.facts-section { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; padding: 20px; }
+.facts-section { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 20px; }
 .facts-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
 
 /* FIFA Check grid */

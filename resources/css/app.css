@@ -3,11 +3,11 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --color-bg:        #1C1153;
-    --color-grad:      linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
-    --color-card:      #3E26B9;
-    --color-nav:       #1C1153;
-    --color-modal:     #3E26B9;
+    --color-bg:        #1A0040;
+    --color-grad:      linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    --color-card:      #3E0082;
+    --color-nav:       #1A0040;
+    --color-modal:     #3E0082;
     --color-orange:    #FF8C00;
     --color-orange-lt: #FFA500;
     --color-blue:      #3b82f6;
@@ -31,8 +31,8 @@
 
 html, body {
     height: 100%;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%) fixed;
-    background-color: #1C1153;
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%) fixed;
+    background-color: #1A0040;
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: 14px;
@@ -62,7 +62,7 @@ input, textarea, select, button {
 /* App loader */
 #app-loader {
     position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 16px;
 }

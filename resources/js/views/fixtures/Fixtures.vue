@@ -292,7 +292,7 @@ export default {
 /* ── Groups Carousel ───────────────────────── */
 .groups-bar {
     display: flex; align-items: stretch;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
 }
@@ -321,7 +321,7 @@ export default {
     background: #ffffff; border-radius: 4px;
     padding: 3px 8px; margin-bottom: 10px;
 }
-.gl-word { color: #1C1153; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+.gl-word { color: #1A0040; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 .gl-letter { color: #000; font-size: 0.85rem; font-weight: 900; font-family: 'Rajdhani', sans-serif; line-height: 1; }
 .group-teams-list { display: flex; flex-direction: column; gap: 7px; }
 .group-team { display: flex; align-items: center; gap: 8px; }
@@ -334,7 +334,7 @@ export default {
 /* ── Teams Sidebar ─────────────────────────── */
 .teams-sidebar {
     width: 155px; flex-shrink: 0;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px; padding: 14px;
     border: 1px solid rgba(255,255,255,0.08);
 }
@@ -368,7 +368,7 @@ export default {
 /* ── Columns ───────────────────────────────── */
 .fixtures-col, .results-col {
     flex: 1; min-width: 0;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
 }
@@ -379,12 +379,12 @@ export default {
 }
 .col-icon-circle {
     width: 48px; height: 48px; border-radius: 50%;
-    background: #1C1153;
+    background: #1A0040;
     border: 2px solid rgba(255,255,255,0.12);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
-.trophy-circle { background: #1C1153; }
+.trophy-circle { background: #1A0040; }
 .col-ball { width: 30px; height: 30px; object-fit: contain; }
 .col-trophy-img { width: 30px; height: 30px; object-fit: contain; }
 .col-title { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 0.9rem; }

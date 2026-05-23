@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="admin-matches">
         <div class="page-header">
             <h1 class="page-heading">Match Management</h1>
@@ -164,7 +164,7 @@ export default {
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
 .btn-orange { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif; }
-.table-card { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; overflow: hidden; }
+.table-card { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .table-wrapper { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 .data-table th { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); font-size: 0.72rem; font-weight: 600; padding: 12px 14px; text-align: left; text-transform: uppercase; }
@@ -180,14 +180,14 @@ export default {
 .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; }
 .empty-td { text-align: center; color: rgba(255,255,255,0.3); padding: 30px; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.modal-box { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; padding: 28px; width: 580px; max-height: 85vh; overflow-y: auto; }
+.modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 580px; max-height: 85vh; overflow-y: auto; }
 .modal-title { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group.full { grid-column: 1 / -1; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; }
-.form-input option { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); }
+.form-input option { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .btn-cancel { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; }
 </style>

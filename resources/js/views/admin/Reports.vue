@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="admin-reports">
         <div class="page-header">
             <h1 class="page-heading">Reports</h1>
@@ -201,17 +201,17 @@ export default {
 .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .search-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.85rem; outline: none; width: 280px; }
 .filter-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.85rem; outline: none; }
-.filter-select option { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); }
+.filter-select option { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
 
 .summary-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-.summary-card { flex: 1; min-width: 120px; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 10px; padding: 16px; text-align: center; }
+.summary-card { flex: 1; min-width: 120px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 10px; padding: 16px; text-align: center; }
 .summary-card.good { border-top: 3px solid #4ade80; }
 .summary-card.bad { border-top: 3px solid #f87171; }
 .summary-card.total { border-top: 3px solid #FFA500; }
 .s-num { font-size: 1.8rem; font-weight: 700; font-family: 'Rajdhani', sans-serif; color: #fff; }
 .s-lbl { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
-.table-card { background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-radius: 12px; overflow: hidden; }
+.table-card { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .table-wrapper { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 .data-table th { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); font-size: 0.72rem; font-weight: 600; padding: 12px 14px; text-align: left; text-transform: uppercase; }

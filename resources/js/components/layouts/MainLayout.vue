@@ -254,13 +254,13 @@ export default {
 <style scoped>
 .main-layout {
     min-height: 100vh;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     display: flex;
     flex-direction: column;
 }
 .top-nav {
     position: sticky; top: 0; z-index: 100;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     display: flex; align-items: center;
     padding: 0 40px;
     height: 70px;
@@ -288,7 +288,7 @@ export default {
 .nav-tab {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 0 18px; height: 40px; border-radius: 50px;
-    color: #1C1153;
+    color: #1A0040;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-style: normal;
@@ -303,7 +303,7 @@ export default {
     transition: all 0.2s;
     flex-shrink: 0;
 }
-.nav-tab:hover { background: #f0f0f0; color: #1C1153; }
+.nav-tab:hover { background: #f0f0f0; color: #1A0040; }
 .nav-tab.active {
     background: #FFA500;
     color: #fff;
@@ -336,7 +336,7 @@ export default {
 
 /* Profile Modal */
 .profile-modal {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 16px; padding: 32px 28px; width: 300px;
     text-align: center; position: relative;
     border: 1px solid rgba(255,255,255,0.12);
@@ -354,7 +354,7 @@ export default {
     background: #FFA500; border-radius: 50%;
     width: 32px; height: 32px;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: #fff; border: 2px solid #1C1153;
+    cursor: pointer; color: #fff; border: 2px solid #1A0040;
 }
 .pm-file-input { display: none; }
 .pm-name { color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
@@ -369,7 +369,7 @@ export default {
 
 .notif-dropdown, .user-dropdown {
     position: fixed; top: 62px; right: 20px; z-index: 200;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border: 1px solid rgba(255,255,255,0.12);
     border-radius: 12px; width: 300px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     overflow: hidden;
@@ -402,7 +402,7 @@ export default {
 .bottom-nav {
     display: none;
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); border-top: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-top: 1px solid rgba(255,255,255,0.1);
     padding: 8px 0; justify-content: space-around; z-index: 100;
 }
 .bottom-tab {
@@ -438,7 +438,7 @@ export default {
     z-index: 1000; padding: 20px;
 }
 .raffle-modal {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border: 1px solid rgba(255,165,0,0.4);
     border-radius: 20px; padding: 32px 28px;
     width: 100%; max-width: 380px; text-align: center;

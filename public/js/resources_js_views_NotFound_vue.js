@@ -43,7 +43,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.not-found[data-v-5dcdfd0e] { min-height: 100vh; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); display: flex; align-items: center; justify-content: center;\n}\n.nf-card[data-v-5dcdfd0e] { text-align: center;\n}\n.nf-title[data-v-5dcdfd0e] { color: #FFA500; font-size: 5rem; font-family: 'Rajdhani', sans-serif; font-weight: 700;\n}\n.nf-sub[data-v-5dcdfd0e] { color: rgba(255,255,255,0.6); margin-bottom: 24px;\n}\n.nf-btn[data-v-5dcdfd0e] { background: #FFA500; color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.not-found[data-v-5dcdfd0e] { min-height: 100vh; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); display: flex; align-items: center; justify-content: center;\n}\n.nf-card[data-v-5dcdfd0e] { text-align: center;\n}\n.nf-title[data-v-5dcdfd0e] { color: #FFA500; font-size: 5rem; font-family: 'Rajdhani', sans-serif; font-weight: 700;\n}\n.nf-sub[data-v-5dcdfd0e] { color: rgba(255,255,255,0.6); margin-bottom: 24px;\n}\n.nf-btn[data-v-5dcdfd0e] { background: #FFA500; color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

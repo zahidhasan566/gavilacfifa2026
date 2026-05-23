@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="prediction-page">
 
         <!-- ── Two Column Layout ─────────────────────────────── -->
@@ -149,7 +149,7 @@
 
                             <!-- Ad banner after questions, before submit -->
                             <div class="ad-banner">
-                                <img :src="$imgBase + '/images/prediction-add.png'" alt="Advertisement" class="ad-img"
+                                <img :src="$imgBase + '/images/prediction-add-two.png'" alt="Advertisement" class="ad-img"
                                      onerror="this.closest('.ad-banner').style.display='none'">
                             </div>
 
@@ -252,7 +252,7 @@ export default {
 
 /* Each column card */
 .pred-card {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.10);
@@ -266,10 +266,10 @@ export default {
     display: flex; align-items: center; gap: 10px;
     padding: 0 12px 0 12px;
     height: 66px; position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #3E26B9 0%, #1C1153 100%);
+    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.champ-header { background: linear-gradient(135deg, #3E26B9 0%, #1C1153 100%); }
+.champ-header { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%); }
 .pred-icon-circle {
     width: 42px; height: 42px; border-radius: 50%;
     background: rgba(255,255,255,0.08);
@@ -339,7 +339,7 @@ export default {
     background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
     border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;
 }
-.select-input option { background: #1C1153; }
+.select-input option { background: #1A0040; }
 .select-input:disabled { opacity: 0.7; }
 .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none; }
 

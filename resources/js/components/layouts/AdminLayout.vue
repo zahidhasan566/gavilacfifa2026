@@ -91,9 +91,9 @@ export default {
 </script>
 
 <style scoped>
-.admin-layout { display: flex; min-height: 100vh; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); }
+.admin-layout { display: flex; min-height: 100vh; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); }
 .admin-sidebar {
-    width: 220px; flex-shrink: 0; background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%);
+    width: 220px; flex-shrink: 0; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
     display: flex; flex-direction: column;
     border-right: 1px solid rgba(255,165,0,0.2);
     position: sticky; top: 0; height: 100vh;
@@ -127,7 +127,7 @@ export default {
 .logout-link:hover { color: #ff6b6b; }
 .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .admin-header {
-    background: linear-gradient(180deg, #3E26B9 0%, #1C1153 100%); padding: 0 24px;
+    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); padding: 0 24px;
     height: 56px; display: flex; align-items: center; gap: 16px;
     border-bottom: 2px solid #FFA500; position: sticky; top: 0; z-index: 50;
 }
