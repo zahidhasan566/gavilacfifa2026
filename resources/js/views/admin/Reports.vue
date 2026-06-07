@@ -13,7 +13,10 @@
 
         <!-- ── Tab: Points Report ─────────────────── -->
         <div v-if="activeTab === 'points'">
-            <div class="toolbar"><input v-model="pointsSearch" @input="fetchPoints" placeholder="Search name / code..." class="search-input"></div>
+            <div class="toolbar">
+                <input v-model="pointsSearch" @input="fetchPoints" placeholder="Search name / code..." class="search-input">
+                <button class="excel-btn" @click="downloadExcel('points')">⬇ Excel</button>
+            </div>
             <div class="table-card">
                 <div class="table-wrapper">
                     <table class="data-table">
@@ -45,6 +48,7 @@
                     <option value="participated">Participated</option>
                     <option value="not_participated">Not Participated</option>
                 </select>
+                <button class="excel-btn" @click="downloadExcel('participation')">⬇ Excel</button>
             </div>
 
             <div v-if="partSummary" class="summary-row">
@@ -88,6 +92,7 @@
                     <option value="null">Championship Only</option>
                     <option v-for="m in matches" :key="m.id" :value="m.id">{{ m.team1 && m.team1.name }} vs {{ m.team2 && m.team2.name }}</option>
                 </select>
+                <button class="excel-btn" @click="downloadExcel('predictions')">⬇ Excel</button>
             </div>
 
             <div class="table-card">
@@ -124,6 +129,8 @@
 </template>
 
 <script>
+import * as XLSX from 'xlsx';
+
 export default {
     name: 'AdminReports',
     data() {
@@ -186,6 +193,38 @@ export default {
             this.matches = data.data;
         },
         rankClass(rank) { return { gold: rank === 1, silver: rank === 2, bronze: rank === 3 }; },
+        downloadExcel(tab) {
+            let rows = [];
+            let filename = '';
+            if (tab === 'points') {
+                filename = 'points-report.xlsx';
+                rows = this.pointsReport.map(u => ({
+                    Rank: u.rank, Name: u.name, Code: u.unique_code, Mobile: u.mobile,
+                    Points: u.total_points, Matches: u.matches_participated,
+                    Predictions: u.total_predictions, Correct: u.correct_predictions,
+                }));
+            } else if (tab === 'participation') {
+                filename = 'participation-report.xlsx';
+                rows = this.partReport.map(u => ({
+                    Name: u.name, Code: u.unique_code, Mobile: u.mobile,
+                    Points: u.total_points, Predictions: u.total_predictions,
+                    Matches: u.matches_participated, Status: u.status,
+                    Participated: u.has_participated ? 'Yes' : 'No',
+                }));
+            } else if (tab === 'predictions') {
+                filename = 'predictions-report.xlsx';
+                rows = this.predList.map(p => ({
+                    User: p.user_name, Code: p.user_code, Match: p.match,
+                    Question: p.question, Answer: p.selected_answer,
+                    Correct: p.is_correct === true ? 'Yes' : p.is_correct === false ? 'No' : 'Pending',
+                    Points: p.points_earned, Date: p.created_at,
+                }));
+            }
+            const ws = XLSX.utils.json_to_sheet(rows);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Report');
+            XLSX.writeFile(wb, filename);
+        },
     },
 };
 </script>
@@ -240,4 +279,7 @@ export default {
 .page-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(255,255,255,0.7); padding: 6px 14px; cursor: pointer; }
 .page-btn:disabled { opacity: 0.4; cursor: default; }
 .page-info { color: rgba(255,255,255,0.5); font-size: 0.82rem; }
+
+.excel-btn { background: #1d6f42; border: none; border-radius: 8px; color: #fff; font-size: 0.85rem; font-weight: 600; padding: 10px 16px; cursor: pointer; white-space: nowrap; }
+.excel-btn:hover { background: #18593a; }
 </style>
