@@ -174,7 +174,7 @@
                 <div class="winner-ad-carousel">
                     <transition name="ad-fade" mode="out-in">
                         <img :key="adIndex"
-                             :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                             :src="$imgBase + '/images/branding_images/' + encodeURIComponent(adImages[adIndex])"
                              alt="Advertisement" class="winner-ad-carousel-img">
                     </transition>
                     <div class="winner-ad-dots">

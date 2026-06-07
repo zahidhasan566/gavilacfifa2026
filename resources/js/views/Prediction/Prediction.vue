@@ -101,7 +101,7 @@
                             <div class="ad-carousel">
                                 <transition name="ad-fade" mode="out-in">
                                     <img :key="adIndex"
-                                         :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                                         :src="$imgBase + '/images/branding_images/' + encodeURIComponent(adImages[adIndex])"
                                          alt="Advertisement" class="ad-carousel-img">
                                 </transition>
                                 <div class="ad-carousel-dots">
@@ -191,7 +191,7 @@
                             <div class="ad-carousel">
                                 <transition name="ad-fade" mode="out-in">
                                     <img :key="adIndex"
-                                         :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                                         :src="$imgBase + '/images/branding_images/' + encodeURIComponent(adImages[adIndex])"
                                          alt="Advertisement" class="ad-carousel-img">
                                 </transition>
                                 <div class="ad-carousel-dots">

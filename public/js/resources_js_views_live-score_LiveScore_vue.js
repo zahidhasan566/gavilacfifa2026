@@ -821,7 +821,7 @@ var render = function () {
                   src:
                     _vm.$imgBase +
                     "/images/branding_images/" +
-                    _vm.adImages[_vm.adIndex],
+                    encodeURIComponent(_vm.adImages[_vm.adIndex]),
                   alt: "Advertisement",
                 },
               }),
