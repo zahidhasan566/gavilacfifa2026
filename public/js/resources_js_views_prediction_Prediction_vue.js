@@ -222,6 +222,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Prediction',
@@ -257,7 +273,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       champAnswers: {},
       champAlreadySubmitted: false,
       champSubmitting: false,
-      teams: []
+      teams: [],
+      adIndex: 0,
+      _adTimer: null,
+      adImages: ['FIFA website Work-09.jpg', 'FIFA website Work-10.jpg', 'FIFA website Work-11.jpg', 'FIFA website Work-12.jpg', 'FIFA website Work-13.jpg', 'FIFA website Work-14.jpg', 'FIFA website Work-15.jpg', 'FIFA website Work-16.jpg', 'FIFA website Work-17.jpg', 'FIFA website Work-18.jpg', 'FIFA website Work-19.jpg']
     };
   },
   mounted: function mounted() {
@@ -270,47 +289,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             return _this.fetchQuestions();
           case 2:
             _this.loading = false;
-          case 3:
+            _this.startAdCarousel();
+          case 4:
           case "end":
             return _context.stop();
         }
       }, _callee);
     }))();
   },
+  beforeDestroy: function beforeDestroy() {
+    clearInterval(this._adTimer);
+  },
   methods: {
-    fetchQuestions: function fetchQuestions(matchId) {
+    startAdCarousel: function startAdCarousel() {
       var _this2 = this;
+      clearInterval(this._adTimer);
+      this._adTimer = setInterval(function () {
+        _this2.adIndex = (_this2.adIndex + 1) % _this2.adImages.length;
+      }, 3000);
+    },
+    goAdSlide: function goAdSlide(i) {
+      this.adIndex = i;
+      this.startAdCarousel();
+    },
+    fetchQuestions: function fetchQuestions(matchId) {
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var params, _yield$_this2$$http$g, data;
+        var params, _yield$_this3$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _this2.loading = true;
-              _this2.answers = {};
+              _this3.loading = true;
+              _this3.answers = {};
               params = matchId ? {
                 match_id: matchId
               } : {};
               _context2.next = 5;
-              return _this2.$http.get('/api/predictions/questions', {
+              return _this3.$http.get('/api/predictions/questions', {
                 params: params
               });
             case 5:
-              _yield$_this2$$http$g = _context2.sent;
-              data = _yield$_this2$$http$g.data;
-              _this2.availableMatches = data.available_matches || [];
-              _this2.match = data.match;
-              _this2.questions = data.questions;
-              _this2.alreadySubmitted = data.already_submitted;
-              _this2.questions.forEach(function (q) {
-                if (q.selected_answer) _this2.$set(_this2.answers, q.id, q.selected_answer);
+              _yield$_this3$$http$g = _context2.sent;
+              data = _yield$_this3$$http$g.data;
+              _this3.availableMatches = data.available_matches || [];
+              _this3.match = data.match;
+              _this3.questions = data.questions;
+              _this3.alreadySubmitted = data.already_submitted;
+              _this3.questions.forEach(function (q) {
+                if (q.selected_answer) _this3.$set(_this3.answers, q.id, q.selected_answer);
               });
-              _this2.teams = data.teams || [];
-              _this2.champQuestions = data.champ_questions || [];
-              _this2.champAlreadySubmitted = data.champ_already_submitted || false;
-              _this2.champQuestions.forEach(function (q) {
-                if (q.selected_answer) _this2.$set(_this2.champAnswers, q.id, q.selected_answer);
+              _this3.teams = data.teams || [];
+              _this3.champQuestions = data.champ_questions || [];
+              _this3.champAlreadySubmitted = data.champ_already_submitted || false;
+              _this3.champQuestions.forEach(function (q) {
+                if (q.selected_answer) _this3.$set(_this3.champAnswers, q.id, q.selected_answer);
               });
-              _this2.loading = false;
+              _this3.loading = false;
             case 17:
             case "end":
               return _context2.stop();
@@ -319,13 +353,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     switchMatch: function switchMatch(matchId) {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return _this3.fetchQuestions(matchId);
+              return _this4.fetchQuestions(matchId);
             case 2:
             case "end":
               return _context3.stop();
@@ -340,13 +374,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$set(this.champAnswers, qId, val);
     },
     submitPredictions: function submitPredictions() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var preds, _e$response, _e$response$data;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              preds = Object.entries(_this4.answers).map(function (_ref) {
+              preds = Object.entries(_this5.answers).map(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                   qId = _ref2[0],
                   ans = _ref2[1];
@@ -359,28 +393,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context4.next = 4;
                 break;
               }
-              _this4.$toaster.error('Please answer at least one question.');
+              _this5.$toaster.error('Please answer at least one question.');
               return _context4.abrupt("return");
             case 4:
-              _this4.submitting = true;
+              _this5.submitting = true;
               _context4.prev = 5;
               _context4.next = 8;
-              return _this4.$http.post('/api/predictions/submit', {
-                match_id: _this4.match.id,
+              return _this5.$http.post('/api/predictions/submit', {
+                match_id: _this5.match.id,
                 predictions: preds
               });
             case 8:
-              _this4.$toaster.success('Predictions submitted!');
-              _this4.alreadySubmitted = true;
+              _this5.$toaster.success('Predictions submitted!');
+              _this5.alreadySubmitted = true;
               _context4.next = 15;
               break;
             case 12:
               _context4.prev = 12;
               _context4.t0 = _context4["catch"](5);
-              _this4.$toaster.error(((_e$response = _context4.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'Submission failed.');
+              _this5.$toaster.error(((_e$response = _context4.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'Submission failed.');
             case 15:
               _context4.prev = 15;
-              _this4.submitting = false;
+              _this5.submitting = false;
               return _context4.finish(15);
             case 18:
             case "end":
@@ -390,13 +424,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     submitChampionship: function submitChampionship() {
-      var _this5 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var preds, _e$response2, _e$response2$data;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              preds = Object.entries(_this5.champAnswers).filter(function (_ref3) {
+              preds = Object.entries(_this6.champAnswers).filter(function (_ref3) {
                 var _ref4 = _slicedToArray(_ref3, 2),
                   ans = _ref4[1];
                 return ans && ans.trim() !== '';
@@ -413,28 +447,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context5.next = 4;
                 break;
               }
-              _this5.$toaster.error('Please answer at least one question.');
+              _this6.$toaster.error('Please answer at least one question.');
               return _context5.abrupt("return");
             case 4:
-              _this5.champSubmitting = true;
+              _this6.champSubmitting = true;
               _context5.prev = 5;
               _context5.next = 8;
-              return _this5.$http.post('/api/predictions/submit', {
+              return _this6.$http.post('/api/predictions/submit', {
                 is_championship: true,
                 predictions: preds
               });
             case 8:
-              _this5.$toaster.success('Championship predictions submitted! Good luck 🏆');
-              _this5.champAlreadySubmitted = true;
+              _this6.$toaster.success('Championship predictions submitted! Good luck 🏆');
+              _this6.champAlreadySubmitted = true;
               _context5.next = 15;
               break;
             case 12:
               _context5.prev = 12;
               _context5.t0 = _context5["catch"](5);
-              _this5.$toaster.error(((_e$response2 = _context5.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Submission failed.');
+              _this6.$toaster.error(((_e$response2 = _context5.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Submission failed.');
             case 15:
               _context5.prev = 15;
-              _this5.champSubmitting = false;
+              _this6.champSubmitting = false;
               return _context5.finish(15);
             case 18:
             case "end":
@@ -464,7 +498,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-0b82b320] { padding: 4px 0;\n}\n\n/* Two column grid */\n.pred-columns[data-v-0b82b320] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 16px;\n    align-items: start;\n}\n\n/* Each column card */\n.pred-card[data-v-0b82b320] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n    overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n    display: flex;\n    flex-direction: column;\n}\n.champ-card[data-v-0b82b320] { border-color: rgba(255,165,0,0.35);\n}\n\n/* Header */\n.pred-header[data-v-0b82b320] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 0 12px 0 12px;\n    height: 66px; position: relative; overflow: hidden;\n    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n}\n.champ-header[data-v-0b82b320] { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n}\n.pred-icon-circle[data-v-0b82b320] {\n    width: 42px; height: 42px; border-radius: 50%;\n    background: rgba(255,255,255,0.08);\n    border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.champ-icon-circle[data-v-0b82b320] { border-color: rgba(255,165,0,0.3);\n}\n.pred-icon-img[data-v-0b82b320] { width: 26px; height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-0b82b320] { font-size: 1.3rem;\n}\n.pred-header-text[data-v-0b82b320] { flex: 1; min-width: 0;\n}\n.pred-title[data-v-0b82b320] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-0b82b320] { color: rgba(255,255,255,0.6); font-size: 0.68rem;\n}\n.pred-header-logo[data-v-0b82b320] { flex-shrink: 0;\n}\n.pred-trophy-img[data-v-0b82b320] { height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n\n/* Match selector */\n.match-selector[data-v-0b82b320] {\n    display: flex; flex-wrap: wrap; gap: 6px;\n    padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);\n    background: rgba(0,0,0,0.1);\n}\n.match-tab[data-v-0b82b320] {\n    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 20px; color: rgba(255,255,255,0.6);\n    font-size: 0.72rem; font-weight: 600; padding: 5px 12px;\n    cursor: pointer; transition: all 0.15s; white-space: nowrap;\n}\n.match-tab[data-v-0b82b320]:hover { border-color: rgba(255,165,0,0.4); color: #FFA500;\n}\n.match-tab.active[data-v-0b82b320] { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500;\n}\n\n/* Body */\n.pred-body[data-v-0b82b320] { padding: 14px; flex: 1;\n}\n.empty-state[data-v-0b82b320] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem;\n}\n.submitted-banner[data-v-0b82b320] {\n    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);\n    border-radius: 8px; color: #4ade80; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem;\n}\n.closed-banner[data-v-0b82b320] {\n    background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.3);\n    border-radius: 8px; color: #f87171; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem; font-weight: 600;\n}\n\n/* Question block */\n.question-block[data-v-0b82b320] {\n    background: rgba(255,255,255,0.04); border-radius: 8px;\n    padding: 12px 14px; margin-bottom: 10px;\n}\n.q-header[data-v-0b82b320] { display: flex; align-items: center; gap: 8px; margin-bottom: 12px;\n}\n.q-num[data-v-0b82b320] {\n    background: #FFA500; color: #fff;\n    width: 24px; height: 24px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center;\n    font-weight: 700; font-size: 0.75rem; flex-shrink: 0;\n}\n.champ-num[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.q-text[data-v-0b82b320] { color: #fff; font-size: 0.85rem; flex: 1; line-height: 1.3;\n}\n.q-points[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem; white-space: nowrap;\n}\n.q-points strong[data-v-0b82b320] { color: #FFA500; font-size: 1rem;\n}\n\n/* Inputs */\n.text-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 12px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.text-input[data-v-0b82b320]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]:focus { border-color: #FFA500;\n}\n.text-input[data-v-0b82b320]:disabled { opacity: 0.6;\n}\n.team-choice-row[data-v-0b82b320] { display: flex; gap: 8px;\n}\n.team-btn[data-v-0b82b320] {\n    flex: 1; padding: 10px 8px; border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.08); color: #fff;\n    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;\n    cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-0b82b320]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.team-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n.dropdown-row[data-v-0b82b320] { position: relative;\n}\n.select-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 36px 10px 12px; -webkit-appearance: none; -moz-appearance: none; appearance: none;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;\n}\n.select-input option[data-v-0b82b320] { background: #1A0040;\n}\n.select-input optgroup[data-v-0b82b320] { background: #2a0060; color: rgba(255,165,0,.85); font-weight: 700; font-size: .72rem;\n}\n.select-input[data-v-0b82b320]:disabled { opacity: 0.7;\n}\n.select-arrow[data-v-0b82b320] { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n.mcq-row[data-v-0b82b320] { display: flex; flex-wrap: wrap; gap: 6px;\n}\n.mcq-btn[data-v-0b82b320] {\n    padding: 7px 12px; border-radius: 6px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.05); color: #fff;\n    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-0b82b320] { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.your-answer[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.correct-badge[data-v-0b82b320] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n.wrong-badge[data-v-0b82b320] { background: rgba(239,68,68,0.15); color: #f87171; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-0b82b320] { display: flex; justify-content: flex-end; margin-top: 16px;\n}\n.submit-btn[data-v-0b82b320] {\n    background: #06B6D4; color: #fff; border: none;\n    border-radius: 8px; padding: 11px 28px;\n    font-size: 0.88rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1.5px; cursor: pointer;\n}\n.submit-btn[data-v-0b82b320]:hover { background: #0891b2;\n}\n.submit-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.champ-submit-btn[data-v-0b82b320]:hover { background: linear-gradient(135deg, #FF6B00, #e05a00);\n}\n\n/* Ad Banner */\n.ad-banner[data-v-0b82b320] {\n    margin: 16px 0 6px;\n    border-radius: 10px;\n    overflow: hidden;\n}\n.ad-img[data-v-0b82b320] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n\n/* Mobile: stack columns */\n@media (max-width: 700px) {\n.pred-columns[data-v-0b82b320] { grid-template-columns: 1fr;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-0b82b320] { padding: 4px 0;\n}\n\n/* Two column grid */\n.pred-columns[data-v-0b82b320] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 16px;\n    align-items: start;\n}\n\n/* Each column card */\n.pred-card[data-v-0b82b320] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n    overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n    display: flex;\n    flex-direction: column;\n}\n.champ-card[data-v-0b82b320] { border-color: rgba(255,165,0,0.35);\n}\n\n/* Header */\n.pred-header[data-v-0b82b320] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 0 12px 0 12px;\n    height: 66px; position: relative; overflow: hidden;\n    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n}\n.champ-header[data-v-0b82b320] { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n}\n.pred-icon-circle[data-v-0b82b320] {\n    width: 42px; height: 42px; border-radius: 50%;\n    background: rgba(255,255,255,0.08);\n    border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.champ-icon-circle[data-v-0b82b320] { border-color: rgba(255,165,0,0.3);\n}\n.pred-icon-img[data-v-0b82b320] { width: 26px; height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-0b82b320] { font-size: 1.3rem;\n}\n.pred-header-text[data-v-0b82b320] { flex: 1; min-width: 0;\n}\n.pred-title[data-v-0b82b320] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-0b82b320] { color: rgba(255,255,255,0.6); font-size: 0.68rem;\n}\n.pred-header-logo[data-v-0b82b320] { flex-shrink: 0;\n}\n.pred-trophy-img[data-v-0b82b320] { height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n\n/* Match selector */\n.match-selector[data-v-0b82b320] {\n    display: flex; flex-wrap: wrap; gap: 6px;\n    padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);\n    background: rgba(0,0,0,0.1);\n}\n.match-tab[data-v-0b82b320] {\n    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 20px; color: rgba(255,255,255,0.6);\n    font-size: 0.72rem; font-weight: 600; padding: 5px 12px;\n    cursor: pointer; transition: all 0.15s; white-space: nowrap;\n}\n.match-tab[data-v-0b82b320]:hover { border-color: rgba(255,165,0,0.4); color: #FFA500;\n}\n.match-tab.active[data-v-0b82b320] { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500;\n}\n\n/* Body */\n.pred-body[data-v-0b82b320] { padding: 14px; flex: 1;\n}\n.empty-state[data-v-0b82b320] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem;\n}\n.submitted-banner[data-v-0b82b320] {\n    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);\n    border-radius: 8px; color: #4ade80; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem;\n}\n.closed-banner[data-v-0b82b320] {\n    background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.3);\n    border-radius: 8px; color: #f87171; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem; font-weight: 600;\n}\n\n/* Question block */\n.question-block[data-v-0b82b320] {\n    background: rgba(255,255,255,0.04); border-radius: 8px;\n    padding: 12px 14px; margin-bottom: 10px;\n}\n.q-header[data-v-0b82b320] { display: flex; align-items: center; gap: 8px; margin-bottom: 12px;\n}\n.q-num[data-v-0b82b320] {\n    background: #FFA500; color: #fff;\n    width: 24px; height: 24px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center;\n    font-weight: 700; font-size: 0.75rem; flex-shrink: 0;\n}\n.champ-num[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.q-text[data-v-0b82b320] { color: #fff; font-size: 0.85rem; flex: 1; line-height: 1.3;\n}\n.q-points[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem; white-space: nowrap;\n}\n.q-points strong[data-v-0b82b320] { color: #FFA500; font-size: 1rem;\n}\n\n/* Inputs */\n.text-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 12px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.text-input[data-v-0b82b320]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]:focus { border-color: #FFA500;\n}\n.text-input[data-v-0b82b320]:disabled { opacity: 0.6;\n}\n.team-choice-row[data-v-0b82b320] { display: flex; gap: 8px;\n}\n.team-btn[data-v-0b82b320] {\n    flex: 1; padding: 10px 8px; border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.08); color: #fff;\n    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;\n    cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-0b82b320]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.team-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n.dropdown-row[data-v-0b82b320] { position: relative;\n}\n.select-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 36px 10px 12px; -webkit-appearance: none; -moz-appearance: none; appearance: none;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;\n}\n.select-input option[data-v-0b82b320] { background: #1A0040;\n}\n.select-input optgroup[data-v-0b82b320] { background: #2a0060; color: rgba(255,165,0,.85); font-weight: 700; font-size: .72rem;\n}\n.select-input[data-v-0b82b320]:disabled { opacity: 0.7;\n}\n.select-arrow[data-v-0b82b320] { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n.mcq-row[data-v-0b82b320] { display: flex; flex-wrap: wrap; gap: 6px;\n}\n.mcq-btn[data-v-0b82b320] {\n    padding: 7px 12px; border-radius: 6px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.05); color: #fff;\n    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-0b82b320] { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.your-answer[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.correct-badge[data-v-0b82b320] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n.wrong-badge[data-v-0b82b320] { background: rgba(239,68,68,0.15); color: #f87171; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-0b82b320] { display: flex; justify-content: flex-end; margin-top: 16px;\n}\n.submit-btn[data-v-0b82b320] {\n    background: #06B6D4; color: #fff; border: none;\n    border-radius: 8px; padding: 11px 28px;\n    font-size: 0.88rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1.5px; cursor: pointer;\n}\n.submit-btn[data-v-0b82b320]:hover { background: #0891b2;\n}\n.submit-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.champ-submit-btn[data-v-0b82b320]:hover { background: linear-gradient(135deg, #FF6B00, #e05a00);\n}\n\n/* Ad Banner Carousel */\n.ad-carousel[data-v-0b82b320] {\n    margin: 16px 0 6px;\n    border-radius: 10px;\n    overflow: hidden;\n    position: relative;\n}\n.ad-carousel-img[data-v-0b82b320] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n.ad-carousel-dots[data-v-0b82b320] {\n    position: absolute;\n    bottom: 8px;\n    left: 50%;\n    transform: translateX(-50%);\n    display: flex;\n    gap: 6px;\n    z-index: 10;\n}\n.ad-dot[data-v-0b82b320] {\n    width: 7px; height: 7px; border-radius: 50%;\n    background: rgba(255,255,255,0.45);\n    cursor: pointer;\n    transition: background 0.2s;\n}\n.ad-dot.active[data-v-0b82b320] { background: #FFA500;\n}\n.ad-fade-enter-active[data-v-0b82b320], .ad-fade-leave-active[data-v-0b82b320] { transition: opacity 0.5s ease;\n}\n.ad-fade-enter[data-v-0b82b320], .ad-fade-leave-to[data-v-0b82b320] { opacity: 0;\n}\n\n/* Mobile: stack columns */\n@media (max-width: 700px) {\n.pred-columns[data-v-0b82b320] { grid-template-columns: 1fr;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -981,17 +1015,48 @@ var render = function () {
                       )
                     }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "ad-banner" }, [
-                      _c("img", {
-                        staticClass: "ad-img",
-                        attrs: {
-                          src: _vm.$imgBase + "/images/prediction-add.png",
-                          alt: "Advertisement",
-                          onerror:
-                            "this.closest('.ad-banner').style.display='none'",
-                        },
-                      }),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "ad-carousel" },
+                      [
+                        _c(
+                          "transition",
+                          { attrs: { name: "ad-fade", mode: "out-in" } },
+                          [
+                            _c("img", {
+                              key: _vm.adIndex,
+                              staticClass: "ad-carousel-img",
+                              attrs: {
+                                src:
+                                  _vm.$imgBase +
+                                  "/images/branding_images/" +
+                                  _vm.adImages[_vm.adIndex],
+                                alt: "Advertisement",
+                              },
+                            }),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "ad-carousel-dots" },
+                          _vm._l(_vm.adImages, function (img, i) {
+                            return _c("span", {
+                              key: i,
+                              staticClass: "ad-dot",
+                              class: { active: i === _vm.adIndex },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.goAdSlide(i)
+                                },
+                              },
+                            })
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     !_vm.alreadySubmitted &&
                     !_vm.matchClosed &&
@@ -1292,17 +1357,48 @@ var render = function () {
                       )
                     }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "ad-banner" }, [
-                      _c("img", {
-                        staticClass: "ad-img",
-                        attrs: {
-                          src: _vm.$imgBase + "/images/prediction-add-two.png",
-                          alt: "Advertisement",
-                          onerror:
-                            "this.closest('.ad-banner').style.display='none'",
-                        },
-                      }),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "ad-carousel" },
+                      [
+                        _c(
+                          "transition",
+                          { attrs: { name: "ad-fade", mode: "out-in" } },
+                          [
+                            _c("img", {
+                              key: _vm.adIndex,
+                              staticClass: "ad-carousel-img",
+                              attrs: {
+                                src:
+                                  _vm.$imgBase +
+                                  "/images/branding_images/" +
+                                  _vm.adImages[_vm.adIndex],
+                                alt: "Advertisement",
+                              },
+                            }),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "ad-carousel-dots" },
+                          _vm._l(_vm.adImages, function (img, i) {
+                            return _c("span", {
+                              key: i,
+                              staticClass: "ad-dot",
+                              class: { active: i === _vm.adIndex },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.goAdSlide(i)
+                                },
+                              },
+                            })
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     !_vm.champAlreadySubmitted
                       ? _c("div", { staticClass: "submit-row" }, [

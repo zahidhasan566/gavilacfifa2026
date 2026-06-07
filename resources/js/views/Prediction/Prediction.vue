@@ -98,9 +98,17 @@
                             </div>
 
                             <!-- Ad banner after questions, before submit -->
-                            <div class="ad-banner">
-                                <img :src="$imgBase + '/images/prediction-add.png'" alt="Advertisement" class="ad-img"
-                                     onerror="this.closest('.ad-banner').style.display='none'">
+                            <div class="ad-carousel">
+                                <transition name="ad-fade" mode="out-in">
+                                    <img :key="adIndex"
+                                         :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                                         alt="Advertisement" class="ad-carousel-img">
+                                </transition>
+                                <div class="ad-carousel-dots">
+                                    <span v-for="(img, i) in adImages" :key="i"
+                                          class="ad-dot" :class="{ active: i === adIndex }"
+                                          @click="goAdSlide(i)"></span>
+                                </div>
                             </div>
 
                             <div v-if="!alreadySubmitted && !matchClosed && questions.length > 0" class="submit-row">
@@ -180,9 +188,17 @@
                             </div>
 
                             <!-- Ad banner after questions, before submit -->
-                            <div class="ad-banner">
-                                <img :src="$imgBase + '/images/prediction-add-two.png'" alt="Advertisement" class="ad-img"
-                                     onerror="this.closest('.ad-banner').style.display='none'">
+                            <div class="ad-carousel">
+                                <transition name="ad-fade" mode="out-in">
+                                    <img :key="adIndex"
+                                         :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                                         alt="Advertisement" class="ad-carousel-img">
+                                </transition>
+                                <div class="ad-carousel-dots">
+                                    <span v-for="(img, i) in adImages" :key="i"
+                                          class="ad-dot" :class="{ active: i === adIndex }"
+                                          @click="goAdSlide(i)"></span>
+                                </div>
                             </div>
 
                             <div v-if="!champAlreadySubmitted" class="submit-row">
@@ -230,13 +246,42 @@ export default {
             champAlreadySubmitted: false,
             champSubmitting: false,
             teams: [],
+            adIndex: 0,
+            _adTimer: null,
+            adImages: [
+                'FIFA website Work-09.jpg',
+                'FIFA website Work-10.jpg',
+                'FIFA website Work-11.jpg',
+                'FIFA website Work-12.jpg',
+                'FIFA website Work-13.jpg',
+                'FIFA website Work-14.jpg',
+                'FIFA website Work-15.jpg',
+                'FIFA website Work-16.jpg',
+                'FIFA website Work-17.jpg',
+                'FIFA website Work-18.jpg',
+                'FIFA website Work-19.jpg',
+            ],
         };
     },
     async mounted() {
         await this.fetchQuestions();
         this.loading = false;
+        this.startAdCarousel();
+    },
+    beforeDestroy() {
+        clearInterval(this._adTimer);
     },
     methods: {
+        startAdCarousel() {
+            clearInterval(this._adTimer);
+            this._adTimer = setInterval(() => {
+                this.adIndex = (this.adIndex + 1) % this.adImages.length;
+            }, 3000);
+        },
+        goAdSlide(i) {
+            this.adIndex = i;
+            this.startAdCarousel();
+        },
         async fetchQuestions(matchId) {
             this.loading = true;
             this.answers = {};
@@ -450,13 +495,32 @@ export default {
 .champ-submit-btn { background: linear-gradient(135deg, #FFA500, #FF6B00); }
 .champ-submit-btn:hover { background: linear-gradient(135deg, #FF6B00, #e05a00); }
 
-/* Ad Banner */
-.ad-banner {
+/* Ad Banner Carousel */
+.ad-carousel {
     margin: 16px 0 6px;
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
 }
-.ad-img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.ad-carousel-img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.ad-carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+.ad-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.ad-dot.active { background: #FFA500; }
+.ad-fade-enter-active, .ad-fade-leave-active { transition: opacity 0.5s ease; }
+.ad-fade-enter, .ad-fade-leave-to { opacity: 0; }
 
 /* Mobile: stack columns */
 @media (max-width: 700px) {

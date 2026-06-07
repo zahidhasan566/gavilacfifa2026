@@ -28,9 +28,9 @@
                     <transition :name="slideDir" mode="out-in">
                         <div :key="carouselPage" class="match-cards-grid">
                             <div v-for="match in pagedMatches" :key="match.id" class="match-card">
+                                <div class="mc-date-bold">{{ formatMatchDate(match.match_date) }}</div>
                                 <div class="mc-header">
                                     <span class="group-badge">{{ match.group_name }}, ROUND {{ match.round_number }}</span>
-                                    <span class="mc-date">{{ match.match_date }}</span>
                                     <span class="mc-venue">
                                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"/></svg>
                                         {{ match.venue || 'TBD' }}
@@ -84,9 +84,18 @@
                     </div>
                 </div>
 
-                <!-- Abecab Advertisement Banner -->
-                <div class="ad-banner">
-                    <img :src="$imgBase + '/images/abecab-ad.png'" alt="Abecab Advertisement" class="ad-img" onerror="this.closest('.ad-banner').style.display='none'">
+                <!-- Ad Banner Carousel -->
+                <div class="ad-carousel">
+                    <transition name="ad-fade" mode="out-in">
+                        <img :key="adIndex"
+                             :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                             alt="Advertisement" class="ad-carousel-img">
+                    </transition>
+                    <div class="ad-carousel-dots">
+                        <span v-for="(img, i) in adImages" :key="i"
+                              class="ad-dot" :class="{ active: i === adIndex }"
+                              @click="goAdSlide(i)"></span>
+                    </div>
                 </div>
             </div>
 
@@ -161,6 +170,21 @@ export default {
             carouselPage: 0, slideDir: 'mc-slide-left',
             _autoTimer: null,
             windowWidth: typeof window !== 'undefined' ? window.innerWidth : 1024,
+            adIndex: 0,
+            _adTimer: null,
+            adImages: [
+                'FIFA website Work-09.jpg',
+                'FIFA website Work-10.jpg',
+                'FIFA website Work-11.jpg',
+                'FIFA website Work-12.jpg',
+                'FIFA website Work-13.jpg',
+                'FIFA website Work-14.jpg',
+                'FIFA website Work-15.jpg',
+                'FIFA website Work-16.jpg',
+                'FIFA website Work-17.jpg',
+                'FIFA website Work-18.jpg',
+                'FIFA website Work-19.jpg',
+            ],
         };
     },
     computed: {
@@ -188,10 +212,12 @@ export default {
         await Promise.all([this.fetchMatches(), this.fetchWinners(), this.fetchMyPoints()]);
         this.loading = false;
         this.startAutoSlide();
+        this.startAdCarousel();
         window.addEventListener('resize', this.onResize);
     },
     beforeDestroy() {
         clearInterval(this._autoTimer);
+        clearInterval(this._adTimer);
         window.removeEventListener('resize', this.onResize);
     },
     methods: {
@@ -238,6 +264,24 @@ export default {
             const { data } = await this.$http.get('/api/winners/my-points');
             this.myPoints = data.data.total_points;
         },
+        startAdCarousel() {
+            clearInterval(this._adTimer);
+            this._adTimer = setInterval(() => {
+                this.adIndex = (this.adIndex + 1) % this.adImages.length;
+            }, 3000);
+        },
+        goAdSlide(i) {
+            this.adIndex = i;
+            this.startAdCarousel();
+        },
+        formatMatchDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d)) return dateStr;
+            const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+            const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+            return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+        },
         teamFlagUrl(team) {
             if (!team || !team.flag_emoji) return window.__IMG__ + '/images/default-avatar.png';
             return `https://flagcdn.com/w40/${team.flag_emoji.toLowerCase()}.png`;
@@ -247,18 +291,37 @@ export default {
 </script>
 
 <style scoped>
-/* ── Ad Banner (inside ls-matches-section) ─── */
-.ad-banner {
+/* ── Ad Banner Carousel ─── */
+.ad-carousel {
     width: 100%;
     overflow: hidden;
     flex-shrink: 0;
     border-top: 1px solid rgba(255,255,255,0.07);
+    position: relative;
 }
-.ad-img {
+.ad-carousel-img {
     width: 100%;
     height: auto;
     display: block;
 }
+.ad-carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+.ad-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.ad-dot.active { background: #FFA500; }
+.ad-fade-enter-active, .ad-fade-leave-active { transition: opacity 0.5s ease; }
+.ad-fade-enter, .ad-fade-leave-to { opacity: 0; }
 
 /* ── Outer Card ─────────────────────────────── */
 .ls-card {
@@ -338,6 +401,16 @@ export default {
     padding: 18px 20px;
     border-right: 1px solid rgba(255,255,255,0.07);
     border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Bold date header */
+.mc-date-bold {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #fff;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
 }
 
 /* Card Header */

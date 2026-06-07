@@ -7,6 +7,7 @@
         <!-- Top bar: FIFA logo left only -->
         <div class="auth-brand">
             <img :src="$imgBase + '/images/fifa-logo.png'" alt="FIFA" class="brand-logo" @error="e => e.target.style.display='none'">
+            <img :src="$imgBase + '/images/aci-logo.png'" alt="ACI" class="brand-logo-mobile" @error="e => e.target.style.display='none'">
             <img :src="$imgBase + '/images/login-bg.jpg'" class="brand-center-img" onerror="this.style.display='none'">
         </div>
 
@@ -129,6 +130,7 @@ export default {
     padding: 14px 28px; z-index: 10; background: none;
 }
 .brand-logo { height: 64px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+.brand-logo-mobile { display: none; height: 64px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.4); }
 .brand-center-img { display: none; }
 
 /* Bottom bar — ACI logo, left-aligned under FIFA logo */
@@ -169,6 +171,8 @@ export default {
     }
     .auth-brand { justify-content: space-between; }
     .auth-brand-bottom { display: none; }
+    .brand-logo { display: none; }
+    .brand-logo-mobile { display: block; }
     .auth-fifa-logo { height: 48px; }
     .auth-abetis-logo { height: 40px; }
     .auth-brand-divider { height: 36px; }

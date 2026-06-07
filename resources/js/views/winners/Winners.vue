@@ -7,7 +7,7 @@
                 <img :src="$imgBase + '/images/ball-icon.png'" class="sh-ball-img" @error="hideImg">
             </div>
             <div class="sh-text">
-                <div class="section-title">Raffle Draw Winners</div>
+                <div class="section-title">Leadership Board </div>
                 <div class="section-sub">FIFA World Cup 2026™</div>
             </div>
             <div class="auto-refresh-badge">
@@ -170,10 +170,18 @@
                     </template>
                 </template>
 
-                <!-- Advertisement -->
-                <div class="winner-ad-banner">
-                    <img :src="$imgBase + '/images/winneradd.png'" alt="Advertisement" class="winner-ad-img"
-                         @error="e => e.target.closest('.winner-ad-banner').style.display='none'">
+                <!-- Advertisement Carousel -->
+                <div class="winner-ad-carousel">
+                    <transition name="ad-fade" mode="out-in">
+                        <img :key="adIndex"
+                             :src="$imgBase + '/images/branding_images/' + adImages[adIndex]"
+                             alt="Advertisement" class="winner-ad-carousel-img">
+                    </transition>
+                    <div class="winner-ad-dots">
+                        <span v-for="(img, i) in adImages" :key="i"
+                              class="ad-dot" :class="{ active: i === adIndex }"
+                              @click="goAdSlide(i)"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,6 +207,21 @@ export default {
             selectedMatchIdx: 0,
             _pollTimer: null,
             _slideTimer: null,
+            _adTimer: null,
+            adIndex: 0,
+            adImages: [
+                'FIFA website Work-09.jpg',
+                'FIFA website Work-10.jpg',
+                'FIFA website Work-11.jpg',
+                'FIFA website Work-12.jpg',
+                'FIFA website Work-13.jpg',
+                'FIFA website Work-14.jpg',
+                'FIFA website Work-15.jpg',
+                'FIFA website Work-16.jpg',
+                'FIFA website Work-17.jpg',
+                'FIFA website Work-18.jpg',
+                'FIFA website Work-19.jpg',
+            ],
         };
     },
     computed: {
@@ -215,13 +238,25 @@ export default {
         await this.loadData();
         this.loading = false;
         this.startAutoSlide();
+        this.startAdCarousel();
         this._pollTimer = setInterval(this.loadData, POLL_INTERVAL);
     },
     beforeDestroy() {
         clearInterval(this._pollTimer);
         clearInterval(this._slideTimer);
+        clearInterval(this._adTimer);
     },
     methods: {
+        startAdCarousel() {
+            clearInterval(this._adTimer);
+            this._adTimer = setInterval(() => {
+                this.adIndex = (this.adIndex + 1) % this.adImages.length;
+            }, 3000);
+        },
+        goAdSlide(i) {
+            this.adIndex = i;
+            this.startAdCarousel();
+        },
         async loadData() {
             try {
                 const { data } = await this.$http.get('/api/winners/raffle');
@@ -528,4 +563,31 @@ export default {
     .cs-deco { width: 48px; }
     .cards-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── Winner Ad Carousel ── */
+.winner-ad-carousel {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.winner-ad-carousel-img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.winner-ad-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+.ad-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.ad-dot.active { background: #FFA500; }
+.ad-fade-enter-active, .ad-fade-leave-active { transition: opacity 0.5s ease; }
+.ad-fade-enter, .ad-fade-leave-to { opacity: 0; }
 </style>
