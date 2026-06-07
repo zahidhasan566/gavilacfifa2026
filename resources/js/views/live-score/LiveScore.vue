@@ -21,55 +21,66 @@
                 </div>
 
                 <div v-if="loading" class="state-msg">Loading matches...</div>
-                <div v-else-if="displayMatches.length === 0" class="state-msg">No live matches right now.</div>
+                <div v-else-if="displayMatches.length === 0" class="state-msg">No matches right now.</div>
 
-                <div class="match-cards-grid">
-                    <div v-for="match in displayMatches" :key="match.id" class="match-card">
-                        <!-- Card Header -->
-                        <div class="mc-header">
-                            <span class="group-badge">{{ match.group_name }}, ROUND {{ match.round_number }}</span>
-                            <span class="mc-date">{{ match.match_date }}</span>
-                            <span class="mc-venue">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"/></svg>
-                                {{ match.venue || 'TBD' }}
-                            </span>
-                        </div>
-
-                        <!-- Teams & Score -->
-                        <div class="mc-body">
-                            <div class="team-col">
-                                <img :src="teamFlagUrl(match.team1)" class="team-flag-img"
-                                     onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
-                                <span class="team-name">{{ (match.team1 && match.team1.name) || 'TBD' }}</span>
-                            </div>
-                            <div class="score-col">
-                                <div class="score-row">
-                                    <div class="score-circle">{{ match.team1_score != null ? match.team1_score : '—' }}</div>
-                                    <span class="score-dash">—</span>
-                                    <div class="score-circle">{{ match.team2_score != null ? match.team2_score : '—' }}</div>
+                <!-- Carousel -->
+                <div v-else class="mc-carousel-wrap">
+                    <transition :name="slideDir" mode="out-in">
+                        <div :key="carouselPage" class="match-cards-grid">
+                            <div v-for="match in pagedMatches" :key="match.id" class="match-card">
+                                <div class="mc-header">
+                                    <span class="group-badge">{{ match.group_name }}, ROUND {{ match.round_number }}</span>
+                                    <span class="mc-date">{{ match.match_date }}</span>
+                                    <span class="mc-venue">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"/></svg>
+                                        {{ match.venue || 'TBD' }}
+                                    </span>
                                 </div>
-                                <div class="mc-time">{{ match.match_time || '' }}</div>
-                                <span v-if="match.status === 'live'" class="live-badge">LIVE</span>
-                                <span v-if="match.status === 'completed'" class="ft-badge">FT</span>
-                            </div>
-                            <div class="team-col right">
-                                <img :src="teamFlagUrl(match.team2)" class="team-flag-img"
-                                     onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
-                                <span class="team-name">{{ (match.team2 && match.team2.name) || 'TBD' }}</span>
+                                <div class="mc-body">
+                                    <div class="team-col">
+                                        <img :src="teamFlagUrl(match.team1)" class="team-flag-img"
+                                             onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
+                                        <span class="team-name">{{ (match.team1 && match.team1.name) || 'TBD' }}</span>
+                                    </div>
+                                    <div class="score-col">
+                                        <div class="score-row">
+                                            <div class="score-circle">{{ match.team1_score != null ? match.team1_score : '—' }}</div>
+                                            <span class="score-dash">—</span>
+                                            <div class="score-circle">{{ match.team2_score != null ? match.team2_score : '—' }}</div>
+                                        </div>
+                                        <div class="mc-time">{{ match.match_time || '' }}</div>
+                                        <span v-if="match.status === 'live'" class="live-badge">LIVE</span>
+                                        <span v-if="match.status === 'completed'" class="ft-badge">FT</span>
+                                    </div>
+                                    <div class="team-col right">
+                                        <img :src="teamFlagUrl(match.team2)" class="team-flag-img"
+                                             onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
+                                        <span class="team-name">{{ (match.team2 && match.team2.name) || 'TBD' }}</span>
+                                    </div>
+                                </div>
+                                <div v-if="match.status !== 'upcoming'" class="mc-halves">
+                                    <div class="half-row">
+                                        <span>1ST HALF</span>
+                                        <span>{{ match.team1_half1 != null ? match.team1_half1 : 0 }} - {{ match.team2_half1 != null ? match.team2_half1 : 0 }}</span>
+                                    </div>
+                                    <div class="half-row alt">
+                                        <span>2ND HALF</span>
+                                        <span>{{ match.team1_half2 != null ? match.team1_half2 : 0 }} - {{ match.team2_half2 != null ? match.team2_half2 : 0 }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </transition>
 
-                        <!-- Half Scores -->
-                        <div v-if="match.status !== 'upcoming'" class="mc-halves">
-                            <div class="half-row">
-                                <span>1ST HALF</span>
-                                <span>{{ match.team1_half1 != null ? match.team1_half1 : 0 }} - {{ match.team2_half1 != null ? match.team2_half1 : 0 }}</span>
-                            </div>
-                            <div class="half-row alt">
-                                <span>2ND HALF</span>
-                                <span>{{ match.team1_half2 != null ? match.team1_half2 : 0 }} - {{ match.team2_half2 != null ? match.team2_half2 : 0 }}</span>
-                            </div>
+                    <!-- Controls -->
+                    <div class="mc-controls" v-if="totalPages > 1">
+                        <button class="mc-arrow" @click="prevPage">&#8249;</button>
+                        <div class="mc-dots">
+                            <span v-for="p in totalPages" :key="p"
+                                  class="mc-dot" :class="{ active: p - 1 === carouselPage }"
+                                  @click="goPage(p - 1)"></span>
                         </div>
+                        <button class="mc-arrow" @click="nextPage">&#8250;</button>
                     </div>
                 </div>
 
@@ -92,30 +103,43 @@
                     <div class="mp-badge">{{ myPoints }}</div>
                 </div>
 
-                <!-- Top 10 Winners -->
+                <!-- Top 10 Match Winners -->
                 <div class="top10-card">
                     <div class="top10-header">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFA500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m12 0h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22m4-7.34V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
                         <div>
                             <div class="top10-title">Top 10 Winners</div>
-                            <div class="top10-sub">FIFA world cup 2026</div>
+                            <div class="top10-sub">Last 24 hours · by match</div>
                         </div>
                     </div>
+
+                    <!-- Match tabs -->
+                    <div v-if="recentMatches.length > 0" class="match-tabs">
+                        <button v-for="m in recentMatches" :key="m.id"
+                                class="match-tab" :class="{ active: selectedMatchId === m.id }"
+                                @click="selectedMatchId = m.id">
+                            {{ m.team1 }} vs {{ m.team2 }}
+                        </button>
+                    </div>
+
                     <div class="top10-list">
-                        <div v-for="(w, i) in topWinners" :key="w.id" class="top10-item">
-                            <span class="rank-num">{{ i + 1 }}</span>
-                            <img :src="w.profile_picture_url" class="w-avatar"
-                                 onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
-                            <div class="w-info">
-                                <div class="w-name">{{ w.name }}</div>
-                                <div class="w-code">Doctor Code: {{ w.unique_code }}</div>
+                        <template v-if="recentMatches.length > 0 && selectedMatchWinners.length > 0">
+                            <div v-for="w in selectedMatchWinners" :key="w.id" class="top10-item">
+                                <span class="rank-num">{{ w.rank }}</span>
+                                <img :src="w.profile_picture_url" class="w-avatar"
+                                     onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
+                                <div class="w-info">
+                                    <div class="w-name">{{ w.name }}</div>
+                                    <div class="w-code">{{ w.unique_code }}</div>
+                                </div>
+                                <div class="w-pts-wrap">
+                                    <span class="w-points">{{ w.match_points }}</span>
+                                    <span class="w-pts-label">Points</span>
+                                </div>
                             </div>
-                            <div class="w-pts-wrap">
-                                <span class="w-points">{{ w.total_points }}</span>
-                                <span class="w-pts-label">Points</span>
-                            </div>
-                        </div>
-                        <div v-if="topWinners.length === 0" class="state-msg">No data yet.</div>
+                        </template>
+                        <div v-else-if="recentMatches.length > 0" class="state-msg">No predictions for this match.</div>
+                        <div v-else class="state-msg">Winners appear here after a match completes.</div>
                     </div>
                 </div>
             </div>
@@ -131,21 +155,70 @@ export default {
     name: 'LiveScore',
     data() {
         return {
-            liveMatches: [], upcomingMatches: [], topWinners: [],
+            liveMatches: [], upcomingMatches: [],
+            recentMatches: [], selectedMatchId: null,
             myPoints: 0, loading: true,
+            carouselPage: 0, slideDir: 'mc-slide-left',
+            _autoTimer: null,
+            windowWidth: typeof window !== 'undefined' ? window.innerWidth : 1024,
         };
     },
     computed: {
         ...mapGetters(['currentUser']),
+        selectedMatchWinners() {
+            const m = this.recentMatches.find(function(m) { return m.id === this.selectedMatchId; }, this);
+            return m ? m.winners : [];
+        },
+        perPage() {
+            return this.windowWidth <= 640 ? 1 : 2;
+        },
         displayMatches() {
-            return [...this.liveMatches, ...this.upcomingMatches].slice(0, 4);
+            const nextDate = this.upcomingMatches.length ? this.upcomingMatches[0].match_date : null;
+            const upcoming = nextDate ? this.upcomingMatches.filter(m => m.match_date === nextDate) : [];
+            return [...this.liveMatches, ...upcoming];
+        },
+        totalPages() {
+            return Math.ceil(this.displayMatches.length / this.perPage);
+        },
+        pagedMatches() {
+            return this.displayMatches.slice(this.carouselPage * this.perPage, this.carouselPage * this.perPage + this.perPage);
         },
     },
     async mounted() {
         await Promise.all([this.fetchMatches(), this.fetchWinners(), this.fetchMyPoints()]);
         this.loading = false;
+        this.startAutoSlide();
+        window.addEventListener('resize', this.onResize);
+    },
+    beforeDestroy() {
+        clearInterval(this._autoTimer);
+        window.removeEventListener('resize', this.onResize);
     },
     methods: {
+        onResize() {
+            this.windowWidth = window.innerWidth;
+            if (this.carouselPage >= this.totalPages) this.carouselPage = 0;
+        },
+        startAutoSlide() {
+            clearInterval(this._autoTimer);
+            this._autoTimer = setInterval(this.nextPage, 4000);
+        },
+        nextPage() {
+            if (this.totalPages < 2) return;
+            this.slideDir = 'mc-slide-left';
+            this.carouselPage = (this.carouselPage + 1) % this.totalPages;
+        },
+        prevPage() {
+            if (this.totalPages < 2) return;
+            this.slideDir = 'mc-slide-right';
+            this.carouselPage = (this.carouselPage - 1 + this.totalPages) % this.totalPages;
+            this.startAutoSlide();
+        },
+        goPage(p) {
+            this.slideDir = p > this.carouselPage ? 'mc-slide-left' : 'mc-slide-right';
+            this.carouselPage = p;
+            this.startAutoSlide();
+        },
         async fetchMatches() {
             const [live, upcoming] = await Promise.all([
                 this.$http.get('/api/matches/live'),
@@ -155,8 +228,11 @@ export default {
             this.upcomingMatches = upcoming.data.data;
         },
         async fetchWinners() {
-            const { data } = await this.$http.get('/api/winners');
-            this.topWinners = data.data;
+            const { data } = await this.$http.get('/api/winners/recent-matches');
+            this.recentMatches = data.data || [];
+            if (this.recentMatches.length && !this.selectedMatchId) {
+                this.selectedMatchId = this.recentMatches[0].id;
+            }
         },
         async fetchMyPoints() {
             const { data } = await this.$http.get('/api/winners/my-points');
@@ -182,7 +258,6 @@ export default {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;
 }
 
 /* ── Outer Card ─────────────────────────────── */
@@ -231,6 +306,31 @@ export default {
 }
 
 .state-msg { color: rgba(255,255,255,0.4); text-align: center; padding: 48px 20px; }
+
+/* Carousel wrapper */
+.mc-carousel-wrap { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.mc-controls {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
+}
+.mc-arrow {
+    background: rgba(255,255,255,0.08); border: none; color: #fff;
+    font-size: 1.4rem; width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+}
+.mc-arrow:hover { background: rgba(255,165,0,.3); color: #FFA500; }
+.mc-dots { display: flex; gap: 6px; }
+.mc-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s; }
+.mc-dot.active { background: #FFA500; }
+
+/* Slide transitions */
+.mc-slide-left-enter-active, .mc-slide-left-leave-active,
+.mc-slide-right-enter-active, .mc-slide-right-leave-active { transition: all .4s ease; }
+.mc-slide-left-enter { transform: translateX(100%); opacity: 0; }
+.mc-slide-left-leave-to { transform: translateX(-100%); opacity: 0; }
+.mc-slide-right-enter { transform: translateX(-100%); opacity: 0; }
+.mc-slide-right-leave-to { transform: translateX(100%); opacity: 0; }
 
 /* Match Grid */
 .match-cards-grid { display: grid; grid-template-columns: 1fr 1fr; flex: 1; }
@@ -320,6 +420,21 @@ export default {
     padding: 6px 16px; border-radius: 20px;
     font-family: 'Rajdhani', sans-serif; flex-shrink: 0;
 }
+
+/* Match tabs */
+.match-tabs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.1);
+}
+.match-tab {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; color: rgba(255,255,255,0.6);
+    font-size: 0.68rem; font-weight: 600; padding: 4px 10px;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.match-tab:hover { border-color: rgba(255,165,0,0.4); color: #FFA500; }
+.match-tab.active { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500; }
 
 /* Top 10 */
 .top10-card { flex: 1; display: flex; flex-direction: column; overflow: hidden; }

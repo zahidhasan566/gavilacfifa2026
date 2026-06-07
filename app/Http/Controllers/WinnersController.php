@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MatchGame;
 use App\Models\Prediction;
 use App\Models\RaffleDraw;
 use App\Models\User;
@@ -74,43 +75,144 @@ class WinnersController extends Controller
             ->orderByDesc('draw_date')
             ->get();
 
-        $carousel = $draws->map(fn($d) => [
-            'id'                  => $d->id,
-            'name'                => $d->user?->name,
-            'unique_code'         => $d->user?->unique_code,
-            'prize_points'        => $d->prize_points,
-            'draw_date'           => $d->draw_date?->format('d/m/Y'),
-            'notes'               => $d->notes,
-            'profile_picture_url' => $d->user?->profile_picture_url,
-            'match_label'         => $d->match
-                ? ($d->match->team1?->name . ' vs ' . $d->match->team2?->name)
-                : 'General Draw',
-            'match_date'          => $d->match?->match_date?->format('d/m/Y'),
-        ])->values();
+        $carousel = $draws->map(function ($d) {
+            $user  = $d->user;
+            $match = $d->match;
 
-        $byMatch = $draws->groupBy(fn($d) => $d->match_id ?? 'general')
-            ->map(function ($group) {
-                $first = $group->first();
-                return [
-                    'match_label' => $first->match
-                        ? ($first->match->team1?->name . ' vs ' . $first->match->team2?->name)
-                        : 'General Draw',
-                    'match_date'  => $first->match?->match_date?->format('d/m/Y'),
-                    'winners'     => $group->map(fn($d) => [
+            return [
+                'id'                  => $d->id,
+                'name'                => $user ? $user->name : null,
+                'unique_code'         => $user ? $user->unique_code : null,
+                'prize_points'        => $d->prize_points,
+                'draw_date'           => $d->draw_date ? $d->draw_date->format('d/m/Y') : null,
+                'notes'               => $d->notes,
+                'profile_picture_url' => $user ? $user->profile_picture_url : asset('images/default-avatar.png'),
+                'match_label'         => $match
+                    ? (($match->team1 ? $match->team1->name : '?') . ' vs ' . ($match->team2 ? $match->team2->name : '?'))
+                    : 'General Draw',
+                'match_date'          => $match && $match->match_date ? $match->match_date->format('d/m/Y') : null,
+            ];
+        })->values();
+
+        $byMatch = $draws->groupBy(function ($d) {
+            return $d->match_id ?? 'general';
+        })->map(function ($group) {
+            $first = $group->first();
+            $match = $first->match;
+
+            return [
+                'match_label' => $match
+                    ? (($match->team1 ? $match->team1->name : '?') . ' vs ' . ($match->team2 ? $match->team2->name : '?'))
+                    : 'General Draw',
+                'match_date'  => $match && $match->match_date ? $match->match_date->format('d/m/Y') : null,
+                'winners'     => $group->map(function ($d) {
+                    $user = $d->user;
+                    return [
                         'id'                  => $d->id,
-                        'name'                => $d->user?->name,
-                        'unique_code'         => $d->user?->unique_code,
+                        'name'                => $user ? $user->name : null,
+                        'unique_code'         => $user ? $user->unique_code : null,
                         'prize_points'        => $d->prize_points,
-                        'draw_date'           => $d->draw_date?->format('d/m/Y'),
+                        'draw_date'           => $d->draw_date ? $d->draw_date->format('d/m/Y') : null,
                         'notes'               => $d->notes,
-                        'profile_picture_url' => $d->user?->profile_picture_url,
-                    ])->values(),
-                ];
-            })->values();
+                        'profile_picture_url' => $user ? $user->profile_picture_url : asset('images/default-avatar.png'),
+                    ];
+                })->values(),
+            ];
+        })->values();
 
         return response()->json([
             'status' => 'success',
             'data'   => ['carousel' => $carousel, 'by_match' => $byMatch],
+        ]);
+    }
+
+    public function recentMatchesWinners()
+    {
+        $matches = MatchGame::with(['team1', 'team2'])
+            ->where('status', 'completed')
+            ->where('updated_at', '>=', now()->subHours(24))
+            ->orderByDesc('updated_at')
+            ->get();
+
+        $result = $matches->map(function ($match) {
+            $winners = User::select('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
+                ->selectRaw('SUM(predictions.points_earned) as match_points')
+                ->join('predictions', 'users.id', '=', 'predictions.user_id')
+                ->where('predictions.match_id', $match->id)
+                ->where('users.role', 'user')
+                ->where('users.status', 1)
+                ->groupBy('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
+                ->orderByDesc('match_points')
+                ->limit(10)
+                ->get()
+                ->map(function ($u, $i) {
+                    return [
+                        'rank'                => $i + 1,
+                        'id'                  => $u->id,
+                        'name'                => $u->name,
+                        'unique_code'         => $u->unique_code,
+                        'match_points'        => (int) $u->match_points,
+                        'profile_picture_url' => $u->profile_picture_url,
+                    ];
+                });
+
+            return [
+                'id'         => $match->id,
+                'team1'      => $match->team1 ? $match->team1->name : '?',
+                'team2'      => $match->team2 ? $match->team2->name : '?',
+                'match_date' => $match->match_date ? $match->match_date->format('d/m/Y') : null,
+                'winners'    => $winners,
+            ];
+        });
+
+        return response()->json(['status' => 'success', 'data' => $result]);
+    }
+
+    public function recentMatchWinners()
+    {
+        // Most recently completed match within the last 24 hours
+        $match = MatchGame::with(['team1', 'team2'])
+            ->where('status', 'completed')
+            ->where('updated_at', '>=', now()->subHours(24))
+            ->orderByDesc('updated_at')
+            ->first();
+
+        if (!$match) {
+            return response()->json(['status' => 'success', 'data' => ['match' => null, 'winners' => []]]);
+        }
+
+        $winners = User::select('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
+            ->selectRaw('SUM(predictions.points_earned) as match_points')
+            ->join('predictions', 'users.id', '=', 'predictions.user_id')
+            ->where('predictions.match_id', $match->id)
+            ->where('users.role', 'user')
+            ->where('users.status', 1)
+            ->groupBy('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
+            ->orderByDesc('match_points')
+            ->limit(10)
+            ->get()
+            ->map(function ($u, $i) {
+                return [
+                    'rank'                => $i + 1,
+                    'id'                  => $u->id,
+                    'name'                => $u->name,
+                    'unique_code'         => $u->unique_code,
+                    'match_points'        => (int) $u->match_points,
+                    'profile_picture_url' => $u->profile_picture_url,
+                ];
+            });
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'match'   => [
+                    'id'         => $match->id,
+                    'team1'      => $match->team1 ? $match->team1->name : '?',
+                    'team2'      => $match->team2 ? $match->team2->name : '?',
+                    'match_date' => $match->match_date ? $match->match_date->format('d/m/Y') : null,
+                ],
+                'winners' => $winners,
+            ],
         ]);
     }
 
@@ -126,7 +228,7 @@ class WinnersController extends Controller
             ->groupBy('users.id')
             ->orderByDesc('total_points')
             ->get()
-            ->search(fn($u) => $u->id === $user->id);
+            ->search(function ($u) use ($user) { return $u->id === $user->id; });
 
         return response()->json([
             'status' => 'success',

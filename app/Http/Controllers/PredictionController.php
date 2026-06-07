@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MatchGame;
 use App\Models\Prediction;
 use App\Models\Question;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -17,6 +18,27 @@ class PredictionController extends Controller
 
         $matchId = $request->match_id;
 
+        // Find the nearest date that has upcoming (not started) matches only
+        $nearestDate = MatchGame::where('status', 'upcoming')
+            ->orderBy('match_date')
+            ->value('match_date');
+
+        // All matches on that nearest date (for the tab list)
+        $availableMatches = $nearestDate
+            ? MatchGame::with(['team1', 'team2'])
+                ->where('status', 'upcoming')
+                ->whereDate('match_date', $nearestDate)
+                ->orderBy('match_time')
+                ->get()
+                ->map(function ($m) {
+                    return [
+                        'id'    => $m->id,
+                        'label' => ($m->team1 ? $m->team1->name : '?') . ' vs ' . ($m->team2 ? $m->team2->name : '?'),
+                        'time'  => $m->match_time,
+                    ];
+                })
+            : collect();
+
         if ($matchId) {
             $match = MatchGame::with(['team1', 'team2'])->find($matchId);
             $matchQuestions = Question::where('match_id', $matchId)
@@ -24,10 +46,13 @@ class PredictionController extends Controller
                 ->orderBy('sort_order')
                 ->get();
         } else {
-            $match = MatchGame::with(['team1', 'team2'])
-                ->whereIn('status', ['live', 'upcoming'])
-                ->orderBy('match_date')
-                ->first();
+            $match = $nearestDate
+                ? MatchGame::with(['team1', 'team2'])
+                    ->where('status', 'upcoming')
+                    ->whereDate('match_date', $nearestDate)
+                    ->orderBy('match_time')
+                    ->first()
+                : null;
 
             $matchQuestions = $match
                 ? Question::where('match_id', $match->id)->where('is_active', true)->orderBy('sort_order')->get()
@@ -69,8 +94,12 @@ class PredictionController extends Controller
             ];
         };
 
+        $teams = Team::orderBy('group_name')->orderBy('name')->get(['id', 'name', 'flag_emoji', 'group_name']);
+
         return response()->json([
-            'status'    => 'success',
+            'status'           => 'success',
+            'teams'            => $teams,
+            'available_matches' => $availableMatches,
             'match'     => $match ? [
                 'id'         => $match->id,
                 'group_name' => $match->group_name,
@@ -113,8 +142,8 @@ class PredictionController extends Controller
 
         if (!$isChampionship) {
             $match = MatchGame::find($request->match_id);
-            if ($match->status === 'completed') {
-                return response()->json(['status' => 'error', 'message' => 'This match is already completed.'], 422);
+            if ($match->status !== 'upcoming') {
+                return response()->json(['status' => 'error', 'message' => 'Predictions are closed — this match has already started.'], 422);
             }
         }
 

@@ -161,7 +161,7 @@ export default {
 
 @media (max-width: 768px) {
     .auth-wrapper { flex-direction: column; align-items: center; }
-    .auth-side-img { display: none; }
+    .auth-side-img { display: block; width: auto; max-width: 100%; height: auto; margin: 0 auto; border-radius: 12px; }
     .brand-center-img {
         display: block;
         height: 44px; width: auto; object-fit: contain;

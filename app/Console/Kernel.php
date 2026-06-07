@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Sync live scores every minute during match hours
+        $schedule->command('scores:sync')->everyMinute();
     }
 
     /**

@@ -190,12 +190,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Prediction',
+  computed: {
+    matchClosed: function matchClosed() {
+      return this.match && this.match.status !== 'upcoming';
+    },
+    groupedTeams: function groupedTeams() {
+      var map = {};
+      this.teams.forEach(function (t) {
+        var g = t.group_name || 'Other';
+        if (!map[g]) map[g] = [];
+        map[g].push(t);
+      });
+      return Object.keys(map).sort().map(function (g) {
+        return {
+          group: g,
+          teams: map[g]
+        };
+      });
+    }
+  },
   data: function data() {
     return {
       match: null,
+      availableMatches: [],
       questions: [],
       answers: {},
       alreadySubmitted: false,
@@ -204,7 +256,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       champQuestions: [],
       champAnswers: {},
       champAlreadySubmitted: false,
-      champSubmitting: false
+      champSubmitting: false,
+      teams: []
     };
   },
   mounted: function mounted() {
@@ -225,34 +278,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
-    fetchQuestions: function fetchQuestions() {
+    fetchQuestions: function fetchQuestions(matchId) {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _yield$_this2$$http$g, data;
+        var params, _yield$_this2$$http$g, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return _this2.$http.get('/api/predictions/questions');
-            case 2:
+              _this2.loading = true;
+              _this2.answers = {};
+              params = matchId ? {
+                match_id: matchId
+              } : {};
+              _context2.next = 5;
+              return _this2.$http.get('/api/predictions/questions', {
+                params: params
+              });
+            case 5:
               _yield$_this2$$http$g = _context2.sent;
               data = _yield$_this2$$http$g.data;
+              _this2.availableMatches = data.available_matches || [];
               _this2.match = data.match;
               _this2.questions = data.questions;
               _this2.alreadySubmitted = data.already_submitted;
               _this2.questions.forEach(function (q) {
                 if (q.selected_answer) _this2.$set(_this2.answers, q.id, q.selected_answer);
               });
+              _this2.teams = data.teams || [];
               _this2.champQuestions = data.champ_questions || [];
               _this2.champAlreadySubmitted = data.champ_already_submitted || false;
               _this2.champQuestions.forEach(function (q) {
                 if (q.selected_answer) _this2.$set(_this2.champAnswers, q.id, q.selected_answer);
               });
-            case 11:
+              _this2.loading = false;
+            case 17:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
+      }))();
+    },
+    switchMatch: function switchMatch(matchId) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _this3.fetchQuestions(matchId);
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
       }))();
     },
     setAnswer: function setAnswer(qId, val) {
@@ -262,13 +340,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$set(this.champAnswers, qId, val);
     },
     submitPredictions: function submitPredictions() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var preds, _e$response, _e$response$data;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              preds = Object.entries(_this3.answers).map(function (_ref) {
+              preds = Object.entries(_this4.answers).map(function (_ref) {
                 var _ref2 = _slicedToArray(_ref, 2),
                   qId = _ref2[0],
                   ans = _ref2[1];
@@ -278,47 +356,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
               });
               if (!(preds.length === 0)) {
-                _context3.next = 4;
+                _context4.next = 4;
                 break;
               }
-              _this3.$toaster.error('Please answer at least one question.');
-              return _context3.abrupt("return");
+              _this4.$toaster.error('Please answer at least one question.');
+              return _context4.abrupt("return");
             case 4:
-              _this3.submitting = true;
-              _context3.prev = 5;
-              _context3.next = 8;
-              return _this3.$http.post('/api/predictions/submit', {
-                match_id: _this3.match.id,
+              _this4.submitting = true;
+              _context4.prev = 5;
+              _context4.next = 8;
+              return _this4.$http.post('/api/predictions/submit', {
+                match_id: _this4.match.id,
                 predictions: preds
               });
             case 8:
-              _this3.$toaster.success('Predictions submitted!');
-              _this3.alreadySubmitted = true;
-              _context3.next = 15;
+              _this4.$toaster.success('Predictions submitted!');
+              _this4.alreadySubmitted = true;
+              _context4.next = 15;
               break;
             case 12:
-              _context3.prev = 12;
-              _context3.t0 = _context3["catch"](5);
-              _this3.$toaster.error(((_e$response = _context3.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'Submission failed.');
+              _context4.prev = 12;
+              _context4.t0 = _context4["catch"](5);
+              _this4.$toaster.error(((_e$response = _context4.t0.response) === null || _e$response === void 0 ? void 0 : (_e$response$data = _e$response.data) === null || _e$response$data === void 0 ? void 0 : _e$response$data.message) || 'Submission failed.');
             case 15:
-              _context3.prev = 15;
-              _this3.submitting = false;
-              return _context3.finish(15);
+              _context4.prev = 15;
+              _this4.submitting = false;
+              return _context4.finish(15);
             case 18:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3, null, [[5, 12, 15, 18]]);
+        }, _callee4, null, [[5, 12, 15, 18]]);
       }))();
     },
     submitChampionship: function submitChampionship() {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var preds, _e$response2, _e$response2$data;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              preds = Object.entries(_this4.champAnswers).filter(function (_ref3) {
+              preds = Object.entries(_this5.champAnswers).filter(function (_ref3) {
                 var _ref4 = _slicedToArray(_ref3, 2),
                   ans = _ref4[1];
                 return ans && ans.trim() !== '';
@@ -332,37 +410,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 };
               });
               if (!(preds.length === 0)) {
-                _context4.next = 4;
+                _context5.next = 4;
                 break;
               }
-              _this4.$toaster.error('Please answer at least one question.');
-              return _context4.abrupt("return");
+              _this5.$toaster.error('Please answer at least one question.');
+              return _context5.abrupt("return");
             case 4:
-              _this4.champSubmitting = true;
-              _context4.prev = 5;
-              _context4.next = 8;
-              return _this4.$http.post('/api/predictions/submit', {
+              _this5.champSubmitting = true;
+              _context5.prev = 5;
+              _context5.next = 8;
+              return _this5.$http.post('/api/predictions/submit', {
                 is_championship: true,
                 predictions: preds
               });
             case 8:
-              _this4.$toaster.success('Championship predictions submitted! Good luck 🏆');
-              _this4.champAlreadySubmitted = true;
-              _context4.next = 15;
+              _this5.$toaster.success('Championship predictions submitted! Good luck 🏆');
+              _this5.champAlreadySubmitted = true;
+              _context5.next = 15;
               break;
             case 12:
-              _context4.prev = 12;
-              _context4.t0 = _context4["catch"](5);
-              _this4.$toaster.error(((_e$response2 = _context4.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Submission failed.');
+              _context5.prev = 12;
+              _context5.t0 = _context5["catch"](5);
+              _this5.$toaster.error(((_e$response2 = _context5.t0.response) === null || _e$response2 === void 0 ? void 0 : (_e$response2$data = _e$response2.data) === null || _e$response2$data === void 0 ? void 0 : _e$response2$data.message) || 'Submission failed.');
             case 15:
-              _context4.prev = 15;
-              _this4.champSubmitting = false;
-              return _context4.finish(15);
+              _context5.prev = 15;
+              _this5.champSubmitting = false;
+              return _context5.finish(15);
             case 18:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
-        }, _callee4, null, [[5, 12, 15, 18]]);
+        }, _callee5, null, [[5, 12, 15, 18]]);
       }))();
     }
   }
@@ -386,7 +464,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-0b82b320] { padding: 4px 0;\n}\n\n/* Two column grid */\n.pred-columns[data-v-0b82b320] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 16px;\n    align-items: start;\n}\n\n/* Each column card */\n.pred-card[data-v-0b82b320] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n    overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n    display: flex;\n    flex-direction: column;\n}\n.champ-card[data-v-0b82b320] { border-color: rgba(255,165,0,0.35);\n}\n\n/* Header */\n.pred-header[data-v-0b82b320] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 0 12px 0 12px;\n    height: 66px; position: relative; overflow: hidden;\n    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n}\n.champ-header[data-v-0b82b320] { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n}\n.pred-icon-circle[data-v-0b82b320] {\n    width: 42px; height: 42px; border-radius: 50%;\n    background: rgba(255,255,255,0.08);\n    border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.champ-icon-circle[data-v-0b82b320] { border-color: rgba(255,165,0,0.3);\n}\n.pred-icon-img[data-v-0b82b320] { width: 26px; height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-0b82b320] { font-size: 1.3rem;\n}\n.pred-header-text[data-v-0b82b320] { flex: 1; min-width: 0;\n}\n.pred-title[data-v-0b82b320] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-0b82b320] { color: rgba(255,255,255,0.6); font-size: 0.68rem;\n}\n.pred-header-logo[data-v-0b82b320] { flex-shrink: 0;\n}\n.pred-trophy-img[data-v-0b82b320] { height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n\n/* Body */\n.pred-body[data-v-0b82b320] { padding: 14px; flex: 1;\n}\n.empty-state[data-v-0b82b320] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem;\n}\n.submitted-banner[data-v-0b82b320] {\n    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);\n    border-radius: 8px; color: #4ade80; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem;\n}\n\n/* Question block */\n.question-block[data-v-0b82b320] {\n    background: rgba(255,255,255,0.04); border-radius: 8px;\n    padding: 12px 14px; margin-bottom: 10px;\n}\n.q-header[data-v-0b82b320] { display: flex; align-items: center; gap: 8px; margin-bottom: 12px;\n}\n.q-num[data-v-0b82b320] {\n    background: #FFA500; color: #fff;\n    width: 24px; height: 24px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center;\n    font-weight: 700; font-size: 0.75rem; flex-shrink: 0;\n}\n.champ-num[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.q-text[data-v-0b82b320] { color: #fff; font-size: 0.85rem; flex: 1; line-height: 1.3;\n}\n.q-points[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem; white-space: nowrap;\n}\n.q-points strong[data-v-0b82b320] { color: #FFA500; font-size: 1rem;\n}\n\n/* Inputs */\n.text-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 12px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.text-input[data-v-0b82b320]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]:focus { border-color: #FFA500;\n}\n.text-input[data-v-0b82b320]:disabled { opacity: 0.6;\n}\n.team-choice-row[data-v-0b82b320] { display: flex; gap: 8px;\n}\n.team-btn[data-v-0b82b320] {\n    flex: 1; padding: 10px 8px; border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.08); color: #fff;\n    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;\n    cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-0b82b320]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.team-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n.dropdown-row[data-v-0b82b320] { position: relative;\n}\n.select-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 36px 10px 12px; -webkit-appearance: none; -moz-appearance: none; appearance: none;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;\n}\n.select-input option[data-v-0b82b320] { background: #1A0040;\n}\n.select-input[data-v-0b82b320]:disabled { opacity: 0.7;\n}\n.select-arrow[data-v-0b82b320] { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n.mcq-row[data-v-0b82b320] { display: flex; flex-wrap: wrap; gap: 6px;\n}\n.mcq-btn[data-v-0b82b320] {\n    padding: 7px 12px; border-radius: 6px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.05); color: #fff;\n    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-0b82b320] { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.your-answer[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.correct-badge[data-v-0b82b320] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n.wrong-badge[data-v-0b82b320] { background: rgba(239,68,68,0.15); color: #f87171; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-0b82b320] { display: flex; justify-content: flex-end; margin-top: 16px;\n}\n.submit-btn[data-v-0b82b320] {\n    background: #06B6D4; color: #fff; border: none;\n    border-radius: 8px; padding: 11px 28px;\n    font-size: 0.88rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1.5px; cursor: pointer;\n}\n.submit-btn[data-v-0b82b320]:hover { background: #0891b2;\n}\n.submit-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.champ-submit-btn[data-v-0b82b320]:hover { background: linear-gradient(135deg, #FF6B00, #e05a00);\n}\n\n/* Ad Banner */\n.ad-banner[data-v-0b82b320] {\n    margin: 16px 0 6px;\n    border-radius: 10px;\n    overflow: hidden;\n}\n.ad-img[data-v-0b82b320] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n\n/* Mobile: stack columns */\n@media (max-width: 700px) {\n.pred-columns[data-v-0b82b320] { grid-template-columns: 1fr;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.prediction-page[data-v-0b82b320] { padding: 4px 0;\n}\n\n/* Two column grid */\n.pred-columns[data-v-0b82b320] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 16px;\n    align-items: start;\n}\n\n/* Each column card */\n.pred-card[data-v-0b82b320] {\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-radius: 12px;\n    overflow: hidden;\n    border: 1px solid rgba(255,255,255,0.10);\n    display: flex;\n    flex-direction: column;\n}\n.champ-card[data-v-0b82b320] { border-color: rgba(255,165,0,0.35);\n}\n\n/* Header */\n.pred-header[data-v-0b82b320] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 0 12px 0 12px;\n    height: 66px; position: relative; overflow: hidden;\n    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n}\n.champ-header[data-v-0b82b320] { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);\n}\n.pred-icon-circle[data-v-0b82b320] {\n    width: 42px; height: 42px; border-radius: 50%;\n    background: rgba(255,255,255,0.08);\n    border: 2px solid rgba(255,255,255,0.15);\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n}\n.champ-icon-circle[data-v-0b82b320] { border-color: rgba(255,165,0,0.3);\n}\n.pred-icon-img[data-v-0b82b320] { width: 26px; height: 26px; -o-object-fit: contain; object-fit: contain;\n}\n.champ-trophy-icon[data-v-0b82b320] { font-size: 1.3rem;\n}\n.pred-header-text[data-v-0b82b320] { flex: 1; min-width: 0;\n}\n.pred-title[data-v-0b82b320] { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 800; line-height: 1.2;\n}\n.pred-sub[data-v-0b82b320] { color: rgba(255,255,255,0.6); font-size: 0.68rem;\n}\n.pred-header-logo[data-v-0b82b320] { flex-shrink: 0;\n}\n.pred-trophy-img[data-v-0b82b320] { height: 44px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n\n/* Match selector */\n.match-selector[data-v-0b82b320] {\n    display: flex; flex-wrap: wrap; gap: 6px;\n    padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);\n    background: rgba(0,0,0,0.1);\n}\n.match-tab[data-v-0b82b320] {\n    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);\n    border-radius: 20px; color: rgba(255,255,255,0.6);\n    font-size: 0.72rem; font-weight: 600; padding: 5px 12px;\n    cursor: pointer; transition: all 0.15s; white-space: nowrap;\n}\n.match-tab[data-v-0b82b320]:hover { border-color: rgba(255,165,0,0.4); color: #FFA500;\n}\n.match-tab.active[data-v-0b82b320] { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500;\n}\n\n/* Body */\n.pred-body[data-v-0b82b320] { padding: 14px; flex: 1;\n}\n.empty-state[data-v-0b82b320] { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem;\n}\n.submitted-banner[data-v-0b82b320] {\n    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);\n    border-radius: 8px; color: #4ade80; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem;\n}\n.closed-banner[data-v-0b82b320] {\n    background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.3);\n    border-radius: 8px; color: #f87171; padding: 10px 14px;\n    margin-bottom: 14px; font-size: 0.82rem; font-weight: 600;\n}\n\n/* Question block */\n.question-block[data-v-0b82b320] {\n    background: rgba(255,255,255,0.04); border-radius: 8px;\n    padding: 12px 14px; margin-bottom: 10px;\n}\n.q-header[data-v-0b82b320] { display: flex; align-items: center; gap: 8px; margin-bottom: 12px;\n}\n.q-num[data-v-0b82b320] {\n    background: #FFA500; color: #fff;\n    width: 24px; height: 24px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center;\n    font-weight: 700; font-size: 0.75rem; flex-shrink: 0;\n}\n.champ-num[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.q-text[data-v-0b82b320] { color: #fff; font-size: 0.85rem; flex: 1; line-height: 1.3;\n}\n.q-points[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem; white-space: nowrap;\n}\n.q-points strong[data-v-0b82b320] { color: #FFA500; font-size: 1rem;\n}\n\n/* Inputs */\n.text-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 12px; box-sizing: border-box;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none;\n}\n.text-input[data-v-0b82b320]::-moz-placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]::placeholder { color: rgba(255,255,255,0.35);\n}\n.text-input[data-v-0b82b320]:focus { border-color: #FFA500;\n}\n.text-input[data-v-0b82b320]:disabled { opacity: 0.6;\n}\n.team-choice-row[data-v-0b82b320] { display: flex; gap: 8px;\n}\n.team-btn[data-v-0b82b320] {\n    flex: 1; padding: 10px 8px; border-radius: 8px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.08); color: #fff;\n    font-size: 0.8rem; font-weight: 700; text-transform: uppercase;\n    cursor: pointer; transition: all 0.2s;\n}\n.team-btn[data-v-0b82b320]:hover { border-color: #FFA500; background: rgba(255,165,0,0.1);\n}\n.team-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.team-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n.dropdown-row[data-v-0b82b320] { position: relative;\n}\n.select-input[data-v-0b82b320] {\n    width: 100%; padding: 10px 36px 10px 12px; -webkit-appearance: none; -moz-appearance: none; appearance: none;\n    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;\n}\n.select-input option[data-v-0b82b320] { background: #1A0040;\n}\n.select-input optgroup[data-v-0b82b320] { background: #2a0060; color: rgba(255,165,0,.85); font-weight: 700; font-size: .72rem;\n}\n.select-input[data-v-0b82b320]:disabled { opacity: 0.7;\n}\n.select-arrow[data-v-0b82b320] { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none;\n}\n.mcq-row[data-v-0b82b320] { display: flex; flex-wrap: wrap; gap: 6px;\n}\n.mcq-btn[data-v-0b82b320] {\n    padding: 7px 12px; border-radius: 6px;\n    border: 1px solid rgba(255,255,255,0.15);\n    background: rgba(255,255,255,0.05); color: #fff;\n    font-size: 0.8rem; cursor: pointer; transition: all 0.2s;\n}\n.mcq-btn.selected[data-v-0b82b320] { background: #FFA500; border-color: #FFA500;\n}\n.mcq-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: default;\n}\n\n/* Result */\n.q-result[data-v-0b82b320] { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.your-answer[data-v-0b82b320] { color: rgba(255,255,255,0.5); font-size: 0.75rem;\n}\n.correct-badge[data-v-0b82b320] { background: rgba(34,197,94,0.15); color: #4ade80; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n.wrong-badge[data-v-0b82b320] { background: rgba(239,68,68,0.15); color: #f87171; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600;\n}\n\n/* Submit */\n.submit-row[data-v-0b82b320] { display: flex; justify-content: flex-end; margin-top: 16px;\n}\n.submit-btn[data-v-0b82b320] {\n    background: #06B6D4; color: #fff; border: none;\n    border-radius: 8px; padding: 11px 28px;\n    font-size: 0.88rem; font-weight: 700; font-family: 'Rajdhani', sans-serif;\n    letter-spacing: 1.5px; cursor: pointer;\n}\n.submit-btn[data-v-0b82b320]:hover { background: #0891b2;\n}\n.submit-btn[data-v-0b82b320]:disabled { opacity: 0.7; cursor: not-allowed;\n}\n.champ-submit-btn[data-v-0b82b320] { background: linear-gradient(135deg, #FFA500, #FF6B00);\n}\n.champ-submit-btn[data-v-0b82b320]:hover { background: linear-gradient(135deg, #FF6B00, #e05a00);\n}\n\n/* Ad Banner */\n.ad-banner[data-v-0b82b320] {\n    margin: 16px 0 6px;\n    border-radius: 10px;\n    overflow: hidden;\n}\n.ad-img[data-v-0b82b320] { width: 100%; height: auto; display: block; border-radius: 10px;\n}\n\n/* Mobile: stack columns */\n@media (max-width: 700px) {\n.pred-columns[data-v-0b82b320] { grid-template-columns: 1fr;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -548,6 +626,36 @@ var render = function () {
             ]),
           ]),
           _vm._v(" "),
+          _vm.availableMatches.length > 1
+            ? _c(
+                "div",
+                { staticClass: "match-selector" },
+                _vm._l(_vm.availableMatches, function (m) {
+                  return _c(
+                    "button",
+                    {
+                      key: m.id,
+                      staticClass: "match-tab",
+                      class: { active: _vm.match && _vm.match.id === m.id },
+                      on: {
+                        click: function ($event) {
+                          return _vm.switchMatch(m.id)
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(m.label) +
+                          "\n                    "
+                      ),
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("div", { staticClass: "pred-body" }, [
             _vm.loading
               ? _c("div", { staticClass: "empty-state" }, [
@@ -555,12 +663,18 @@ var render = function () {
                 ])
               : _vm.questions.length === 0
               ? _c("div", { staticClass: "empty-state" }, [
-                  _vm._v("No active match right now."),
+                  _vm._v("No upcoming match right now."),
                 ])
               : _c(
                   "div",
                   [
-                    _vm.alreadySubmitted
+                    _vm.match && _vm.match.status !== "upcoming"
+                      ? _c("div", { staticClass: "closed-banner" }, [
+                          _vm._v(
+                            "\n                            🔒 Predictions closed — this match has started.\n                        "
+                          ),
+                        ])
+                      : _vm.alreadySubmitted
                       ? _c("div", { staticClass: "submitted-banner" }, [
                           _vm._v(
                             "\n                            ✓ Already submitted for this match.\n                        "
@@ -601,7 +715,8 @@ var render = function () {
                                     },
                                     attrs: {
                                       type: "button",
-                                      disabled: _vm.alreadySubmitted,
+                                      disabled:
+                                        _vm.alreadySubmitted || _vm.matchClosed,
                                     },
                                     on: {
                                       click: function ($event) {
@@ -632,7 +747,8 @@ var render = function () {
                                     },
                                     attrs: {
                                       type: "button",
-                                      disabled: _vm.alreadySubmitted,
+                                      disabled:
+                                        _vm.alreadySubmitted || _vm.matchClosed,
                                     },
                                     on: {
                                       click: function ($event) {
@@ -658,7 +774,10 @@ var render = function () {
                                   "select",
                                   {
                                     staticClass: "select-input",
-                                    attrs: { disabled: _vm.alreadySubmitted },
+                                    attrs: {
+                                      disabled:
+                                        _vm.alreadySubmitted || _vm.matchClosed,
+                                    },
                                     domProps: {
                                       value: _vm.answers[q.id] || "",
                                     },
@@ -707,6 +826,83 @@ var render = function () {
                                   ]
                                 ),
                               ])
+                            : q.type === "team_list"
+                            ? _c("div", { staticClass: "dropdown-row" }, [
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "select-input",
+                                    attrs: {
+                                      disabled:
+                                        _vm.alreadySubmitted || _vm.matchClosed,
+                                    },
+                                    domProps: {
+                                      value: _vm.answers[q.id] || "",
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.setAnswer(
+                                          q.id,
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("— Select a team —"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._l(_vm.groupedTeams, function (g) {
+                                      return _c(
+                                        "optgroup",
+                                        {
+                                          key: g.group,
+                                          attrs: { label: "Group " + g.group },
+                                        },
+                                        _vm._l(g.teams, function (t) {
+                                          return _c(
+                                            "option",
+                                            {
+                                              key: t.id,
+                                              domProps: { value: t.name },
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(t.flag_emoji) +
+                                                  " " +
+                                                  _vm._s(t.name)
+                                              ),
+                                            ]
+                                          )
+                                        }),
+                                        0
+                                      )
+                                    }),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "select-arrow",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24",
+                                      fill: "none",
+                                      stroke: "currentColor",
+                                      "stroke-width": "2",
+                                    },
+                                  },
+                                  [
+                                    _c("polyline", {
+                                      attrs: { points: "6 9 12 15 18 9" },
+                                    }),
+                                  ]
+                                ),
+                              ])
                             : q.type === "mcq"
                             ? _c(
                                 "div",
@@ -722,7 +918,9 @@ var render = function () {
                                       },
                                       attrs: {
                                         type: "button",
-                                        disabled: _vm.alreadySubmitted,
+                                        disabled:
+                                          _vm.alreadySubmitted ||
+                                          _vm.matchClosed,
                                       },
                                       on: {
                                         click: function ($event) {
@@ -741,7 +939,8 @@ var render = function () {
                                   staticClass: "text-input",
                                   attrs: {
                                     type: "text",
-                                    disabled: _vm.alreadySubmitted,
+                                    disabled:
+                                      _vm.alreadySubmitted || _vm.matchClosed,
                                     placeholder: "Type your answer...",
                                   },
                                   domProps: { value: _vm.answers[q.id] || "" },
@@ -794,7 +993,9 @@ var render = function () {
                       }),
                     ]),
                     _vm._v(" "),
-                    !_vm.alreadySubmitted && _vm.questions.length > 0
+                    !_vm.alreadySubmitted &&
+                    !_vm.matchClosed &&
+                    _vm.questions.length > 0
                       ? _c("div", { staticClass: "submit-row" }, [
                           _c(
                             "button",
@@ -876,7 +1077,85 @@ var render = function () {
                             ]),
                           ]),
                           _vm._v(" "),
-                          q.type === "text"
+                          (q.type === "text" || q.type === "team_list") &&
+                          _vm.teams.length > 0 &&
+                          idx < 2
+                            ? _c("div", { staticClass: "dropdown-row" }, [
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "select-input",
+                                    attrs: {
+                                      disabled: _vm.champAlreadySubmitted,
+                                    },
+                                    domProps: {
+                                      value: _vm.champAnswers[q.id] || "",
+                                    },
+                                    on: {
+                                      change: function ($event) {
+                                        return _vm.setChampAnswer(
+                                          q.id,
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("— Select a team —"),
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._l(_vm.groupedTeams, function (g) {
+                                      return _c(
+                                        "optgroup",
+                                        {
+                                          key: g.group,
+                                          attrs: { label: "Group " + g.group },
+                                        },
+                                        _vm._l(g.teams, function (t) {
+                                          return _c(
+                                            "option",
+                                            {
+                                              key: t.id,
+                                              domProps: { value: t.name },
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(t.flag_emoji) +
+                                                  " " +
+                                                  _vm._s(t.name)
+                                              ),
+                                            ]
+                                          )
+                                        }),
+                                        0
+                                      )
+                                    }),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass: "select-arrow",
+                                    attrs: {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24",
+                                      fill: "none",
+                                      stroke: "currentColor",
+                                      "stroke-width": "2",
+                                    },
+                                  },
+                                  [
+                                    _c("polyline", {
+                                      attrs: { points: "6 9 12 15 18 9" },
+                                    }),
+                                  ]
+                                ),
+                              ])
+                            : q.type === "text" || q.type === "team_list"
                             ? _c("div", { staticClass: "text-input-row" }, [
                                 _c("input", {
                                   staticClass: "text-input",

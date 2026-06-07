@@ -20,11 +20,23 @@
                         </div>
                     </div>
 
+                    <!-- Match selector tabs -->
+                    <div v-if="availableMatches.length > 1" class="match-selector">
+                        <button v-for="m in availableMatches" :key="m.id"
+                                class="match-tab" :class="{ active: match && match.id === m.id }"
+                                @click="switchMatch(m.id)">
+                            {{ m.label }}
+                        </button>
+                    </div>
+
                     <div class="pred-body">
                         <div v-if="loading" class="empty-state">Loading...</div>
-                        <div v-else-if="questions.length === 0" class="empty-state">No active match right now.</div>
+                        <div v-else-if="questions.length === 0" class="empty-state">No upcoming match right now.</div>
                         <div v-else>
-                            <div v-if="alreadySubmitted" class="submitted-banner">
+                            <div v-if="match && match.status !== 'upcoming'" class="closed-banner">
+                                🔒 Predictions closed — this match has started.
+                            </div>
+                            <div v-else-if="alreadySubmitted" class="submitted-banner">
                                 ✓ Already submitted for this match.
                             </div>
                             <div v-for="(q, idx) in questions" :key="q.id" class="question-block">
@@ -36,35 +48,45 @@
                                 <div v-if="q.type === 'team_choice'" class="team-choice-row">
                                     <button type="button" class="team-btn"
                                         :class="{ selected: answers[q.id] === (q.team1 && q.team1.name) }"
-                                        :disabled="alreadySubmitted"
+                                        :disabled="alreadySubmitted || matchClosed"
                                         @click="setAnswer(q.id, q.team1 && q.team1.name)">
                                         {{ q.team1 && q.team1.name }}
                                     </button>
                                     <button type="button" class="team-btn"
                                         :class="{ selected: answers[q.id] === (q.team2 && q.team2.name) }"
-                                        :disabled="alreadySubmitted"
+                                        :disabled="alreadySubmitted || matchClosed"
                                         @click="setAnswer(q.id, q.team2 && q.team2.name)">
                                         {{ q.team2 && q.team2.name }}
                                     </button>
                                 </div>
                                 <div v-else-if="q.type === 'dropdown'" class="dropdown-row">
-                                    <select class="select-input" :value="answers[q.id] || ''" :disabled="alreadySubmitted"
+                                    <select class="select-input" :value="answers[q.id] || ''" :disabled="alreadySubmitted || matchClosed"
                                         @change="setAnswer(q.id, $event.target.value)">
                                         <option value="">Select</option>
                                         <option v-for="opt in q.options" :key="opt" :value="opt">{{ opt }}</option>
                                     </select>
                                     <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                                 </div>
+                                <div v-else-if="q.type === 'team_list'" class="dropdown-row">
+                                    <select class="select-input" :value="answers[q.id] || ''" :disabled="alreadySubmitted || matchClosed"
+                                        @change="setAnswer(q.id, $event.target.value)">
+                                        <option value="">— Select a team —</option>
+                                        <optgroup v-for="g in groupedTeams" :key="g.group" :label="'Group ' + g.group">
+                                            <option v-for="t in g.teams" :key="t.id" :value="t.name">{{ t.flag_emoji }} {{ t.name }}</option>
+                                        </optgroup>
+                                    </select>
+                                    <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                </div>
                                 <div v-else-if="q.type === 'mcq'" class="mcq-row">
                                     <button v-for="opt in q.options" :key="opt" type="button"
                                         class="mcq-btn" :class="{ selected: answers[q.id] === opt }"
-                                        :disabled="alreadySubmitted"
+                                        :disabled="alreadySubmitted || matchClosed"
                                         @click="setAnswer(q.id, opt)">{{ opt }}</button>
                                 </div>
                                 <div v-else-if="q.type === 'text'" class="text-input-row">
                                     <input type="text" class="text-input"
                                         :value="answers[q.id] || ''"
-                                        :disabled="alreadySubmitted"
+                                        :disabled="alreadySubmitted || matchClosed"
                                         placeholder="Type your answer..."
                                         @input="setAnswer(q.id, $event.target.value)" />
                                 </div>
@@ -81,7 +103,7 @@
                                      onerror="this.closest('.ad-banner').style.display='none'">
                             </div>
 
-                            <div v-if="!alreadySubmitted && questions.length > 0" class="submit-row">
+                            <div v-if="!alreadySubmitted && !matchClosed && questions.length > 0" class="submit-row">
                                 <button class="submit-btn" @click="submitPredictions" :disabled="submitting">
                                     {{ submitting ? 'Submitting...' : 'SUBMIT' }}
                                 </button>
@@ -119,7 +141,17 @@
                                     <span class="q-text">{{ q.question_text }}</span>
                                     <span class="q-points">Point <strong>{{ q.points }}</strong></span>
                                 </div>
-                                <div v-if="q.type === 'text'" class="text-input-row">
+                                <div v-if="(q.type === 'text' || q.type === 'team_list') && teams.length > 0 && idx < 2" class="dropdown-row">
+                                    <select class="select-input" :value="champAnswers[q.id] || ''" :disabled="champAlreadySubmitted"
+                                        @change="setChampAnswer(q.id, $event.target.value)">
+                                        <option value="">— Select a team —</option>
+                                        <optgroup v-for="g in groupedTeams" :key="g.group" :label="'Group ' + g.group">
+                                            <option v-for="t in g.teams" :key="t.id" :value="t.name">{{ t.flag_emoji }} {{ t.name }}</option>
+                                        </optgroup>
+                                    </select>
+                                    <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                </div>
+                                <div v-else-if="q.type === 'text' || q.type === 'team_list'" class="text-input-row">
                                     <input type="text" class="text-input"
                                         :value="champAnswers[q.id] || ''"
                                         :disabled="champAlreadySubmitted"
@@ -170,9 +202,24 @@
 <script>
 export default {
     name: 'Prediction',
+    computed: {
+        matchClosed() {
+            return this.match && this.match.status !== 'upcoming';
+        },
+        groupedTeams() {
+            const map = {};
+            this.teams.forEach(t => {
+                const g = t.group_name || 'Other';
+                if (!map[g]) map[g] = [];
+                map[g].push(t);
+            });
+            return Object.keys(map).sort().map(g => ({ group: g, teams: map[g] }));
+        },
+    },
     data() {
         return {
             match: null,
+            availableMatches: [],
             questions: [],
             answers: {},
             alreadySubmitted: false,
@@ -182,6 +229,7 @@ export default {
             champAnswers: {},
             champAlreadySubmitted: false,
             champSubmitting: false,
+            teams: [],
         };
     },
     async mounted() {
@@ -189,19 +237,28 @@ export default {
         this.loading = false;
     },
     methods: {
-        async fetchQuestions() {
-            const { data } = await this.$http.get('/api/predictions/questions');
+        async fetchQuestions(matchId) {
+            this.loading = true;
+            this.answers = {};
+            const params = matchId ? { match_id: matchId } : {};
+            const { data } = await this.$http.get('/api/predictions/questions', { params });
+            this.availableMatches = data.available_matches || [];
             this.match = data.match;
             this.questions = data.questions;
             this.alreadySubmitted = data.already_submitted;
             this.questions.forEach(q => {
                 if (q.selected_answer) this.$set(this.answers, q.id, q.selected_answer);
             });
+            this.teams = data.teams || [];
             this.champQuestions = data.champ_questions || [];
             this.champAlreadySubmitted = data.champ_already_submitted || false;
             this.champQuestions.forEach(q => {
                 if (q.selected_answer) this.$set(this.champAnswers, q.id, q.selected_answer);
             });
+            this.loading = false;
+        },
+        async switchMatch(matchId) {
+            await this.fetchQuestions(matchId);
         },
         setAnswer(qId, val) { this.$set(this.answers, qId, val); },
         setChampAnswer(qId, val) { this.$set(this.champAnswers, qId, val); },
@@ -285,6 +342,21 @@ export default {
 .pred-header-logo { flex-shrink: 0; }
 .pred-trophy-img { height: 44px; width: auto; object-fit: contain; }
 
+/* Match selector */
+.match-selector {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.1);
+}
+.match-tab {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; color: rgba(255,255,255,0.6);
+    font-size: 0.72rem; font-weight: 600; padding: 5px 12px;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.match-tab:hover { border-color: rgba(255,165,0,0.4); color: #FFA500; }
+.match-tab.active { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500; }
+
 /* Body */
 .pred-body { padding: 14px; flex: 1; }
 .empty-state { color: rgba(255,255,255,0.4); text-align: center; padding: 30px 10px; font-size: 0.85rem; }
@@ -292,6 +364,11 @@ export default {
     background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);
     border-radius: 8px; color: #4ade80; padding: 10px 14px;
     margin-bottom: 14px; font-size: 0.82rem;
+}
+.closed-banner {
+    background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.3);
+    border-radius: 8px; color: #f87171; padding: 10px 14px;
+    margin-bottom: 14px; font-size: 0.82rem; font-weight: 600;
 }
 
 /* Question block */
@@ -340,6 +417,7 @@ export default {
     border-radius: 8px; color: #fff; font-size: 0.85rem; outline: none; cursor: pointer;
 }
 .select-input option { background: #1A0040; }
+.select-input optgroup { background: #2a0060; color: rgba(255,165,0,.85); font-weight: 700; font-size: .72rem; }
 .select-input:disabled { opacity: 0.7; }
 .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.5); pointer-events: none; }
 

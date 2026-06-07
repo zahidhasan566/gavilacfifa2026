@@ -44,10 +44,12 @@ Route::middleware('jwt')->group(function () {
     Route::get('predictions/my',        [PredictionController::class, 'myPredictions']);
 
     // Winners / Leaderboard
-    Route::get('winners',           [WinnersController::class, 'leaderboard']);
-    Route::get('winners/today',     [WinnersController::class, 'todayWinner']);
-    Route::get('winners/raffle',    [WinnersController::class, 'raffleWinners']);
-    Route::get('winners/my-points', [WinnersController::class, 'myPoints']);
+    Route::get('winners',                [WinnersController::class, 'leaderboard']);
+    Route::get('winners/today',          [WinnersController::class, 'todayWinner']);
+    Route::get('winners/raffle',         [WinnersController::class, 'raffleWinners']);
+    Route::get('winners/recent-matches',  [WinnersController::class, 'recentMatchesWinners']);
+    Route::get('winners/recent-match',   [WinnersController::class, 'recentMatchWinners']);
+    Route::get('winners/my-points',      [WinnersController::class, 'myPoints']);
 
     // FIFA Facts
     Route::get('facts', [FifaFactController::class, 'index']);

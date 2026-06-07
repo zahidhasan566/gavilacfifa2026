@@ -34,6 +34,12 @@
                                      @error="e => e.target.src = $imgBase + '/images/default-avatar.png'">
                                 <div class="cs-overlay"></div>
 
+                                <div class="cs-rank-badge" :class="rankClass(activeIdx)">
+                                    <span class="cs-rank-icon">{{ rankIcon(activeIdx) }}</span>
+                                    <span class="cs-rank-num">{{ activeIdx + 1 }}</span>
+                                    <span class="cs-rank-lbl">{{ rankSuffix(activeIdx) }}</span>
+                                </div>
+
                                 <div v-if="carousel[activeIdx].prize_points" class="cs-prize-badge">
                                     <span class="cs-prize-num">+{{ carousel[activeIdx].prize_points }}</span>
                                     <span class="cs-prize-lbl">pts</span>
@@ -73,39 +79,96 @@
                 </div>
             </div>
 
-            <!-- RIGHT: Search + Photo Cards -->
+            <!-- RIGHT: Tabs + Lists -->
             <div class="cards-panel">
-                <!-- Search bar -->
-                <div class="search-bar">
-                    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                    <input v-model="search" class="search-input" placeholder="Search name or doctor code…">
-                    <button class="refresh-btn" :class="{ spinning: refreshing }" @click="manualRefresh" title="Refresh">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+
+                <!-- Tab toggle -->
+                <div class="panel-tabs">
+                    <button class="ptab" :class="{ active: panelTab === 'rank' }" @click="panelTab = 'rank'">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Rank List
+                    </button>
+                    <button class="ptab" :class="{ active: panelTab === 'match' }" @click="panelTab = 'match'">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        By Match
                     </button>
                 </div>
 
-                <!-- Winner photo cards grid -->
-                <div v-if="loading" class="empty-state">Loading…</div>
-                <div v-else-if="filteredCarousel.length === 0" class="empty-state">No winners found.</div>
-                <div v-else class="winners-list">
-                    <div v-for="(w, i) in filteredCarousel" :key="w.id"
-                         class="wl-item" :class="{ highlighted: carousel[activeIdx] && carousel[activeIdx].id === w.id }"
-                         @click="jumpToWinner(w)">
-                        <span class="wl-rank">{{ i + 1 }}</span>
-                        <div class="wl-info">
-                            <div class="wl-name">{{ w.name }}</div>
-                            <div class="wl-code">{{ w.unique_code }}</div>
-                            <div class="wl-match">
-                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
-                                {{ w.match_label }}
+                <!-- RANK TAB: Search + sorted list -->
+                <template v-if="panelTab === 'rank'">
+                    <div class="search-bar">
+                        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <input v-model="search" class="search-input" placeholder="Search name or doctor code…">
+                        <button class="refresh-btn" :class="{ spinning: refreshing }" @click="manualRefresh" title="Refresh">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        </button>
+                    </div>
+
+                    <div v-if="loading" class="empty-state">Loading…</div>
+                    <div v-else-if="filteredCarousel.length === 0" class="empty-state">No winners found.</div>
+                    <div v-else class="winners-list">
+                        <div v-for="w in filteredCarousel" :key="w.id"
+                             class="wl-item" :class="{ highlighted: carousel[activeIdx] && carousel[activeIdx].id === w.id }"
+                             @click="jumpToWinner(w)">
+                            <span class="wl-rank" :class="rankClass(w._rank - 1)">{{ w._rank }}</span>
+                            <div class="wl-info">
+                                <div class="wl-name">{{ w.name }}</div>
+                                <div class="wl-code">{{ w.unique_code }}</div>
+                                <div class="wl-match">
+                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+                                    {{ w.match_label }}
+                                </div>
+                            </div>
+                            <div class="wl-right">
+                                <span v-if="w.prize_points" class="wl-pts">+{{ w.prize_points }} pts</span>
+                                <span class="wl-date">{{ w.draw_date }}</span>
                             </div>
                         </div>
-                        <div class="wl-right">
-                            <span v-if="w.prize_points" class="wl-pts">+{{ w.prize_points }} pts</span>
-                            <span class="wl-date">{{ w.draw_date }}</span>
-                        </div>
                     </div>
-                </div>
+                </template>
+
+                <!-- MATCH TAB: pill tabs per match + winner list -->
+                <template v-else>
+                    <div v-if="loading" class="empty-state">Loading…</div>
+                    <div v-else-if="byMatch.length === 0" class="empty-state">No match draw data yet.</div>
+                    <template v-else>
+                        <!-- Match selector pills -->
+                        <div class="match-tabs">
+                            <button v-for="(group, gi) in byMatch" :key="gi"
+                                    class="match-tab" :class="{ active: selectedMatchIdx === gi }"
+                                    @click="selectedMatchIdx = gi">
+                                {{ group.match_label }}
+                            </button>
+                        </div>
+
+                        <!-- Selected match info bar -->
+                        <div class="ml-info-bar" v-if="byMatch[selectedMatchIdx]">
+                            <span class="ml-ball">⚽</span>
+                            <span class="ml-bar-label">{{ byMatch[selectedMatchIdx].match_label }}</span>
+                            <span v-if="byMatch[selectedMatchIdx].match_date" class="ml-bar-date">{{ byMatch[selectedMatchIdx].match_date }}</span>
+                            <span class="ml-count">{{ byMatch[selectedMatchIdx].winners.length }} winner{{ byMatch[selectedMatchIdx].winners.length !== 1 ? 's' : '' }}</span>
+                        </div>
+
+                        <!-- Winners for selected match -->
+                        <div class="winners-list" v-if="byMatch[selectedMatchIdx] && byMatch[selectedMatchIdx].winners.length">
+                            <div v-for="(w, wi) in byMatch[selectedMatchIdx].winners" :key="w.id"
+                                 class="mlw-item" @click="jumpToWinnerById(w.id)">
+                                <span class="mlw-num">{{ wi + 1 }}</span>
+                                <img :src="w.profile_picture_url" class="mlw-avatar"
+                                     @error="e => e.target.src = $imgBase + '/images/default-avatar.png'">
+                                <div class="mlw-info">
+                                    <div class="mlw-name">{{ w.name }}</div>
+                                    <div class="mlw-code">{{ w.unique_code }}</div>
+                                </div>
+                                <div class="mlw-right">
+                                    <span v-if="w.prize_points" class="mlw-pts">+{{ w.prize_points }} pts</span>
+                                    <span class="mlw-date">{{ w.draw_date }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="empty-state">No raffle winners for this match.</div>
+                    </template>
+                </template>
 
                 <!-- Advertisement -->
                 <div class="winner-ad-banner">
@@ -132,6 +195,8 @@ export default {
             refreshing: false,
             activeIdx: 0,
             slideDir: 'slide-left',
+            panelTab: 'rank',
+            selectedMatchIdx: 0,
             _pollTimer: null,
             _slideTimer: null,
         };
@@ -160,8 +225,11 @@ export default {
         async loadData() {
             try {
                 const { data } = await this.$http.get('/api/winners/raffle');
-                this.carousel = data.data.carousel || [];
-                this.byMatch  = data.data.by_match  || [];
+                const sorted = (data.data.carousel || []).sort((a, b) => (b.prize_points || 0) - (a.prize_points || 0));
+                sorted.forEach((item, i) => { item._rank = i + 1; });
+                this.carousel = sorted;
+                this.byMatch = data.data.by_match || [];
+                this.selectedMatchIdx = 0;
                 if (this.activeIdx >= this.carousel.length) this.activeIdx = 0;
             } catch (e) {}
         },
@@ -192,6 +260,26 @@ export default {
         jumpToWinner(w) {
             const idx = this.carousel.findIndex(c => c.id === w.id);
             if (idx !== -1) this.goToSlide(idx);
+        },
+        jumpToWinnerById(id) {
+            const idx = this.carousel.findIndex(c => c.id === id);
+            if (idx !== -1) { this.goToSlide(idx); this.panelTab = 'rank'; }
+        },
+        rankClass(idx) {
+            if (idx === 0) return 'rank-gold';
+            if (idx === 1) return 'rank-silver';
+            if (idx === 2) return 'rank-bronze';
+            return 'rank-normal';
+        },
+        rankIcon(idx) {
+            return idx === 0 ? '👑' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '#';
+        },
+        rankSuffix(idx) {
+            const n = idx + 1;
+            if (n === 1) return 'st';
+            if (n === 2) return 'nd';
+            if (n === 3) return 'rd';
+            return 'th';
         },
         hideImg(e) { e.target.style.display = 'none'; },
     },
@@ -259,6 +347,23 @@ export default {
     background: linear-gradient(to bottom, rgba(28,17,83,.15) 0%, rgba(28,17,83,.55) 55%, rgba(28,17,83,.92) 100%);
     z-index: 1;
 }
+/* Rank badge – top left of carousel */
+.cs-rank-badge {
+    position: absolute; top: 14px; left: 14px; z-index: 4;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 4px 18px rgba(0,0,0,.55);
+    border: 3px solid rgba(255,255,255,.25);
+    line-height: 1;
+}
+.cs-rank-badge.rank-gold   { background: radial-gradient(circle at 35% 35%, #FFE566, #D4A000); border-color: #FFD700; }
+.cs-rank-badge.rank-silver { background: radial-gradient(circle at 35% 35%, #E8E8E8, #8A8A8A); border-color: #C0C0C0; }
+.cs-rank-badge.rank-bronze { background: radial-gradient(circle at 35% 35%, #E8A060, #8B4513); border-color: #CD7F32; }
+.cs-rank-badge.rank-normal { background: radial-gradient(circle at 35% 35%, #6B4FA0, #2A0066); border-color: rgba(255,255,255,.2); }
+.cs-rank-icon { font-size: .9rem; line-height: 1; }
+.cs-rank-num  { color: #fff; font-weight: 900; font-size: 1.45rem; font-family: 'Rajdhani', sans-serif; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,.4); }
+.cs-rank-lbl  { color: rgba(255,255,255,.85); font-size: .55rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+
 .cs-prize-badge {
     position: absolute; top: 14px; right: 14px; z-index: 3;
     background: #06B6D4; border-radius: 20px; padding: 6px 16px;
@@ -329,7 +434,14 @@ export default {
 }
 .wl-item:hover { background: rgba(255,255,255,.04); }
 .wl-item.highlighted { background: rgba(255,165,0,.07); border-left-color: #FFA500; }
-.wl-rank { color: rgba(255,255,255,.3); font-size: .75rem; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0; }
+.wl-rank {
+    font-size: .72rem; font-weight: 800; width: 22px; height: 22px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: rgba(255,255,255,.4); background: rgba(255,255,255,.07);
+}
+.wl-rank.rank-gold   { background: #D4A000; color: #fff; }
+.wl-rank.rank-silver { background: #8A8A8A; color: #fff; }
+.wl-rank.rank-bronze { background: #8B4513; color: #fff; }
 .wl-info { flex: 1; min-width: 0; }
 .wl-name { color: #fff; font-size: .85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wl-code { color: rgba(255,255,255,.4); font-size: .68rem; margin-bottom: 2px; }
@@ -345,6 +457,63 @@ export default {
     border: 1px solid rgba(255,165,0,.3); border-radius: 20px;
     padding: 3px 10px; font-size: .7rem; font-weight: 600; margin: 4px 0;
 }
+
+/* ── Panel tabs (block toggle) ── */
+.panel-tabs {
+    display: flex; gap: 6px;
+    background: rgba(0,0,0,.2); border-radius: 8px; padding: 4px;
+}
+.ptab {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+    background: none; border: none; color: rgba(255,255,255,.45);
+    font-size: .75rem; font-weight: 600; padding: 7px 0; border-radius: 6px;
+    cursor: pointer; transition: background .18s, color .18s;
+}
+.ptab:hover { color: rgba(255,255,255,.75); background: rgba(255,255,255,.05); }
+.ptab.active { background: rgba(255,165,0,.18); color: #FFA500; }
+.ptab svg { flex-shrink: 0; stroke: currentColor; }
+
+/* ── By-match: pill tabs (same style as LiveScore match-tabs) ── */
+.match-tabs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 2px 0 4px; border-bottom: 1px solid rgba(255,255,255,.06);
+    padding-bottom: 10px;
+}
+.match-tab {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px; color: rgba(255,255,255,.6);
+    font-size: .68rem; font-weight: 600; padding: 4px 12px;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.match-tab:hover { border-color: rgba(255,165,0,.4); color: #FFA500; }
+.match-tab.active { background: rgba(255,165,0,.15); border-color: #FFA500; color: #FFA500; }
+
+/* Selected match info bar */
+.ml-info-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 10px; border-radius: 7px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
+}
+.ml-ball { font-size: .82rem; flex-shrink: 0; }
+.ml-bar-label { color: #fff; font-size: .8rem; font-weight: 700; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ml-bar-date { color: rgba(255,255,255,.35); font-size: .65rem; white-space: nowrap; }
+.ml-count { background: rgba(255,165,0,.15); color: #FFA500; border-radius: 20px; padding: 2px 8px; font-size: .65rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+
+/* Winner rows inside By Match */
+.mlw-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,.04);
+    cursor: pointer; transition: background .15s;
+}
+.mlw-item:hover { background: rgba(255,255,255,.04); }
+.mlw-num { color: rgba(255,255,255,.3); font-size: .68rem; font-weight: 700; width: 16px; text-align: center; flex-shrink: 0; }
+.mlw-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,.15); }
+.mlw-info { flex: 1; min-width: 0; }
+.mlw-name { color: #fff; font-size: .8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mlw-code { color: rgba(255,255,255,.35); font-size: .65rem; }
+.mlw-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+.mlw-pts { background: rgba(34,197,94,.15); color: #4ade80; border-radius: 8px; padding: 2px 7px; font-size: .68rem; font-weight: 700; white-space: nowrap; }
+.mlw-date { color: rgba(255,255,255,.3); font-size: .6rem; white-space: nowrap; }
 
 .empty-state { color: rgba(255,255,255,.35); text-align: center; padding: 30px; font-size: .85rem; }
 

@@ -158,6 +158,30 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -166,14 +190,38 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     return {
       liveMatches: [],
       upcomingMatches: [],
-      topWinners: [],
+      recentMatches: [],
+      selectedMatchId: null,
       myPoints: 0,
-      loading: true
+      loading: true,
+      carouselPage: 0,
+      slideDir: 'mc-slide-left',
+      _autoTimer: null,
+      windowWidth: typeof window !== 'undefined' ? window.innerWidth : 1024
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['currentUser'])), {}, {
+    selectedMatchWinners: function selectedMatchWinners() {
+      var m = this.recentMatches.find(function (m) {
+        return m.id === this.selectedMatchId;
+      }, this);
+      return m ? m.winners : [];
+    },
+    perPage: function perPage() {
+      return this.windowWidth <= 640 ? 1 : 2;
+    },
     displayMatches: function displayMatches() {
-      return [].concat(_toConsumableArray(this.liveMatches), _toConsumableArray(this.upcomingMatches)).slice(0, 4);
+      var nextDate = this.upcomingMatches.length ? this.upcomingMatches[0].match_date : null;
+      var upcoming = nextDate ? this.upcomingMatches.filter(function (m) {
+        return m.match_date === nextDate;
+      }) : [];
+      return [].concat(_toConsumableArray(this.liveMatches), _toConsumableArray(upcoming));
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.displayMatches.length / this.perPage);
+    },
+    pagedMatches: function pagedMatches() {
+      return this.displayMatches.slice(this.carouselPage * this.perPage, this.carouselPage * this.perPage + this.perPage);
     }
   }),
   mounted: function mounted() {
@@ -186,14 +234,44 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             return Promise.all([_this.fetchMatches(), _this.fetchWinners(), _this.fetchMyPoints()]);
           case 2:
             _this.loading = false;
-          case 3:
+            _this.startAutoSlide();
+            window.addEventListener('resize', _this.onResize);
+          case 5:
           case "end":
             return _context.stop();
         }
       }, _callee);
     }))();
   },
+  beforeDestroy: function beforeDestroy() {
+    clearInterval(this._autoTimer);
+    window.removeEventListener('resize', this.onResize);
+  },
   methods: {
+    onResize: function onResize() {
+      this.windowWidth = window.innerWidth;
+      if (this.carouselPage >= this.totalPages) this.carouselPage = 0;
+    },
+    startAutoSlide: function startAutoSlide() {
+      clearInterval(this._autoTimer);
+      this._autoTimer = setInterval(this.nextPage, 4000);
+    },
+    nextPage: function nextPage() {
+      if (this.totalPages < 2) return;
+      this.slideDir = 'mc-slide-left';
+      this.carouselPage = (this.carouselPage + 1) % this.totalPages;
+    },
+    prevPage: function prevPage() {
+      if (this.totalPages < 2) return;
+      this.slideDir = 'mc-slide-right';
+      this.carouselPage = (this.carouselPage - 1 + this.totalPages) % this.totalPages;
+      this.startAutoSlide();
+    },
+    goPage: function goPage(p) {
+      this.slideDir = p > this.carouselPage ? 'mc-slide-left' : 'mc-slide-right';
+      this.carouselPage = p;
+      this.startAutoSlide();
+    },
     fetchMatches: function fetchMatches() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -225,12 +303,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return _this3.$http.get('/api/winners');
+              return _this3.$http.get('/api/winners/recent-matches');
             case 2:
               _yield$_this3$$http$g = _context3.sent;
               data = _yield$_this3$$http$g.data;
-              _this3.topWinners = data.data;
-            case 5:
+              _this3.recentMatches = data.data || [];
+              if (_this3.recentMatches.length && !_this3.selectedMatchId) {
+                _this3.selectedMatchId = _this3.recentMatches[0].id;
+              }
+            case 6:
             case "end":
               return _context3.stop();
           }
@@ -282,7 +363,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* ── Ad Banner (inside ls-matches-section) ─── */\n.ad-banner[data-v-9c8f2f72] {\n    width: 100%;\n    overflow: hidden;\n    flex-shrink: 0;\n    border-top: 1px solid rgba(255,255,255,0.07);\n}\n.ad-img[data-v-9c8f2f72] {\n    width: 100%;\n    height: auto;\n    display: block;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n\n/* ── Outer Card ─────────────────────────────── */\n.ls-card[data-v-9c8f2f72] {\n    display: flex;\n    gap: 0;\n    background: rgba(255,255,255,0.04);\n    border: 1px solid rgba(255,255,255,0.10);\n    border-radius: 16px;\n    overflow: hidden;\n    min-height: 600px;\n}\n\n/* ── Left: Matches ──────────────────────────── */\n.ls-matches-section[data-v-9c8f2f72] { flex: 1; min-width: 0; display: flex; flex-direction: column;\n}\n.section-header[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 20px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    height: 70px;\n    flex-shrink: 0;\n}\n\n/* Left football icon — same as nav-ball */\n.sh-ball-wrap[data-v-9c8f2f72] { flex-shrink: 0; display: flex; align-items: center;\n}\n.sh-ball-img[data-v-9c8f2f72] {\n    height: 44px; width: 44px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-9c8f2f72] { display: flex; flex-direction: column; justify-content: center; gap: 1px; flex: 1;\n}\n.sh-title[data-v-9c8f2f72] {\n    color: #fff; font-family: 'Roboto', sans-serif;\n    font-weight: 800; font-size: 1.1rem; line-height: 1.2;\n}\n.sh-sub[data-v-9c8f2f72] { color: #fff; font-size: 0.72rem;\n}\n\n/* Right trophy image — same as nav-logo */\n.sh-trophy-area[data-v-9c8f2f72] {\n    margin-left: auto; flex-shrink: 0;\n    display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-9c8f2f72] {\n    height: 50px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n.state-msg[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); text-align: center; padding: 48px 20px;\n}\n\n/* Match Grid */\n.match-cards-grid[data-v-9c8f2f72] { display: grid; grid-template-columns: 1fr 1fr; flex: 1;\n}\n.match-card[data-v-9c8f2f72] {\n    padding: 18px 20px;\n    border-right: 1px solid rgba(255,255,255,0.07);\n    border-bottom: 1px solid rgba(255,255,255,0.07);\n}\n\n/* Card Header */\n.mc-header[data-v-9c8f2f72] { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;\n}\n.group-badge[data-v-9c8f2f72] {\n    background: rgba(0,0,0,0.35); color: #fff;\n    font-size: 0.62rem; font-weight: 700; padding: 4px 10px;\n    border-radius: 6px; letter-spacing: 0.3px; white-space: nowrap;\n}\n.mc-date[data-v-9c8f2f72] { color: rgba(255,255,255,0.6); font-size: 0.7rem; font-weight: 500;\n}\n.mc-venue[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 3px;\n    color: #fff; font-size: 0.65rem; margin-left: auto; white-space: nowrap;\n    background: #1e1067; padding: 3px 8px; border-radius: 4px;\n}\n\n/* Teams & Score */\n.mc-body[data-v-9c8f2f72] { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 8px;\n}\n.team-col[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 72px; flex-shrink: 0;\n}\n.team-flag-img[data-v-9c8f2f72] { width: 52px; height: 36px; -o-object-fit: cover; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.35);\n}\n.team-name[data-v-9c8f2f72] { color: #fff; font-size: 0.62rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.3px;\n}\n.score-col[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1;\n}\n.score-row[data-v-9c8f2f72] { display: flex; align-items: center; gap: 8px;\n}\n.score-circle[data-v-9c8f2f72] {\n    width: 44px; height: 44px; border-radius: 50%;\n    background: rgba(0,0,0,0.4);\n    color: #fff; font-size: 1.3rem; font-weight: 700;\n    font-family: 'Rajdhani', sans-serif;\n    display: flex; align-items: center; justify-content: center;\n    border: 1px solid rgba(255,255,255,0.12);\n}\n.score-dash[data-v-9c8f2f72] { color: rgba(255,255,255,0.5); font-size: 1rem; font-weight: 700;\n}\n.mc-time[data-v-9c8f2f72] { color: #fff; font-size: 0.68rem; font-weight: 600;\n}\n.live-badge[data-v-9c8f2f72] {\n    background: #dc2626; color: #fff;\n    font-size: 0.6rem; font-weight: 700; padding: 3px 10px;\n    border-radius: 4px; letter-spacing: 1px;\n    animation: pulse-live-data-v-9c8f2f72 1.5s infinite;\n}\n@keyframes pulse-live-data-v-9c8f2f72 {\n0%,100%{opacity:1}\n50%{opacity:0.7}\n}\n.ft-badge[data-v-9c8f2f72] {\n    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);\n    font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 4px;\n}\n\n/* Halves */\n.mc-halves[data-v-9c8f2f72] { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 10px;\n}\n.half-row[data-v-9c8f2f72] {\n    display: flex; justify-content: space-between;\n    color: rgba(255,255,255,0.55); font-size: 0.68rem; font-weight: 600;\n    padding: 5px 6px; border-radius: 4px;\n}\n.half-row.alt[data-v-9c8f2f72] { background: rgba(255,255,255,0.04);\n}\n\n/* ── Right: Sidebar ─────────────────────────── */\n.ls-sidebar[data-v-9c8f2f72] {\n    width: 320px; flex-shrink: 0;\n    display: flex; flex-direction: column;\n    border-left: 1px solid rgba(255,255,255,0.08);\n}\n\n/* My Points */\n.my-points-card[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 12px;\n    padding: 20px 20px;\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    background: rgba(0,0,0,0.15);\n}\n.mp-avatar[data-v-9c8f2f72] {\n    width: 52px; height: 52px; border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover; border: 2px solid rgba(255,255,255,0.2);\n    flex-shrink: 0;\n}\n.mp-label[data-v-9c8f2f72] { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 800; font-size: 1rem;\n}\n.mp-name[data-v-9c8f2f72] { color: rgba(255,255,255,0.5); font-size: 0.72rem; margin-top: 2px;\n}\n.mp-badge[data-v-9c8f2f72] {\n    margin-left: auto; background: #FFA500;\n    color: #fff; font-weight: 700; font-size: 1rem;\n    padding: 6px 16px; border-radius: 20px;\n    font-family: 'Rajdhani', sans-serif; flex-shrink: 0;\n}\n\n/* Top 10 */\n.top10-card[data-v-9c8f2f72] { flex: 1; display: flex; flex-direction: column; overflow: hidden;\n}\n.top10-header[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);\n    background: rgba(0,0,0,0.15);\n    flex-shrink: 0;\n}\n.top10-title[data-v-9c8f2f72] { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 800; font-size: 0.95rem;\n}\n.top10-sub[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.65rem; margin-top: 2px;\n}\n.top10-list[data-v-9c8f2f72] { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,165,0,0.4) transparent;\n}\n.top10-list[data-v-9c8f2f72]::-webkit-scrollbar { width: 4px;\n}\n.top10-list[data-v-9c8f2f72]::-webkit-scrollbar-thumb { background: rgba(255,165,0,0.4); border-radius: 4px;\n}\n.top10-item[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);\n    transition: background 0.15s;\n}\n.top10-item[data-v-9c8f2f72]:hover { background: rgba(255,255,255,0.03);\n}\n.rank-num[data-v-9c8f2f72] { color: rgba(255,255,255,0.45); font-size: 0.8rem; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0;\n}\n.w-avatar[data-v-9c8f2f72] { width: 38px; height: 38px; border-radius: 50%; -o-object-fit: cover; object-fit: cover; flex-shrink: 0;\n}\n.w-info[data-v-9c8f2f72] { flex: 1; min-width: 0;\n}\n.w-name[data-v-9c8f2f72] { color: #fff; font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.w-code[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.62rem; margin-top: 2px;\n}\n.w-pts-wrap[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; flex-shrink: 0;\n}\n.w-points[data-v-9c8f2f72] {\n    background: #FFA500; color: #fff;\n    font-weight: 700; font-size: 0.85rem;\n    padding: 3px 12px; border-radius: 12px;\n    font-family: 'Rajdhani', sans-serif;\n}\n.w-pts-label[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.58rem; margin-top: 2px;\n}\n\n/* ── Responsive / PWA ───────────────────────── */\n@media (max-width: 1024px) {\n.ls-card[data-v-9c8f2f72] { flex-direction: column;\n}\n.ls-sidebar[data-v-9c8f2f72] { width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.08);\n}\n.top10-list[data-v-9c8f2f72] { max-height: 360px;\n}\n}\n@media (max-width: 640px) {\n.match-cards-grid[data-v-9c8f2f72] { grid-template-columns: 1fr;\n}\n.score-circle[data-v-9c8f2f72] { width: 36px; height: 36px; font-size: 1.1rem;\n}\n.team-flag-img[data-v-9c8f2f72] { width: 42px; height: 28px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* ── Ad Banner (inside ls-matches-section) ─── */\n.ad-banner[data-v-9c8f2f72] {\n    width: 100%;\n    overflow: hidden;\n    flex-shrink: 0;\n    border-top: 1px solid rgba(255,255,255,0.07);\n}\n.ad-img[data-v-9c8f2f72] {\n    width: 100%;\n    height: auto;\n    display: block;\n}\n\n/* ── Outer Card ─────────────────────────────── */\n.ls-card[data-v-9c8f2f72] {\n    display: flex;\n    gap: 0;\n    background: rgba(255,255,255,0.04);\n    border: 1px solid rgba(255,255,255,0.10);\n    border-radius: 16px;\n    overflow: hidden;\n    min-height: 600px;\n}\n\n/* ── Left: Matches ──────────────────────────── */\n.ls-matches-section[data-v-9c8f2f72] { flex: 1; min-width: 0; display: flex; flex-direction: column;\n}\n.section-header[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 14px;\n    padding: 0 20px;\n    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    height: 70px;\n    flex-shrink: 0;\n}\n\n/* Left football icon — same as nav-ball */\n.sh-ball-wrap[data-v-9c8f2f72] { flex-shrink: 0; display: flex; align-items: center;\n}\n.sh-ball-img[data-v-9c8f2f72] {\n    height: 44px; width: 44px; -o-object-fit: contain; object-fit: contain;\n}\n.sh-text[data-v-9c8f2f72] { display: flex; flex-direction: column; justify-content: center; gap: 1px; flex: 1;\n}\n.sh-title[data-v-9c8f2f72] {\n    color: #fff; font-family: 'Roboto', sans-serif;\n    font-weight: 800; font-size: 1.1rem; line-height: 1.2;\n}\n.sh-sub[data-v-9c8f2f72] { color: #fff; font-size: 0.72rem;\n}\n\n/* Right trophy image — same as nav-logo */\n.sh-trophy-area[data-v-9c8f2f72] {\n    margin-left: auto; flex-shrink: 0;\n    display: flex; align-items: center;\n}\n.sh-trophy-img[data-v-9c8f2f72] {\n    height: 50px; width: auto; -o-object-fit: contain; object-fit: contain;\n}\n.state-msg[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); text-align: center; padding: 48px 20px;\n}\n\n/* Carousel wrapper */\n.mc-carousel-wrap[data-v-9c8f2f72] { flex: 1; display: flex; flex-direction: column; overflow: hidden;\n}\n.mc-controls[data-v-9c8f2f72] {\n    display: flex; align-items: center; justify-content: center; gap: 12px;\n    padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;\n}\n.mc-arrow[data-v-9c8f2f72] {\n    background: rgba(255,255,255,0.08); border: none; color: #fff;\n    font-size: 1.4rem; width: 32px; height: 32px; border-radius: 50%;\n    cursor: pointer; display: flex; align-items: center; justify-content: center;\n    transition: background .2s;\n}\n.mc-arrow[data-v-9c8f2f72]:hover { background: rgba(255,165,0,.3); color: #FFA500;\n}\n.mc-dots[data-v-9c8f2f72] { display: flex; gap: 6px;\n}\n.mc-dot[data-v-9c8f2f72] { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.25); cursor: pointer; transition: background .2s;\n}\n.mc-dot.active[data-v-9c8f2f72] { background: #FFA500;\n}\n\n/* Slide transitions */\n.mc-slide-left-enter-active[data-v-9c8f2f72], .mc-slide-left-leave-active[data-v-9c8f2f72],\n.mc-slide-right-enter-active[data-v-9c8f2f72], .mc-slide-right-leave-active[data-v-9c8f2f72] { transition: all .4s ease;\n}\n.mc-slide-left-enter[data-v-9c8f2f72] { transform: translateX(100%); opacity: 0;\n}\n.mc-slide-left-leave-to[data-v-9c8f2f72] { transform: translateX(-100%); opacity: 0;\n}\n.mc-slide-right-enter[data-v-9c8f2f72] { transform: translateX(-100%); opacity: 0;\n}\n.mc-slide-right-leave-to[data-v-9c8f2f72] { transform: translateX(100%); opacity: 0;\n}\n\n/* Match Grid */\n.match-cards-grid[data-v-9c8f2f72] { display: grid; grid-template-columns: 1fr 1fr; flex: 1;\n}\n.match-card[data-v-9c8f2f72] {\n    padding: 18px 20px;\n    border-right: 1px solid rgba(255,255,255,0.07);\n    border-bottom: 1px solid rgba(255,255,255,0.07);\n}\n\n/* Card Header */\n.mc-header[data-v-9c8f2f72] { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;\n}\n.group-badge[data-v-9c8f2f72] {\n    background: rgba(0,0,0,0.35); color: #fff;\n    font-size: 0.62rem; font-weight: 700; padding: 4px 10px;\n    border-radius: 6px; letter-spacing: 0.3px; white-space: nowrap;\n}\n.mc-date[data-v-9c8f2f72] { color: rgba(255,255,255,0.6); font-size: 0.7rem; font-weight: 500;\n}\n.mc-venue[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 3px;\n    color: #fff; font-size: 0.65rem; margin-left: auto; white-space: nowrap;\n    background: #1e1067; padding: 3px 8px; border-radius: 4px;\n}\n\n/* Teams & Score */\n.mc-body[data-v-9c8f2f72] { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 8px;\n}\n.team-col[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 72px; flex-shrink: 0;\n}\n.team-flag-img[data-v-9c8f2f72] { width: 52px; height: 36px; -o-object-fit: cover; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.35);\n}\n.team-name[data-v-9c8f2f72] { color: #fff; font-size: 0.62rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.3px;\n}\n.score-col[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1;\n}\n.score-row[data-v-9c8f2f72] { display: flex; align-items: center; gap: 8px;\n}\n.score-circle[data-v-9c8f2f72] {\n    width: 44px; height: 44px; border-radius: 50%;\n    background: rgba(0,0,0,0.4);\n    color: #fff; font-size: 1.3rem; font-weight: 700;\n    font-family: 'Rajdhani', sans-serif;\n    display: flex; align-items: center; justify-content: center;\n    border: 1px solid rgba(255,255,255,0.12);\n}\n.score-dash[data-v-9c8f2f72] { color: rgba(255,255,255,0.5); font-size: 1rem; font-weight: 700;\n}\n.mc-time[data-v-9c8f2f72] { color: #fff; font-size: 0.68rem; font-weight: 600;\n}\n.live-badge[data-v-9c8f2f72] {\n    background: #dc2626; color: #fff;\n    font-size: 0.6rem; font-weight: 700; padding: 3px 10px;\n    border-radius: 4px; letter-spacing: 1px;\n    animation: pulse-live-data-v-9c8f2f72 1.5s infinite;\n}\n@keyframes pulse-live-data-v-9c8f2f72 {\n0%,100%{opacity:1}\n50%{opacity:0.7}\n}\n.ft-badge[data-v-9c8f2f72] {\n    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);\n    font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 4px;\n}\n\n/* Halves */\n.mc-halves[data-v-9c8f2f72] { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 10px;\n}\n.half-row[data-v-9c8f2f72] {\n    display: flex; justify-content: space-between;\n    color: rgba(255,255,255,0.55); font-size: 0.68rem; font-weight: 600;\n    padding: 5px 6px; border-radius: 4px;\n}\n.half-row.alt[data-v-9c8f2f72] { background: rgba(255,255,255,0.04);\n}\n\n/* ── Right: Sidebar ─────────────────────────── */\n.ls-sidebar[data-v-9c8f2f72] {\n    width: 320px; flex-shrink: 0;\n    display: flex; flex-direction: column;\n    border-left: 1px solid rgba(255,255,255,0.08);\n}\n\n/* My Points */\n.my-points-card[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 12px;\n    padding: 20px 20px;\n    border-bottom: 1px solid rgba(255,255,255,0.08);\n    background: rgba(0,0,0,0.15);\n}\n.mp-avatar[data-v-9c8f2f72] {\n    width: 52px; height: 52px; border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover; border: 2px solid rgba(255,255,255,0.2);\n    flex-shrink: 0;\n}\n.mp-label[data-v-9c8f2f72] { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 800; font-size: 1rem;\n}\n.mp-name[data-v-9c8f2f72] { color: rgba(255,255,255,0.5); font-size: 0.72rem; margin-top: 2px;\n}\n.mp-badge[data-v-9c8f2f72] {\n    margin-left: auto; background: #FFA500;\n    color: #fff; font-weight: 700; font-size: 1rem;\n    padding: 6px 16px; border-radius: 20px;\n    font-family: 'Rajdhani', sans-serif; flex-shrink: 0;\n}\n\n/* Match tabs */\n.match-tabs[data-v-9c8f2f72] {\n    display: flex; flex-wrap: wrap; gap: 6px;\n    padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);\n    background: rgba(0,0,0,0.1);\n}\n.match-tab[data-v-9c8f2f72] {\n    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);\n    border-radius: 20px; color: rgba(255,255,255,0.6);\n    font-size: 0.68rem; font-weight: 600; padding: 4px 10px;\n    cursor: pointer; transition: all 0.15s; white-space: nowrap;\n}\n.match-tab[data-v-9c8f2f72]:hover { border-color: rgba(255,165,0,0.4); color: #FFA500;\n}\n.match-tab.active[data-v-9c8f2f72] { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500;\n}\n\n/* Top 10 */\n.top10-card[data-v-9c8f2f72] { flex: 1; display: flex; flex-direction: column; overflow: hidden;\n}\n.top10-header[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);\n    background: rgba(0,0,0,0.15);\n    flex-shrink: 0;\n}\n.top10-title[data-v-9c8f2f72] { color: #fff; font-family: 'Roboto', sans-serif; font-weight: 800; font-size: 0.95rem;\n}\n.top10-sub[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.65rem; margin-top: 2px;\n}\n.top10-list[data-v-9c8f2f72] { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,165,0,0.4) transparent;\n}\n.top10-list[data-v-9c8f2f72]::-webkit-scrollbar { width: 4px;\n}\n.top10-list[data-v-9c8f2f72]::-webkit-scrollbar-thumb { background: rgba(255,165,0,0.4); border-radius: 4px;\n}\n.top10-item[data-v-9c8f2f72] {\n    display: flex; align-items: center; gap: 10px;\n    padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);\n    transition: background 0.15s;\n}\n.top10-item[data-v-9c8f2f72]:hover { background: rgba(255,255,255,0.03);\n}\n.rank-num[data-v-9c8f2f72] { color: rgba(255,255,255,0.45); font-size: 0.8rem; font-weight: 700; width: 18px; text-align: center; flex-shrink: 0;\n}\n.w-avatar[data-v-9c8f2f72] { width: 38px; height: 38px; border-radius: 50%; -o-object-fit: cover; object-fit: cover; flex-shrink: 0;\n}\n.w-info[data-v-9c8f2f72] { flex: 1; min-width: 0;\n}\n.w-name[data-v-9c8f2f72] { color: #fff; font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\n}\n.w-code[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.62rem; margin-top: 2px;\n}\n.w-pts-wrap[data-v-9c8f2f72] { display: flex; flex-direction: column; align-items: center; flex-shrink: 0;\n}\n.w-points[data-v-9c8f2f72] {\n    background: #FFA500; color: #fff;\n    font-weight: 700; font-size: 0.85rem;\n    padding: 3px 12px; border-radius: 12px;\n    font-family: 'Rajdhani', sans-serif;\n}\n.w-pts-label[data-v-9c8f2f72] { color: rgba(255,255,255,0.4); font-size: 0.58rem; margin-top: 2px;\n}\n\n/* ── Responsive / PWA ───────────────────────── */\n@media (max-width: 1024px) {\n.ls-card[data-v-9c8f2f72] { flex-direction: column;\n}\n.ls-sidebar[data-v-9c8f2f72] { width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.08);\n}\n.top10-list[data-v-9c8f2f72] { max-height: 360px;\n}\n}\n@media (max-width: 640px) {\n.match-cards-grid[data-v-9c8f2f72] { grid-template-columns: 1fr;\n}\n.score-circle[data-v-9c8f2f72] { width: 36px; height: 36px; font-size: 1.1rem;\n}\n.team-flag-img[data-v-9c8f2f72] { width: 42px; height: 28px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -449,165 +530,249 @@ var render = function () {
             ])
           : _vm.displayMatches.length === 0
           ? _c("div", { staticClass: "state-msg" }, [
-              _vm._v("No live matches right now."),
+              _vm._v("No matches right now."),
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "match-cards-grid" },
-          _vm._l(_vm.displayMatches, function (match) {
-            return _c("div", { key: match.id, staticClass: "match-card" }, [
-              _c("div", { staticClass: "mc-header" }, [
-                _c("span", { staticClass: "group-badge" }, [
-                  _vm._v(
-                    _vm._s(match.group_name) +
-                      ", ROUND " +
-                      _vm._s(match.round_number)
-                  ),
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "mc-date" }, [
-                  _vm._v(_vm._s(match.match_date)),
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "mc-venue" }, [
-                  _c(
-                    "svg",
-                    {
-                      attrs: {
-                        width: "10",
-                        height: "10",
-                        viewBox: "0 0 24 24",
-                        fill: "none",
-                        stroke: "currentColor",
-                        "stroke-width": "2",
+          : _c(
+              "div",
+              { staticClass: "mc-carousel-wrap" },
+              [
+                _c(
+                  "transition",
+                  { attrs: { name: _vm.slideDir, mode: "out-in" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        key: _vm.carouselPage,
+                        staticClass: "match-cards-grid",
                       },
-                    },
-                    [
-                      _c("circle", { attrs: { cx: "12", cy: "10", r: "3" } }),
-                      _c("path", {
-                        attrs: {
-                          d: "M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z",
-                        },
+                      _vm._l(_vm.pagedMatches, function (match) {
+                        return _c(
+                          "div",
+                          { key: match.id, staticClass: "match-card" },
+                          [
+                            _c("div", { staticClass: "mc-header" }, [
+                              _c("span", { staticClass: "group-badge" }, [
+                                _vm._v(
+                                  _vm._s(match.group_name) +
+                                    ", ROUND " +
+                                    _vm._s(match.round_number)
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "mc-date" }, [
+                                _vm._v(_vm._s(match.match_date)),
+                              ]),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "mc-venue" }, [
+                                _c(
+                                  "svg",
+                                  {
+                                    attrs: {
+                                      width: "10",
+                                      height: "10",
+                                      viewBox: "0 0 24 24",
+                                      fill: "none",
+                                      stroke: "currentColor",
+                                      "stroke-width": "2",
+                                    },
+                                  },
+                                  [
+                                    _c("circle", {
+                                      attrs: { cx: "12", cy: "10", r: "3" },
+                                    }),
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z",
+                                      },
+                                    }),
+                                  ]
+                                ),
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(match.venue || "TBD") +
+                                    "\n                                "
+                                ),
+                              ]),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "mc-body" }, [
+                              _c("div", { staticClass: "team-col" }, [
+                                _c("img", {
+                                  staticClass: "team-flag-img",
+                                  attrs: {
+                                    src: _vm.teamFlagUrl(match.team1),
+                                    onerror:
+                                      "this.src=window.__IMG__ + '/images/default-avatar.png'",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "team-name" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      (match.team1 && match.team1.name) || "TBD"
+                                    )
+                                  ),
+                                ]),
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "score-col" }, [
+                                _c("div", { staticClass: "score-row" }, [
+                                  _c("div", { staticClass: "score-circle" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        match.team1_score != null
+                                          ? match.team1_score
+                                          : "—"
+                                      )
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "score-dash" }, [
+                                    _vm._v("—"),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "score-circle" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        match.team2_score != null
+                                          ? match.team2_score
+                                          : "—"
+                                      )
+                                    ),
+                                  ]),
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "mc-time" }, [
+                                  _vm._v(_vm._s(match.match_time || "")),
+                                ]),
+                                _vm._v(" "),
+                                match.status === "live"
+                                  ? _c("span", { staticClass: "live-badge" }, [
+                                      _vm._v("LIVE"),
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                match.status === "completed"
+                                  ? _c("span", { staticClass: "ft-badge" }, [
+                                      _vm._v("FT"),
+                                    ])
+                                  : _vm._e(),
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "team-col right" }, [
+                                _c("img", {
+                                  staticClass: "team-flag-img",
+                                  attrs: {
+                                    src: _vm.teamFlagUrl(match.team2),
+                                    onerror:
+                                      "this.src=window.__IMG__ + '/images/default-avatar.png'",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "team-name" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      (match.team2 && match.team2.name) || "TBD"
+                                    )
+                                  ),
+                                ]),
+                              ]),
+                            ]),
+                            _vm._v(" "),
+                            match.status !== "upcoming"
+                              ? _c("div", { staticClass: "mc-halves" }, [
+                                  _c("div", { staticClass: "half-row" }, [
+                                    _c("span", [_vm._v("1ST HALF")]),
+                                    _vm._v(" "),
+                                    _c("span", [
+                                      _vm._v(
+                                        _vm._s(
+                                          match.team1_half1 != null
+                                            ? match.team1_half1
+                                            : 0
+                                        ) +
+                                          " - " +
+                                          _vm._s(
+                                            match.team2_half1 != null
+                                              ? match.team2_half1
+                                              : 0
+                                          )
+                                      ),
+                                    ]),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "half-row alt" }, [
+                                    _c("span", [_vm._v("2ND HALF")]),
+                                    _vm._v(" "),
+                                    _c("span", [
+                                      _vm._v(
+                                        _vm._s(
+                                          match.team1_half2 != null
+                                            ? match.team1_half2
+                                            : 0
+                                        ) +
+                                          " - " +
+                                          _vm._s(
+                                            match.team2_half2 != null
+                                              ? match.team2_half2
+                                              : 0
+                                          )
+                                      ),
+                                    ]),
+                                  ]),
+                                ])
+                              : _vm._e(),
+                          ]
+                        )
                       }),
-                    ]
-                  ),
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(match.venue || "TBD") +
-                      "\n                        "
-                  ),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "mc-body" }, [
-                _c("div", { staticClass: "team-col" }, [
-                  _c("img", {
-                    staticClass: "team-flag-img",
-                    attrs: {
-                      src: _vm.teamFlagUrl(match.team1),
-                      onerror:
-                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "team-name" }, [
-                    _vm._v(_vm._s((match.team1 && match.team1.name) || "TBD")),
-                  ]),
-                ]),
+                      0
+                    ),
+                  ]
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "score-col" }, [
-                  _c("div", { staticClass: "score-row" }, [
-                    _c("div", { staticClass: "score-circle" }, [
-                      _vm._v(
-                        _vm._s(
-                          match.team1_score != null ? match.team1_score : "—"
-                        )
+                _vm.totalPages > 1
+                  ? _c("div", { staticClass: "mc-controls" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "mc-arrow",
+                          on: { click: _vm.prevPage },
+                        },
+                        [_vm._v("‹")]
                       ),
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "score-dash" }, [_vm._v("—")]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "score-circle" }, [
-                      _vm._v(
-                        _vm._s(
-                          match.team2_score != null ? match.team2_score : "—"
-                        )
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "mc-dots" },
+                        _vm._l(_vm.totalPages, function (p) {
+                          return _c("span", {
+                            key: p,
+                            staticClass: "mc-dot",
+                            class: { active: p - 1 === _vm.carouselPage },
+                            on: {
+                              click: function ($event) {
+                                return _vm.goPage(p - 1)
+                              },
+                            },
+                          })
+                        }),
+                        0
                       ),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mc-time" }, [
-                    _vm._v(_vm._s(match.match_time || "")),
-                  ]),
-                  _vm._v(" "),
-                  match.status === "live"
-                    ? _c("span", { staticClass: "live-badge" }, [
-                        _vm._v("LIVE"),
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  match.status === "completed"
-                    ? _c("span", { staticClass: "ft-badge" }, [_vm._v("FT")])
-                    : _vm._e(),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "team-col right" }, [
-                  _c("img", {
-                    staticClass: "team-flag-img",
-                    attrs: {
-                      src: _vm.teamFlagUrl(match.team2),
-                      onerror:
-                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "team-name" }, [
-                    _vm._v(_vm._s((match.team2 && match.team2.name) || "TBD")),
-                  ]),
-                ]),
-              ]),
-              _vm._v(" "),
-              match.status !== "upcoming"
-                ? _c("div", { staticClass: "mc-halves" }, [
-                    _c("div", { staticClass: "half-row" }, [
-                      _c("span", [_vm._v("1ST HALF")]),
                       _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          _vm._s(
-                            match.team1_half1 != null ? match.team1_half1 : 0
-                          ) +
-                            " - " +
-                            _vm._s(
-                              match.team2_half1 != null ? match.team2_half1 : 0
-                            )
-                        ),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "half-row alt" }, [
-                      _c("span", [_vm._v("2ND HALF")]),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          _vm._s(
-                            match.team1_half2 != null ? match.team1_half2 : 0
-                          ) +
-                            " - " +
-                            _vm._s(
-                              match.team2_half2 != null ? match.team2_half2 : 0
-                            )
-                        ),
-                      ]),
-                    ]),
-                  ])
-                : _vm._e(),
-            ])
-          }),
-          0
-        ),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "mc-arrow",
+                          on: { click: _vm.nextPage },
+                        },
+                        [_vm._v("›")]
+                      ),
+                    ])
+                  : _vm._e(),
+              ],
+              1
+            ),
         _vm._v(" "),
         _c("div", { staticClass: "ad-banner" }, [
           _c("img", {
@@ -670,52 +835,87 @@ var render = function () {
             _vm._m(1),
           ]),
           _vm._v(" "),
+          _vm.recentMatches.length > 0
+            ? _c(
+                "div",
+                { staticClass: "match-tabs" },
+                _vm._l(_vm.recentMatches, function (m) {
+                  return _c(
+                    "button",
+                    {
+                      key: m.id,
+                      staticClass: "match-tab",
+                      class: { active: _vm.selectedMatchId === m.id },
+                      on: {
+                        click: function ($event) {
+                          _vm.selectedMatchId = m.id
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(m.team1) +
+                          " vs " +
+                          _vm._s(m.team2) +
+                          "\n                    "
+                      ),
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "top10-list" },
             [
-              _vm._l(_vm.topWinners, function (w, i) {
-                return _c("div", { key: w.id, staticClass: "top10-item" }, [
-                  _c("span", { staticClass: "rank-num" }, [
-                    _vm._v(_vm._s(i + 1)),
-                  ]),
-                  _vm._v(" "),
-                  _c("img", {
-                    staticClass: "w-avatar",
-                    attrs: {
-                      src: w.profile_picture_url,
-                      onerror:
-                        "this.src=window.__IMG__ + '/images/default-avatar.png'",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-info" }, [
-                    _c("div", { staticClass: "w-name" }, [
-                      _vm._v(_vm._s(w.name)),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "w-code" }, [
-                      _vm._v("Doctor Code: " + _vm._s(w.unique_code)),
-                    ]),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "w-pts-wrap" }, [
-                    _c("span", { staticClass: "w-points" }, [
-                      _vm._v(_vm._s(w.total_points)),
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "w-pts-label" }, [
-                      _vm._v("Points"),
-                    ]),
-                  ]),
-                ])
-              }),
-              _vm._v(" "),
-              _vm.topWinners.length === 0
+              _vm.recentMatches.length > 0 &&
+              _vm.selectedMatchWinners.length > 0
+                ? _vm._l(_vm.selectedMatchWinners, function (w) {
+                    return _c("div", { key: w.id, staticClass: "top10-item" }, [
+                      _c("span", { staticClass: "rank-num" }, [
+                        _vm._v(_vm._s(w.rank)),
+                      ]),
+                      _vm._v(" "),
+                      _c("img", {
+                        staticClass: "w-avatar",
+                        attrs: {
+                          src: w.profile_picture_url,
+                          onerror:
+                            "this.src=window.__IMG__ + '/images/default-avatar.png'",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-info" }, [
+                        _c("div", { staticClass: "w-name" }, [
+                          _vm._v(_vm._s(w.name)),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "w-code" }, [
+                          _vm._v(_vm._s(w.unique_code)),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-pts-wrap" }, [
+                        _c("span", { staticClass: "w-points" }, [
+                          _vm._v(_vm._s(w.match_points)),
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "w-pts-label" }, [
+                          _vm._v("Points"),
+                        ]),
+                      ]),
+                    ])
+                  })
+                : _vm.recentMatches.length > 0
                 ? _c("div", { staticClass: "state-msg" }, [
-                    _vm._v("No data yet."),
+                    _vm._v("No predictions for this match."),
                   ])
-                : _vm._e(),
+                : _c("div", { staticClass: "state-msg" }, [
+                    _vm._v("Winners appear here after a match completes."),
+                  ]),
             ],
             2
           ),
@@ -742,7 +942,9 @@ var staticRenderFns = [
     return _c("div", [
       _c("div", { staticClass: "top10-title" }, [_vm._v("Top 10 Winners")]),
       _vm._v(" "),
-      _c("div", { staticClass: "top10-sub" }, [_vm._v("FIFA world cup 2026")]),
+      _c("div", { staticClass: "top10-sub" }, [
+        _vm._v("Last 24 hours · by match"),
+      ]),
     ])
   },
 ]

@@ -23,7 +23,7 @@ class AdminQuestionController extends Controller
         $validator = Validator::make($request->all(), [
             'match_id'      => 'nullable|exists:match_games,id',
             'question_text' => 'required|string',
-            'type'          => 'required|in:team_choice,dropdown,mcq,text',
+            'type'          => 'required|in:team_choice,dropdown,mcq,text,team_list',
             'points'        => 'required|integer|min:1',
             'options'       => 'nullable|array',
             'sort_order'    => 'integer|min:0',
@@ -64,8 +64,23 @@ class AdminQuestionController extends Controller
 
     public function setCorrectAnswer(Request $request, $id)
     {
-        $question = Question::findOrFail($id);
+        $question = Question::with('match')->findOrFail($id);
         $question->update(['correct_answer' => $request->correct_answer]);
+
+        // Auto-score all predictions for this question if match is already completed
+        if ($question->match && $question->match->status === 'completed' && $question->correct_answer) {
+            $predictions = \App\Models\Prediction::where('question_id', $question->id)
+                ->where('match_id', $question->match_id)
+                ->get();
+            foreach ($predictions as $prediction) {
+                $isCorrect = strtolower(trim($prediction->selected_answer)) === strtolower(trim($question->correct_answer));
+                $prediction->update([
+                    'is_correct'    => $isCorrect,
+                    'points_earned' => $isCorrect ? $question->points : 0,
+                ]);
+            }
+        }
+
         return response()->json(['status' => 'success', 'data' => $question]);
     }
 }

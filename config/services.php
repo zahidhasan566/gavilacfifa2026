@@ -30,4 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sportmonks' => [
+        'token'     => env('SPORTMONKS_API_TOKEN', ''),
+        'base_url'  => 'https://api.sportmonks.com/v3/football',
+        // Find these IDs by calling:
+        // GET /leagues?search=world+cup&api_token=YOUR_TOKEN  → league_id
+        // GET /seasons?filters[leagueId]=LEAGUE_ID&api_token=YOUR_TOKEN → season_id
+        'league_id' => env('SPORTMONKS_LEAGUE_ID', ''),
+        'season_id' => env('SPORTMONKS_SEASON_ID', ''),
+    ],
+
 ];

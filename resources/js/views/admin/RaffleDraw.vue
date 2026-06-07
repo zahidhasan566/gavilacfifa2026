@@ -50,10 +50,6 @@
                     <template v-else>
                         <div class="confirm-label">Selected: {{ selectedUser && selectedUser.name }}</div>
                         <div class="form-group">
-                            <label>Prize Points</label>
-                            <input v-model.number="prizePoints" type="number" min="0" class="form-input">
-                        </div>
-                        <div class="form-group">
                             <label>Notes</label>
                             <input v-model="notes" class="form-input" placeholder="Optional note...">
                         </div>
@@ -73,7 +69,7 @@
                         <div class="e-code">{{ d.draw_date }} · {{ d.user && d.user.unique_code }}</div>
                         <div v-if="d.notes" class="e-notes">{{ d.notes }}</div>
                     </div>
-                    <span class="prize-badge">+{{ d.prize_points }} pts</span>
+                    <span class="winner-tag">🏆 Winner</span>
                 </div>
                 <div v-if="history.length === 0" class="empty-state">No draws yet.</div>
             </div>
@@ -110,7 +106,6 @@ export default {
             minPoints: 0,
             maxWinners: 10,
             winnerCount: 0,
-            prizePoints: 0,
             notes: '',
             randomWinner: null,
         };
@@ -171,15 +166,13 @@ export default {
         async confirmDraw() {
             try {
                 await this.$http.post('/api/admin/raffle/draw', {
-                    user_id:      this.selectedUserId,
-                    match_id:     this.selectedMatchId,
-                    prize_points: this.prizePoints,
-                    notes:        this.notes,
-                    max_winners:  this.maxWinners,
+                    user_id:     this.selectedUserId,
+                    match_id:    this.selectedMatchId,
+                    notes:       this.notes,
+                    max_winners: this.maxWinners,
                 });
                 this.$toaster.success('Winner confirmed!');
                 this.selectedUserId = null;
-                this.prizePoints = 0;
                 this.notes = '';
                 this.fetchHistory();
                 this.fetchWinnerCount();
@@ -225,7 +218,7 @@ export default {
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; }
 .btn-orange { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif; }
 .history-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.prize-badge { background: rgba(34,197,94,0.15); color: #4ade80; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.winner-tag { background: rgba(255,165,0,0.15); color: #FFA500; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; border: 1px solid rgba(255,165,0,0.3); }
 .empty-state { color: rgba(255,255,255,0.3); text-align: center; padding: 30px; font-size: 0.85rem; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
 .modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px; }
