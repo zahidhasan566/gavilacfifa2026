@@ -117,7 +117,7 @@
                     <div class="top10-header">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFA500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m12 0h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22m4-7.34V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
                         <div>
-                            <div class="top10-title">Top 10 Winners</div>
+                            <div class="top10-title">Daily Top 10 Winners</div>
                             <div class="top10-sub">Last 24 hours · by match</div>
                         </div>
                     </div>
@@ -399,8 +399,10 @@ export default {
 .match-cards-grid { display: grid; grid-template-columns: 1fr 1fr; flex: 1; }
 .match-card {
     padding: 18px 20px;
-    border-right: 1px solid rgba(255,255,255,0.07);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 10px;
+    margin: 10px;
+    background: rgba(255,255,255,0.03);
 }
 
 /* Bold date header */
