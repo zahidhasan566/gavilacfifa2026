@@ -1,19 +1,31 @@
 ---
 deployment:
   tasks:
-    - export APPROOT=/home/abecababetisfifa/fifa2026
-    - export PUBDEST=/home/abecababetisfifa/public_html
-    - export REPOROOT=/home/abecababetisfifa/repositories/fifa2026
+    - export APPROOT=/home1/gavilacfifa/gavilacfifa-fifa2026
+    - export PUBDEST=/home1/gavilacfifa/public_html
+    - export REPOROOT=/home1/gavilacfifa/repositories/gavilacfifa-fifa2026
 
-    # Copy only changed app folders (skip vendor - already on server)
+    # Ensure app directory structure exists (safe on re-deploys too)
+    - mkdir -p $APPROOT/storage/framework/cache
+    - mkdir -p $APPROOT/storage/framework/sessions
+    - mkdir -p $APPROOT/storage/framework/views
+    - mkdir -p $APPROOT/storage/app/public
+    - mkdir -p $APPROOT/bootstrap/cache
+
+    # Copy app source files
     - /bin/cp -rf $REPOROOT/app $APPROOT/
     - /bin/cp -rf $REPOROOT/bootstrap $APPROOT/
     - /bin/cp -rf $REPOROOT/config $APPROOT/
     - /bin/cp -rf $REPOROOT/database $APPROOT/
     - /bin/cp -rf $REPOROOT/resources $APPROOT/
     - /bin/cp -rf $REPOROOT/routes $APPROOT/
+    - /bin/cp -rf $REPOROOT/storage $APPROOT/
     - /bin/cp -f $REPOROOT/artisan $APPROOT/
     - /bin/cp -f $REPOROOT/composer.json $APPROOT/
+    - /bin/cp -f $REPOROOT/composer.lock $APPROOT/
+
+    # Install/update PHP dependencies
+    - /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=$APPROOT
 
     # Copy public assets to public_html
     - /bin/cp -f $REPOROOT/public/index-production.php $PUBDEST/index.php
@@ -24,13 +36,18 @@ deployment:
     - /bin/cp -f $REPOROOT/public/manifest.production.json $PUBDEST/manifest.json
     - /bin/cp -f $REPOROOT/public/sw.production.js $PUBDEST/sw.js
 
-    # Create profiles folder directly in public_html/images (no symlink needed)
+    # Profiles upload folder
     - mkdir -p $PUBDEST/images/profiles
     - chmod -R 775 $PUBDEST/images/profiles
 
-    # Run artisan commands
+    # Fix storage permissions
+    - chmod -R 775 $APPROOT/storage
+    - chmod -R 775 $APPROOT/bootstrap/cache
+
+    # Laravel bootstrap
+    - /usr/local/bin/php $APPROOT/artisan key:generate --force
+    - /usr/local/bin/php $APPROOT/artisan storage:link --force
+    - /usr/local/bin/php $APPROOT/artisan migrate --force
     - /usr/local/bin/php $APPROOT/artisan config:cache
     - /usr/local/bin/php $APPROOT/artisan route:cache
     - /usr/local/bin/php $APPROOT/artisan optimize
-    - /usr/local/bin/php $APPROOT/artisan migrate --force
-    - /usr/local/bin/php $APPROOT/artisan db:seed --force
