@@ -252,13 +252,13 @@ export default {
 <style scoped>
 .main-layout {
     min-height: 100vh;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     display: flex;
     flex-direction: column;
 }
 .top-nav {
     position: sticky; top: 0; z-index: 100;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     display: flex; align-items: center;
     padding: 0 40px;
     height: 70px;
@@ -334,7 +334,7 @@ export default {
 
 /* Profile Modal */
 .profile-modal {
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 16px; padding: 32px 28px; width: 300px;
     text-align: center; position: relative;
     border: 1px solid rgba(255,255,255,0.12);
@@ -367,7 +367,7 @@ export default {
 
 .notif-dropdown, .user-dropdown {
     position: fixed; top: 62px; right: 20px; z-index: 200;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border: 1px solid rgba(255,255,255,0.12);
     border-radius: 12px; width: 300px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     overflow: hidden;
@@ -400,7 +400,7 @@ export default {
 .bottom-nav {
     display: none;
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-top: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-top: 1px solid rgba(255,255,255,0.1);
     padding: 8px 0; justify-content: space-around; z-index: 100;
 }
 .bottom-tab {
@@ -436,7 +436,7 @@ export default {
     z-index: 1000; padding: 20px;
 }
 .raffle-modal {
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border: 1px solid rgba(255,165,0,0.4);
     border-radius: 20px; padding: 32px 28px;
     width: 100%; max-width: 380px; text-align: center;

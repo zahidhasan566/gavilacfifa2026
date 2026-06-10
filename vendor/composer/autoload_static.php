@@ -584,6 +584,8 @@ class ComposerStaticInit037f6d3b405c5000457e2ef40effb754
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\SyncLiveScores' => __DIR__ . '/../..' . '/app/Console/Commands/SyncLiveScores.php',
+        'App\\Console\\Commands\\TestSportmonks' => __DIR__ . '/../..' . '/app/Console/Commands/TestSportmonks.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminFifaFactController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminFifaFactController.php',
@@ -828,6 +830,7 @@ class ComposerStaticInit037f6d3b405c5000457e2ef40effb754
         'Database\\Seeders\\ChampionshipQuestionsSeeder' => __DIR__ . '/../..' . '/database/seeders/ChampionshipQuestionsSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\Fifa2026DataSeeder' => __DIR__ . '/../..' . '/database/seeders/Fifa2026DataSeeder.php',
+        'Database\\Seeders\\MatchWinnerQuestionSeeder' => __DIR__ . '/../..' . '/database/seeders/MatchWinnerQuestionSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
         'DeepCopy\\Exception\\CloneException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
         'DeepCopy\\Exception\\PropertyException' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',
@@ -6596,10 +6599,6 @@ class ComposerStaticInit037f6d3b405c5000457e2ef40effb754
         'Symfony\\Polyfill\\Ctype\\Ctype' => __DIR__ . '/..' . '/symfony/polyfill-ctype/Ctype.php',
         'Symfony\\Polyfill\\Iconv\\Iconv' => __DIR__ . '/..' . '/symfony/polyfill-iconv/Iconv.php',
         'Symfony\\Polyfill\\Intl\\Grapheme\\Grapheme' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/Grapheme.php',
-        'Symfony\\Polyfill\\Intl\\Idn\\Idn' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/Idn.php',
-        'Symfony\\Polyfill\\Intl\\Idn\\Info' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/Info.php',
-        'Symfony\\Polyfill\\Intl\\Idn\\Resources\\unidata\\DisallowedRanges' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/Resources/unidata/DisallowedRanges.php',
-        'Symfony\\Polyfill\\Intl\\Idn\\Resources\\unidata\\Regex' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/Resources/unidata/Regex.php',
         'Symfony\\Polyfill\\Intl\\Normalizer\\Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Normalizer.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',

@@ -1,10 +1,10 @@
-const CACHE_NAME = 'fifa2026-v2';
-const BASE = '/fifa2026';
+const CACHE_NAME = 'gavilacfifa2026-v1';
+const BASE = '/gavilacfifa2026';
 const STATIC_ASSETS = [
     BASE + '/',
-    BASE + '/public/css/app.css',
-    BASE + '/public/js/app.js',
-    BASE + '/public/images/icons/icon-192x192.png',
+    BASE + '/css/app.css',
+    BASE + '/js/app.js',
+    BASE + '/images/icons/icon-192x192.png',
 ];
 
 self.addEventListener('install', event => {

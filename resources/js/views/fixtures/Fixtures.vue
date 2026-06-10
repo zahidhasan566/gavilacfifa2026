@@ -292,7 +292,7 @@ export default {
 /* ── Groups Carousel ───────────────────────── */
 .groups-bar {
     display: flex; align-items: stretch;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
 }
@@ -334,7 +334,7 @@ export default {
 /* ── Teams Sidebar ─────────────────────────── */
 .teams-sidebar {
     width: 155px; flex-shrink: 0;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px; padding: 14px;
     border: 1px solid rgba(255,255,255,0.08);
 }
@@ -368,7 +368,7 @@ export default {
 /* ── Columns ───────────────────────────────── */
 .fixtures-col, .results-col {
     flex: 1; min-width: 0;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);
 }

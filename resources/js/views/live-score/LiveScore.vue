@@ -340,7 +340,7 @@ export default {
 .section-header {
     display: flex; align-items: center; gap: 14px;
     padding: 0 20px;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-bottom: 1px solid rgba(255,255,255,0.08);
     height: 70px;
     flex-shrink: 0;

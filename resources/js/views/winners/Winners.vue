@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="winners-page">
 
         <!-- Header -->
@@ -328,7 +328,7 @@ export default {
 .section-header {
     display: flex; align-items: center; gap: 14px;
     padding: 0 16px;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px; height: 70px; overflow: hidden;
 }
 .sh-ball-circle {
@@ -355,7 +355,7 @@ export default {
 .winners-body { display: flex; gap: 20px; align-items: flex-start; }
 .carousel-empty {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    height: 480px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    height: 480px; background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px;
 }
 .ce-icon { font-size: 3.5rem; margin-bottom: 12px; opacity: .5; }
@@ -438,7 +438,7 @@ export default {
 
 /* ── Right panel ── */
 .cards-panel {
-    flex: 2; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    flex: 2; background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 12px;
 }
 

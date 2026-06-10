@@ -92,7 +92,7 @@ export default {
 .tab-btn { padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12); background: none; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 0.85rem; }
 .tab-btn.active { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500; }
 .facts-grid { display: flex; flex-direction: column; gap: 12px; }
-.fact-item { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 10px; display: flex; gap: 14px; padding: 14px; align-items: flex-start; }
+.fact-item { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 10px; display: flex; gap: 14px; padding: 14px; align-items: flex-start; }
 .fact-thumb { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
 .fact-body { flex: 1; }
 .fact-title { color: #fff; font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
@@ -108,7 +108,7 @@ export default {
 .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; }
 .empty-state { color: rgba(255,255,255,0.3); text-align: center; padding: 40px; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 500px; max-height: 85vh; overflow-y: auto; }
+.modal-box { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 500px; max-height: 85vh; overflow-y: auto; }
 .modal-title { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }

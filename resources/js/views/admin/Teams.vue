@@ -72,7 +72,7 @@ export default {
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
 .btn-orange { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif; }
 .groups-view { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.group-block { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
+.group-block { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .group-header { background: rgba(255,165,0,0.1); color: #FFA500; font-weight: 700; font-size: 0.85rem; padding: 10px 14px; border-bottom: 1px solid rgba(255,165,0,0.2); }
 .team-row { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .team-emoji { font-size: 1.2rem; }
@@ -82,7 +82,7 @@ export default {
 .btn-edit { background: rgba(59,130,246,0.15); color: #60a5fa; }
 .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 420px; }
+.modal-box { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 420px; }
 .modal-title { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
 .form-grid { display: flex; flex-direction: column; gap: 14px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }

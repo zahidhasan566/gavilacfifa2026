@@ -47,14 +47,14 @@ export default {
 <style scoped>
 .admin-notifs { }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
-.broadcast-card { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.broadcast-card { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
 .card-title { color: #fff; font-weight: 700; font-size: 1rem; margin-bottom: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .form-group label { color: rgba(255,255,255,0.6); font-size: 0.78rem; }
 .form-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%; box-sizing: border-box; }
 .btn-orange { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif; }
 .btn-orange:disabled { opacity: 0.7; cursor: not-allowed; }
-.notif-list { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
+.notif-list { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .notif-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
 .notif-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(59,130,246,0.15); display: flex; align-items: center; justify-content: center; color: #60a5fa; flex-shrink: 0; margin-top: 2px; }
 .notif-icon.broadcast { background: rgba(255,165,0,0.15); color: #FFA500; }

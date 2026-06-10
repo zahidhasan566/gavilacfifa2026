@@ -73,14 +73,21 @@ class SyncLiveScores extends Command
         $cutoff   = date('Y-m-d', strtotime('-6 months'));
         $fixtures = [];
         $page     = 1;
+        $seasonId = config('services.sportmonks.season_id');
+
+        $endpoint = $seasonId
+            ? "{$baseUrl}/fixtures/seasons/{$seasonId}"
+            : "{$baseUrl}/fixtures";
 
         do {
-            $response = Http::timeout(20)
-                ->get("{$baseUrl}/fixtures", [
-                    'api_token' => $token,
-                    'include'   => 'participants;scores;state;venue;round',
-                    'page'      => $page,
-                ]);
+            $params = [
+                'api_token' => $token,
+                'include'   => 'participants;scores;state;venue;round',
+                'page'      => $page,
+                'per_page'  => 50,
+            ];
+
+            $response = Http::timeout(20)->get($endpoint, $params);
 
             if (!$response->successful()) {
                 $this->error("Sportmonks API error {$response->status()}: " . $response->body());

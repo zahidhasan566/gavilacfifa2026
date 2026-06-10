@@ -31,7 +31,7 @@ return [
     ],
 
     'sportmonks' => [
-        'token'     => env('SPORTMONKS_API_TOKEN', ''),
+        'token'     => 'I9IydhshncJJNRgJdxliNx1IZGBOz7EaEksvBwTR4AnMu3VLKfxr5apfZUkK',
         'base_url'  => 'https://api.sportmonks.com/v3/football',
         // Find these IDs by calling:
         // GET /leagues?search=world+cup&api_token=YOUR_TOKEN  → league_id

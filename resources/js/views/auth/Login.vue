@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="auth-page">
 
         <!-- Full-page background image layer -->
@@ -108,7 +108,7 @@ export default {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     opacity: 0.70;
 }
 .auth-page {

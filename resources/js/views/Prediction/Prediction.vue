@@ -354,7 +354,7 @@ export default {
 
 /* Each column card */
 .pred-card {
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.10);
@@ -368,10 +368,10 @@ export default {
     display: flex; align-items: center; gap: 10px;
     padding: 0 12px 0 12px;
     height: 66px; position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(135deg, #150a4e 0%, #1A0040 100%);
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.champ-header { background: linear-gradient(135deg, #3E0082 0%, #1A0040 100%); }
+.champ-header { background: linear-gradient(135deg, #150a4e 0%, #1A0040 100%); }
 .pred-icon-circle {
     width: 42px; height: 42px; border-radius: 50%;
     background: rgba(255,255,255,0.08);

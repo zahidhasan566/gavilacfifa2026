@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="admin-raffle">
         <h1 class="page-heading">Raffle Draw</h1>
 
@@ -188,8 +188,8 @@ export default {
 .admin-raffle { }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
 .raffle-layout { display: flex; gap: 20px; }
-.raffle-left { flex: 1; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
-.raffle-right { width: 300px; background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
+.raffle-left { flex: 1; background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
+.raffle-right { width: 300px; background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden; }
 .card-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; font-weight: 700; font-size: 0.9rem; flex-wrap: wrap; }
 .filter-label { color: rgba(255,255,255,0.5); font-size: 0.78rem; }
 .mini-input { width: 70px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 5px 8px; color: #fff; font-size: 0.85rem; outline: none; }
@@ -221,7 +221,7 @@ export default {
 .winner-tag { background: rgba(255,165,0,0.15); color: #FFA500; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; border: 1px solid rgba(255,165,0,0.3); }
 .empty-state { color: rgba(255,255,255,0.3); text-align: center; padding: 30px; font-size: 0.85rem; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.modal-box { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px; }
+.modal-box { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 16px; padding: 32px; width: 360px; }
 .winner-modal { text-align: center; }
 .winner-emoji { font-size: 3rem; margin-bottom: 8px; }
 .winner-label { color: #FFA500; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 16px; }

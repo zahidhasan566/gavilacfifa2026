@@ -1,13 +1,13 @@
-/* FIFA World Cup 2026 — Global Styles */
+﻿/* FIFA World Cup 2026 — Global Styles */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --color-bg:        #1A0040;
-    --color-grad:      linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
-    --color-card:      #3E0082;
-    --color-nav:       #1A0040;
-    --color-modal:     #3E0082;
+    --color-bg:        #10044A;
+    --color-grad:      linear-gradient(180deg, #150a4e 0%, #10044A 100%);
+    --color-card:      #150a4e;
+    --color-nav:       #10044A;
+    --color-modal:     #150a4e;
     --color-orange:    #FF8C00;
     --color-orange-lt: #FFA500;
     --color-blue:      #3b82f6;
@@ -31,8 +31,8 @@
 
 html, body {
     height: 100%;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%) fixed;
-    background-color: #1A0040;
+    background: linear-gradient(180deg, #150a4e 0%, #10044A 100%) fixed;
+    background-color: #10044A;
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: 14px;
@@ -62,7 +62,7 @@ input, textarea, select, button {
 /* App loader */
 #app-loader {
     position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%);
+    background: linear-gradient(180deg, #150a4e 0%, #10044A 100%);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 16px;
 }

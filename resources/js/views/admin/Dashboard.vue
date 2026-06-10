@@ -88,7 +88,7 @@ export default {
 .admin-dashboard { }
 .page-heading { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 24px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-.stat-card { background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; }
+.stat-card { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; }
 .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 .stat-icon.blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
 .stat-icon.orange { background: rgba(255,165,0,0.2); color: #FFA500; }
@@ -109,7 +109,7 @@ export default {
 .section-heading { color: rgba(255,255,255,0.7); font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
 .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .quick-card {
-    background: linear-gradient(180deg, #3E0082 0%, #1A0040 100%); border-radius: 12px; padding: 20px 16px;
+    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 20px 16px;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     color: rgba(255,255,255,0.7); font-size: 0.85rem; text-decoration: none; font-weight: 600;
     border: 1px solid rgba(255,255,255,0.06); transition: all 0.2s;

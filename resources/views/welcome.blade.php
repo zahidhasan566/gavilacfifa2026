@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">
-    <meta name="theme-color" content="#1a0a6e">
+    <meta name="theme-color" content="#10044A">
     <meta name="description" content="FIFA World Cup 2026 - Prediction Game">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,7 +28,7 @@
         #app-loader {
             position: fixed;
             inset: 0;
-            background: #0d0a3e;
+            background: #10044A;
             display: flex;
             align-items: center;
             justify-content: center;
