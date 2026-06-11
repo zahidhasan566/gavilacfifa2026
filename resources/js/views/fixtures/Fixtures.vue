@@ -78,8 +78,8 @@
                                      onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
                             </div>
                             <div class="date-box">
-                                <span class="db-weekday">{{ formatWeekday(m.match_date) }}</span>
-                                <span class="db-day">{{ formatDay(m.match_date) }} {{ formatMonth(m.match_date) }}</span>
+                                <span class="db-weekday">{{ formatWeekday(m.match_date_bd || m.match_date) }}</span>
+                                <span class="db-day">{{ formatDay(m.match_date_bd || m.match_date) }} {{ formatMonth(m.match_date_bd || m.match_date) }}</span>
                                 <span class="db-time">{{ m.match_time_bd || smTime(m) || formatTime(m.match_time) }}<span v-if="m.match_time_bd || smTime(m)" class="bd-tag">BD</span></span>
                             </div>
                         </div>

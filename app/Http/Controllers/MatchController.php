@@ -19,10 +19,13 @@ class MatchController extends Controller
         }
         if ($request->filled('status')) {
             $query->where('status', $request->status);
-            if ($request->status === 'upcoming') {
-                $query->where('match_date', '>=', now()->toDateString());
-            }
         }
+
+        // Never return upcoming matches with a date in the past — stale seeder records before sync corrects them
+        $query->where(function ($q) {
+            $q->where('status', '!=', 'upcoming')
+              ->orWhere('match_date', '>=', now()->toDateString());
+        });
 
         $matches = $query->get()->map(fn($m) => $this->matchResource($m));
 

@@ -14,7 +14,7 @@ class LiveScoreProxyController extends Controller
 
         $response = Http::timeout(20)->get("{$baseUrl}/fixtures/between/2026-06-11/2026-07-19", [
             'api_token' => $token,
-            'include'   => 'participants;scores;state',
+            'include'   => 'participants;scores;state;periods',
             'per_page'  => 100,
         ]);
 
@@ -32,7 +32,17 @@ class LiveScoreProxyController extends Controller
                 $homeGoals = $this->getScore($scores, 'home', 'CURRENT');
                 $awayGoals = $this->getScore($scores, 'away', 'CURRENT');
 
-                $state    = $f['state']['short_name'] ?? 'NS';
+                $stateKey   = $f['state']['developer_name'] ?? ($f['state']['state'] ?? 'NS');
+                $liveStates = ['INPLAY_1ST_HALF','INPLAY_2ND_HALF','HT','INPLAY_ET','INPLAY_ET_2ND_HALF','INPLAY_PENALTIES','BREAK','INT','LIVE'];
+                $doneStates = ['FT','AET','FT_PEN','WO','AU'];
+                if (in_array(strtoupper($stateKey), $liveStates)) $status = 'live';
+                elseif (in_array(strtoupper($stateKey), $doneStates)) $status = 'completed';
+                else $status = 'NS';
+
+                // Elapsed minutes from the currently ticking period
+                $tickingPeriod = collect($f['periods'] ?? [])->firstWhere('ticking', true);
+                $minute = $tickingPeriod['minutes'] ?? null;
+
                 $startUtc = $f['starting_at'] ?? null;
 
                 $kickoffBD = $startUtc
@@ -50,7 +60,8 @@ class LiveScoreProxyController extends Controller
                     'away_flag'  => $away['image_path'] ?? null,
                     'home_score' => $homeGoals,
                     'away_score' => $awayGoals,
-                    'status'     => $state,
+                    'status'     => $status,
+                    'minute'     => $minute,
                     'kickoff_bd' => $kickoffBD,
                     'date_bd'    => $dateBD,
                 ];

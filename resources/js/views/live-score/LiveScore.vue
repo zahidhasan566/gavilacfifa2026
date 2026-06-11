@@ -50,6 +50,7 @@
                                         </div>
                                         <div class="mc-time">{{ match.match_time_bd || smTime(match) || match.match_time || '' }} <span v-if="match.match_time_bd || smTime(match)" class="bd-label">BD</span></div>
                                         <span v-if="match.status === 'live'" class="live-badge">LIVE</span>
+                                        <span v-if="match.status === 'live' && smMinute(match)" class="live-minute">{{ smMinute(match) }}'</span>
                                         <span v-if="match.status === 'completed'" class="ft-badge">FT</span>
                                     </div>
                                     <div class="team-col right">
@@ -297,6 +298,12 @@ export default {
             const found = this.smMatches.find(s => this.smKey(s.home) === t1 && this.smKey(s.away) === t2);
             return found ? found.kickoff_bd : null;
         },
+        smMinute(match) {
+            const t1 = this.smKey(match.team1 && match.team1.name || '');
+            const t2 = this.smKey(match.team2 && match.team2.name || '');
+            const found = this.smMatches.find(s => this.smKey(s.home) === t1 && this.smKey(s.away) === t2);
+            return found ? found.minute : null;
+        },
         teamFlagUrl(team) {
             if (!team || !team.flag_emoji) return window.__IMG__ + '/images/default-avatar.png';
             return `https://flagcdn.com/w40/${team.flag_emoji.toLowerCase()}.png`;
@@ -474,6 +481,7 @@ export default {
     background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);
     font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 4px;
 }
+.live-minute { color: #4ade80; font-size: 0.75rem; font-weight: 800; }
 
 /* Halves */
 .mc-halves { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 10px; }

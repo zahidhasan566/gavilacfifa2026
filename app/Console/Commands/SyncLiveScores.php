@@ -37,27 +37,28 @@ class SyncLiveScores extends Command
         'great britain'           => 'England',
     ];
 
-    // Sportmonks state short_name → our status
+    // Sportmonks state developer_name → our status
     private $statusMap = [
-        'NS'     => 'upcoming',
-        'TBA'    => 'upcoming',
-        'POSTP'  => 'upcoming',
-        'SUSP'   => 'upcoming',
-        'CANC'   => 'upcoming',
-        'ABAN'   => 'upcoming',
-        '1H'     => 'live',
-        'HT'     => 'live',
-        '2H'     => 'live',
-        'ET'     => 'live',
-        'BREAK'  => 'live',
-        'PEN'    => 'live',
-        'INT'    => 'live',
-        'LIVE'   => 'live',
-        'FT'     => 'completed',
-        'AET'    => 'completed',
-        'FT_PEN' => 'completed',
-        'WO'     => 'completed',
-        'AU'     => 'completed',
+        'NS'                  => 'upcoming',
+        'TBA'                 => 'upcoming',
+        'POSTP'               => 'upcoming',
+        'SUSP'                => 'upcoming',
+        'CANC'                => 'upcoming',
+        'ABAN'                => 'upcoming',
+        'INPLAY_1ST_HALF'     => 'live',
+        'INPLAY_2ND_HALF'     => 'live',
+        'HT'                  => 'live',
+        'INPLAY_ET'           => 'live',
+        'INPLAY_ET_2ND_HALF'  => 'live',
+        'INPLAY_PENALTIES'    => 'live',
+        'BREAK'               => 'live',
+        'INT'                 => 'live',
+        'LIVE'                => 'live',
+        'FT'                  => 'completed',
+        'AET'                 => 'completed',
+        'FT_PEN'              => 'completed',
+        'WO'                  => 'completed',
+        'AU'                  => 'completed',
     ];
 
     public function handle(): int
@@ -156,8 +157,8 @@ class SyncLiveScores extends Command
         $awayName = $awayData['name'] ?? null;
 
         // ── State / Status ───────────────────────────────────────────
-        $stateShort = $fixture['state']['short_name'] ?? ($fixture['state']['state'] ?? 'NS');
-        $ourStatus  = $this->statusMap[strtoupper($stateShort)] ?? 'upcoming';
+        $stateKey  = $fixture['state']['developer_name'] ?? ($fixture['state']['state'] ?? 'NS');
+        $ourStatus = $this->statusMap[strtoupper($stateKey)] ?? 'upcoming';
 
         // ── Scores ───────────────────────────────────────────────────
         $scores       = $fixture['scores'] ?? [];
@@ -241,6 +242,7 @@ class SyncLiveScores extends Command
                 'team2_score' => $team2Score,
                 'team1_half1' => $team1Half1,
                 'team2_half1' => $team2Half1,
+                'match_date'  => $matchDate,
                 'match_time'  => $matchTime,
                 'venue'       => $venue ?? $match->venue,
             ]);
