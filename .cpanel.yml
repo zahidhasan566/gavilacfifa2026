@@ -1,10 +1,10 @@
 ---
 deployment:
   tasks:
-    - export APPROOT=/home/gavilacfia/gavilacfifa2026
-    - export PUBDEST=/home/gavilacfia/public_html
+    - export APPROOT=/home/gavilacfifa/gavilacfifa2026
+    - export PUBDEST=/home/gavilacfifa/public_html
 
-    # Ensure storage & cache dirs exist (git skips empty folders)
+    # Ensure storage & cache dirs exist
     - mkdir -p $APPROOT/storage/framework/cache
     - mkdir -p $APPROOT/storage/framework/sessions
     - mkdir -p $APPROOT/storage/framework/views
@@ -28,10 +28,8 @@ deployment:
     - chmod -R 775 $APPROOT/storage
     - chmod -R 775 $APPROOT/bootstrap/cache
 
-    # Laravel setup
-    - /usr/local/bin/php $APPROOT/artisan key:generate --force
-    - /usr/local/bin/php $APPROOT/artisan storage:link --force
-    - /usr/local/bin/php $APPROOT/artisan migrate --force
+    # Laravel cache & migrations
     - /usr/local/bin/php $APPROOT/artisan config:cache
     - /usr/local/bin/php $APPROOT/artisan route:cache
     - /usr/local/bin/php $APPROOT/artisan optimize
+    - /usr/local/bin/php $APPROOT/artisan migrate --force
