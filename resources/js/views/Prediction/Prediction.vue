@@ -249,17 +249,7 @@ export default {
             adIndex: 0,
             _adTimer: null,
             adImages: [
-                'FIFA website Work-09.jpg',
-                'FIFA website Work-10.jpg',
-                'FIFA website Work-11.jpg',
-                'FIFA website Work-12.jpg',
-                'FIFA website Work-13.jpg',
-                'FIFA website Work-14.jpg',
-                'FIFA website Work-15.jpg',
-                'FIFA website Work-16.jpg',
-                'FIFA website Work-17.jpg',
-                'FIFA website Work-18.jpg',
-                'FIFA website Work-19.jpg',
+                'FIFA website Work-09.png',
             ],
         };
     },

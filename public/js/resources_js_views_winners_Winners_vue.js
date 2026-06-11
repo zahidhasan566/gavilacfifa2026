@@ -203,8 +203,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 var POLL_INTERVAL = 60000;
 var AUTO_SLIDE_MS = 3500;
@@ -225,7 +223,7 @@ var AUTO_SLIDE_MS = 3500;
       _slideTimer: null,
       _adTimer: null,
       adIndex: 0,
-      adImages: ['FIFA website Work-09.jpg', 'FIFA website Work-10.jpg', 'FIFA website Work-11.jpg', 'FIFA website Work-12.jpg', 'FIFA website Work-13.jpg', 'FIFA website Work-14.jpg', 'FIFA website Work-15.jpg', 'FIFA website Work-16.jpg', 'FIFA website Work-17.jpg', 'FIFA website Work-18.jpg', 'FIFA website Work-19.jpg']
+      adImages: ['FIFA website Work-09.png']
     };
   },
   computed: {
@@ -641,15 +639,6 @@ var render = function () {
                               : _vm._e(),
                             _vm._v(" "),
                             _c("div", { staticClass: "cs-bottom" }, [
-                              _c("img", {
-                                staticClass: "cs-deco",
-                                attrs: {
-                                  src:
-                                    _vm.$imgBase + "/images/winnerhistory.png",
-                                },
-                                on: { error: _vm.hideImg },
-                              }),
-                              _vm._v(" "),
                               _c("div", { staticClass: "cs-info" }, [
                                 _c("div", { staticClass: "cs-winner-label" }, [
                                   _vm._v("🏆 Raffle Winner"),
@@ -706,15 +695,6 @@ var render = function () {
                                   ),
                                 ]),
                               ]),
-                              _vm._v(" "),
-                              _c("img", {
-                                staticClass: "cs-deco",
-                                attrs: {
-                                  src:
-                                    _vm.$imgBase + "/images/winnerhistory.png",
-                                },
-                                on: { error: _vm.hideImg },
-                              }),
                             ]),
                           ]
                         ),

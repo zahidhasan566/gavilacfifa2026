@@ -49,8 +49,8 @@ echo [5/5] Rebuilt for local development
 
 echo.
 echo === DONE! ===
-echo    Production: https://abecab-abetis-fifa.com
-echo    Local still works: http://localhost/fifa2026
+echo    Production: https://gavilacfifa.com
+echo    Local still works: http://localhost/gavilacfifa2026
 echo    Cache version pushed: %CACHE_VER%
 echo.
 pause

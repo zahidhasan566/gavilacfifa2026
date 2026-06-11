@@ -17,6 +17,9 @@ class Kernel extends ConsoleKernel
     {
         // Sync live scores every minute during match hours
         $schedule->command('scores:sync')->everyMinute();
+
+        // Auto raffle draw: picks winners for newly completed matches; withoutOverlapping prevents duplicate draws
+        $schedule->command('raffle:auto')->everyMinute()->withoutOverlapping();
     }
 
     /**
