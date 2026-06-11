@@ -9,7 +9,8 @@ echo '<pre style="background:#111;color:#0f0;padding:20px;font-size:13px;">';
 echo "=== Git Reset ===\n\n";
 
 $commands = [
-    "git -C $repo reset --hard HEAD",
+    "git -C $repo fetch origin",
+    "git -C $repo reset --hard origin/master",
     "git -C $repo clean -fd",
     "git -C $repo status",
 ];
