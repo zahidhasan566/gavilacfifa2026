@@ -82,7 +82,6 @@ class AdminMatchController extends Controller
 
         if ($t1 === null || $t2 === null) return;
 
-        // Determine winner name
         if ($t1 > $t2) {
             $winner = $match->team1 ? $match->team1->name : null;
         } elseif ($t2 > $t1) {
@@ -93,17 +92,17 @@ class AdminMatchController extends Controller
 
         $scoreStr = "{$t1}-{$t2}";
 
-        $questions = Question::where('match_id', $match->id)->get();
+        // Include both match-specific questions AND template questions
+        $questions = Question::where(function ($q) use ($match) {
+            $q->where('match_id', $match->id)->orWhere('is_template', true);
+        })->get();
 
         foreach ($questions as $question) {
-            // team_choice → auto-set winner (always overwrite so re-scoring works)
             if ($question->type === 'team_choice') {
                 $question->update(['correct_answer' => $winner]);
                 continue;
             }
 
-            // text questions with no correct_answer yet:
-            // if the question text hints at a score, set the score string
             if ($question->type === 'text' && !$question->correct_answer) {
                 $lower = strtolower($question->question_text);
                 if (strpos($lower, 'score') !== false || strpos($lower, 'result') !== false || strpos($lower, 'goals') !== false) {
@@ -115,8 +114,12 @@ class AdminMatchController extends Controller
 
     private function runCalculate(MatchGame $match)
     {
-        $match->load('questions');
-        foreach ($match->questions as $question) {
+        // Include both match-specific questions AND template questions (is_template=true, match_id=null)
+        $questions = Question::where(function ($q) use ($match) {
+            $q->where('match_id', $match->id)->orWhere('is_template', true);
+        })->where('is_active', true)->get();
+
+        foreach ($questions as $question) {
             if (!$question->correct_answer) continue;
             $predictions = Prediction::where('match_id', $match->id)
                 ->where('question_id', $question->id)

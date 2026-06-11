@@ -74,8 +74,25 @@ class AdminQuestionController extends Controller
         $question = Question::with('match')->findOrFail($id);
         $question->update(['correct_answer' => $request->correct_answer]);
 
-        // Auto-score all predictions for this question if match is already completed
-        if ($question->match && $question->match->status === 'completed' && $question->correct_answer) {
+        if (!$question->correct_answer) {
+            return response()->json(['status' => 'success', 'data' => $question]);
+        }
+
+        if ($question->is_template) {
+            // Template question: score its predictions across all completed matches
+            $completedMatchIds = \App\Models\MatchGame::where('status', 'completed')->pluck('id');
+            $predictions = \App\Models\Prediction::where('question_id', $question->id)
+                ->whereIn('match_id', $completedMatchIds)
+                ->get();
+            foreach ($predictions as $prediction) {
+                $isCorrect = strtolower(trim($prediction->selected_answer)) === strtolower(trim($question->correct_answer));
+                $prediction->update([
+                    'is_correct'    => $isCorrect,
+                    'points_earned' => $isCorrect ? $question->points : 0,
+                ]);
+            }
+        } elseif ($question->match && $question->match->status === 'completed') {
+            // Match-specific question: score for that match only
             $predictions = \App\Models\Prediction::where('question_id', $question->id)
                 ->where('match_id', $question->match_id)
                 ->get();

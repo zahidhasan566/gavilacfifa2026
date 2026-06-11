@@ -113,29 +113,28 @@
                     <div class="mp-badge">{{ myPoints }}</div>
                 </div>
 
-                <!-- Top 10 Match Winners -->
+                <!-- Raffle Draw Winners (match wise) -->
                 <div class="top10-card">
                     <div class="top10-header">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFA500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m12 0h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22m4-7.34V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFA500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         <div>
-                            <div class="top10-title">Daily Top 10 Winners</div>
-                            <div class="top10-sub">Last 24 hours · by match</div>
+                            <div class="top10-title">Raffle Draw Winners</div>
+                            <div class="top10-sub">Match wise · lucky draw</div>
                         </div>
                     </div>
 
-                    <!-- Match tabs -->
-                    <div v-if="recentMatches.length > 0" class="match-tabs">
-                        <button v-for="m in recentMatches" :key="m.id"
-                                class="match-tab" :class="{ active: selectedMatchId === m.id }"
-                                @click="selectedMatchId = m.id">
-                            {{ m.team1 }} vs {{ m.team2 }}
+                    <div v-if="raffleByMatch.length > 0" class="match-tabs">
+                        <button v-for="(rm, i) in raffleByMatch" :key="i"
+                                class="match-tab" :class="{ active: selectedRaffleIdx === i }"
+                                @click="selectedRaffleIdx = i">
+                            {{ rm.match_label }}
                         </button>
                     </div>
 
                     <div class="top10-list">
-                        <template v-if="recentMatches.length > 0 && selectedMatchWinners.length > 0">
-                            <div v-for="w in selectedMatchWinners" :key="w.id" class="top10-item">
-                                <span class="rank-num">{{ w.rank }}</span>
+                        <template v-if="selectedRaffleGroup && selectedRaffleGroup.winners.length > 0">
+                            <div v-for="(w, i) in selectedRaffleGroup.winners" :key="w.id" class="top10-item">
+                                <span class="rank-num">{{ i + 1 }}</span>
                                 <img :src="w.profile_picture_url" class="w-avatar"
                                      onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
                                 <div class="w-info">
@@ -143,13 +142,12 @@
                                     <div class="w-code">{{ w.unique_code }}</div>
                                 </div>
                                 <div class="w-pts-wrap">
-                                    <span class="w-points">{{ w.match_points }}</span>
-                                    <span class="w-pts-label">Points</span>
+                                    <span class="w-points">+{{ w.prize_points }}</span>
+                                    <span class="w-pts-label">pts</span>
                                 </div>
                             </div>
                         </template>
-                        <div v-else-if="recentMatches.length > 0" class="state-msg">No predictions for this match.</div>
-                        <div v-else class="state-msg">Winners appear here after a match completes.</div>
+                        <div v-else class="state-msg">Raffle draw winners appear here.</div>
                     </div>
                 </div>
             </div>
@@ -166,7 +164,7 @@ export default {
     data() {
         return {
             liveMatches: [], upcomingMatches: [], smMatches: [],
-            recentMatches: [], selectedMatchId: null,
+            raffleByMatch: [], selectedRaffleIdx: 0,
             myPoints: 0, loading: true,
             carouselPage: 0, slideDir: 'mc-slide-left',
             _autoTimer: null,
@@ -180,9 +178,8 @@ export default {
     },
     computed: {
         ...mapGetters(['currentUser']),
-        selectedMatchWinners() {
-            const m = this.recentMatches.find(function(m) { return m.id === this.selectedMatchId; }, this);
-            return m ? m.winners : [];
+        selectedRaffleGroup() {
+            return this.raffleByMatch[this.selectedRaffleIdx] || null;
         },
         perPage() {
             return this.windowWidth <= 640 ? 1 : 2;
@@ -200,7 +197,7 @@ export default {
         },
     },
     async mounted() {
-        await Promise.all([this.fetchMatches(), this.fetchWinners(), this.fetchMyPoints()]);
+        await Promise.all([this.fetchMatches(), this.fetchMyPoints(), this.fetchRaffleWinners()]);
         this.loading = false;
         this.startAutoSlide();
         this.startAdCarousel();
@@ -246,16 +243,14 @@ export default {
             this.upcomingMatches = upcoming.data.data;
             this.smMatches = sm.data.data || [];
         },
-        async fetchWinners() {
-            const { data } = await this.$http.get('/api/winners/recent-matches');
-            this.recentMatches = data.data || [];
-            if (this.recentMatches.length && !this.selectedMatchId) {
-                this.selectedMatchId = this.recentMatches[0].id;
-            }
-        },
         async fetchMyPoints() {
             const { data } = await this.$http.get('/api/winners/my-points');
             this.myPoints = data.data.total_points;
+        },
+        async fetchRaffleWinners() {
+            const { data } = await this.$http.get('/api/winners/raffle');
+            this.raffleByMatch = (data.data.by_match || []).filter(function(rm) { return rm.match_id !== null; });
+            this.selectedRaffleIdx = 0;
         },
         startAdCarousel() {
             clearInterval(this._adTimer);
@@ -420,10 +415,10 @@ export default {
 /* Match Grid */
 .match-cards-grid { display: grid; grid-template-columns: 1fr 1fr; flex: 1; }
 .match-card {
-    padding: 18px 20px;
+    padding: 12px 14px;
     border: 1px solid rgba(255,255,255,0.22);
     border-radius: 10px;
-    margin: 10px;
+    margin: 8px;
     background: rgba(255,255,255,0.03);
 }
 
@@ -431,14 +426,14 @@ export default {
 .mc-date-bold {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 800;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     color: #fff;
     letter-spacing: 0.5px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 /* Card Header */
-.mc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.mc-header { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .group-badge {
     background: rgba(0,0,0,0.35); color: #fff;
     font-size: 0.62rem; font-weight: 700; padding: 4px 10px;
@@ -452,15 +447,15 @@ export default {
 }
 
 /* Teams & Score */
-.mc-body { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
-.team-col { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 72px; flex-shrink: 0; }
-.team-flag-img { width: 52px; height: 36px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
-.team-name { color: #fff; font-size: 0.62rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.3px; }
+.mc-body { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 6px; }
+.team-col { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 62px; flex-shrink: 0; }
+.team-flag-img { width: 44px; height: 30px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
+.team-name { color: #fff; font-size: 0.58rem; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.3px; }
 
-.score-col { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
-.score-row { display: flex; align-items: center; gap: 8px; }
+.score-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.score-row { display: flex; align-items: center; gap: 6px; }
 .score-circle {
-    width: 44px; height: 44px; border-radius: 50%;
+    width: 38px; height: 38px; border-radius: 50%;
     background: rgba(0,0,0,0.4);
     color: #fff; font-size: 1.3rem; font-weight: 700;
     font-family: 'Rajdhani', sans-serif;

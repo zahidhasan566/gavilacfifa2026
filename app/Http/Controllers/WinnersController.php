@@ -71,6 +71,7 @@ class WinnersController extends Controller
     public function raffleWinners()
     {
         $draws = RaffleDraw::with(['user', 'match.team1', 'match.team2'])
+            ->where('prize_points', '>', 0)
             ->orderBy('match_id')
             ->orderByDesc('draw_date')
             ->get();
@@ -96,11 +97,12 @@ class WinnersController extends Controller
 
         $byMatch = $draws->groupBy(function ($d) {
             return $d->match_id ?? 'general';
-        })->map(function ($group) {
+        })->map(function ($group, $key) {
             $first = $group->first();
             $match = $first->match;
 
             return [
+                'match_id'    => $key === 'general' ? null : (int) $key,
                 'match_label' => $match
                     ? (($match->team1 ? $match->team1->name : '?') . ' vs ' . ($match->team2 ? $match->team2->name : '?'))
                     : 'General Draw',

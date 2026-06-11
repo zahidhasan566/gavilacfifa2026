@@ -166,6 +166,11 @@ class SyncLiveScores extends Command
         $team2Score   = $this->getScore($scores, 'away', 'CURRENT');
         $team1Half1   = $this->getScore($scores, 'home', '1ST_HALF');
         $team2Half1   = $this->getScore($scores, 'away', '1ST_HALF');
+        // 2nd half: use explicit 2ND_HALF score if available, else derive from CURRENT - 1ST_HALF
+        $team1Half2   = $this->getScore($scores, 'home', '2ND_HALF')
+            ?? ($team1Score !== null && $team1Half1 !== null ? max(0, $team1Score - $team1Half1) : null);
+        $team2Half2   = $this->getScore($scores, 'away', '2ND_HALF')
+            ?? ($team2Score !== null && $team2Half1 !== null ? max(0, $team2Score - $team2Half1) : null);
 
         // ── Date / Time / Venue ──────────────────────────────────────
         $startingAt = $fixture['starting_at'] ?? null;
@@ -191,6 +196,8 @@ class SyncLiveScores extends Command
                 'team2_score' => $team2Score,
                 'team1_half1' => $team1Half1,
                 'team2_half1' => $team2Half1,
+                'team1_half2' => $team1Half2,
+                'team2_half2' => $team2Half2,
                 'match_date'  => $matchDate,
                 'match_time'  => $matchTime,
                 'venue'       => $venue ?? $match->venue,
@@ -242,6 +249,8 @@ class SyncLiveScores extends Command
                 'team2_score' => $team2Score,
                 'team1_half1' => $team1Half1,
                 'team2_half1' => $team2Half1,
+                'team1_half2' => $team1Half2,
+                'team2_half2' => $team2Half2,
                 'match_date'  => $matchDate,
                 'match_time'  => $matchTime,
                 'venue'       => $venue ?? $match->venue,
@@ -267,6 +276,8 @@ class SyncLiveScores extends Command
             'team2_score'  => $team2Score,
             'team1_half1'  => $team1Half1,
             'team2_half1'  => $team2Half1,
+            'team1_half2'  => $team1Half2,
+            'team2_half2'  => $team2Half2,
             'round_number' => $roundNum,
             'group_name'   => $roundName,
         ]);

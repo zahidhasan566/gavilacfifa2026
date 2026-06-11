@@ -96,6 +96,14 @@ class AdminRaffleController extends Controller
             'is_read' => false,
         ]);
 
+        // Mark match as drawn once max winners reached, so raffle:auto won't double-draw
+        if ($matchId) {
+            $total = RaffleDraw::where('match_id', $matchId)->count();
+            if ($total >= $maxWinners) {
+                \App\Models\MatchGame::where('id', $matchId)->update(['raffle_drawn' => true]);
+            }
+        }
+
         return response()->json([
             'status'  => 'success',
             'message' => 'Raffle draw winner selected successfully.',
