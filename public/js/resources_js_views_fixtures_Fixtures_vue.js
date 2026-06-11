@@ -1034,14 +1034,20 @@ var render = function () {
                   _vm._v(" "),
                   _c("div", { staticClass: "date-box" }, [
                     _c("span", { staticClass: "db-weekday" }, [
-                      _vm._v(_vm._s(_vm.formatWeekday(m.match_date))),
+                      _vm._v(
+                        _vm._s(
+                          _vm.formatWeekday(m.match_date_bd || m.match_date)
+                        )
+                      ),
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "db-day" }, [
                       _vm._v(
-                        _vm._s(_vm.formatDay(m.match_date)) +
+                        _vm._s(_vm.formatDay(m.match_date_bd || m.match_date)) +
                           " " +
-                          _vm._s(_vm.formatMonth(m.match_date))
+                          _vm._s(
+                            _vm.formatMonth(m.match_date_bd || m.match_date)
+                          )
                       ),
                     ]),
                     _vm._v(" "),

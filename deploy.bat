@@ -30,18 +30,24 @@ if errorlevel 1 (
 )
 echo [2/5] Production assets built
 
-REM Commit and push to GitHub BEFORE restoring local env
+REM Restore local env BEFORE committing so .env.production never goes into git
+copy .env.local .env >nul
+echo [3/5] Local .env restored
+
+REM Commit and push production assets
 git add -A
 git status
 set /p MSG="Enter commit message (or press Enter for 'deploy update'): "
 if "%MSG%"=="" set MSG=deploy update
 git commit -m "%MSG%"
+if errorlevel 1 (
+    echo [WARN] Nothing new to commit, pushing existing HEAD...
+)
 
-REM Pull any remote changes first to avoid push rejection / server conflicts
+REM Pull any remote changes first to avoid push rejection
 git pull --rebase origin master
 if errorlevel 1 (
     echo [ERROR] Git rebase failed! Fix conflicts then run: git rebase --continue
-    copy .env.local .env >nul
     pause
     exit /b 1
 )
@@ -49,19 +55,14 @@ if errorlevel 1 (
 git push origin master
 if errorlevel 1 (
     echo [ERROR] Push failed! Check your connection or remote status.
-    copy .env.local .env >nul
     pause
     exit /b 1
 )
-echo [3/5] Pushed to GitHub
+echo [4/5] Pushed to GitHub
 
-REM Restore local env
-copy .env.local .env >nul
-echo [4/5] Local .env restored
-
-REM Rebuild for local development so localhost still works
+REM Rebuild for local development AFTER push so dev files never get committed
 call npm run development
-echo [5/5] Rebuilt for local development
+echo [5/5] Rebuilt for local dev — these files are NOT committed (that is correct)
 
 echo.
 echo === DONE! ===
