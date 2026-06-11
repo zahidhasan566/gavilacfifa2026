@@ -1,8 +1,8 @@
 ---
 deployment:
   tasks:
-    - export APPROOT=/home1/gavilacfifa/gavilacfifa2026
-    - export PUBDEST=/home1/gavilacfifa/public_html
+    - export APPROOT=/home/gavilacfia/gavilacfifa2026
+    - export PUBDEST=/home/gavilacfia/public_html
 
     # Ensure storage & cache dirs exist (git skips empty folders)
     - mkdir -p $APPROOT/storage/framework/cache
