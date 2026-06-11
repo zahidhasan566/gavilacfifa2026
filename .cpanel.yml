@@ -11,9 +11,6 @@ deployment:
     - mkdir -p $APPROOT/storage/app/public
     - mkdir -p $APPROOT/bootstrap/cache
 
-    # Install PHP dependencies
-    - /usr/local/bin/composer install --no-dev --optimize-autoloader --working-dir=$APPROOT
-
     # Copy built assets to public_html
     - /bin/cp -f $APPROOT/public/index-production.php $PUBDEST/index.php
     - /bin/cp -f $APPROOT/public/htaccess.production $PUBDEST/.htaccess
