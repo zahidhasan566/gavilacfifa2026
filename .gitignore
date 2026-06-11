@@ -8,6 +8,7 @@
 /storage/logs/*
 /bootstrap/cache/*.php
 .env
+.env.production
 .env.backup
 .env.local.backup
 .phpunit.result.cache
