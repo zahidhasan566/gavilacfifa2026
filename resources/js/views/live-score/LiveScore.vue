@@ -268,11 +268,24 @@ export default {
         },
         formatMatchDate(dateStr) {
             if (!dateStr) return '';
-            const p = dateStr.includes('/') ? dateStr.split('/') : dateStr.split('-').reverse();
-            const d = new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]));
-            if (isNaN(d)) return dateStr;
             const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
             const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+            // Full ISO datetime — convert to BD time (UTC+6)
+            if (dateStr.includes('T') || (dateStr.length > 10 && dateStr.includes(':'))) {
+                const utc = new Date(dateStr);
+                if (isNaN(utc)) return dateStr;
+                const bd = new Date(utc.getTime() + 6 * 60 * 60 * 1000);
+                return `${days[bd.getUTCDay()]}, ${months[bd.getUTCMonth()]} ${bd.getUTCDate()}`;
+            }
+            // Date-only strings: DD/MM/YYYY or YYYY-MM-DD
+            let year, month, day;
+            if (dateStr.includes('/')) {
+                [day, month, year] = dateStr.split('/').map(Number);
+            } else {
+                [year, month, day] = dateStr.split('-').map(Number);
+            }
+            const d = new Date(year, month - 1, day);
+            if (isNaN(d)) return dateStr;
             return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
         },
         smKey(name) {

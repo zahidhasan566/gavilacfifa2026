@@ -36,7 +36,23 @@ git status
 set /p MSG="Enter commit message (or press Enter for 'deploy update'): "
 if "%MSG%"=="" set MSG=deploy update
 git commit -m "%MSG%"
+
+REM Pull any remote changes first to avoid push rejection / server conflicts
+git pull --rebase origin master
+if errorlevel 1 (
+    echo [ERROR] Git rebase failed! Fix conflicts then run: git rebase --continue
+    copy .env.local .env >nul
+    pause
+    exit /b 1
+)
+
 git push origin master
+if errorlevel 1 (
+    echo [ERROR] Push failed! Check your connection or remote status.
+    copy .env.local .env >nul
+    pause
+    exit /b 1
+)
 echo [3/5] Pushed to GitHub
 
 REM Restore local env
