@@ -679,9 +679,9 @@ var render = function () {
                     },
                     [
                       _vm._v(
-                        "\n                        " +
+                        "\n                            " +
                           _vm._s(m.label) +
-                          "\n                    "
+                          "\n                        "
                       ),
                     ]
                   )
@@ -705,13 +705,13 @@ var render = function () {
                     _vm.match && _vm.match.status !== "upcoming"
                       ? _c("div", { staticClass: "closed-banner" }, [
                           _vm._v(
-                            "\n                            🔒 Predictions closed — this match has started.\n                        "
+                            "\n                                🔒 Predictions closed — this match has started.\n                            "
                           ),
                         ])
                       : _vm.alreadySubmitted
                       ? _c("div", { staticClass: "submitted-banner" }, [
                           _vm._v(
-                            "\n                            ✓ Already submitted for this match.\n                        "
+                            "\n                                ✓ Already submitted for this match.\n                            "
                           ),
                         ])
                       : _vm._e(),
@@ -763,9 +763,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    " +
+                                      "\n                                        " +
                                         _vm._s(q.team1 && q.team1.name) +
-                                        "\n                                "
+                                        "\n                                    "
                                     ),
                                   ]
                                 ),
@@ -795,9 +795,9 @@ var render = function () {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                    " +
+                                      "\n                                        " +
                                         _vm._s(q.team2 && q.team2.name) +
-                                        "\n                                "
+                                        "\n                                    "
                                     ),
                                   ]
                                 ),
@@ -1071,11 +1071,11 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                " +
+                                "\n                                    " +
                                   _vm._s(
                                     _vm.submitting ? "Submitting..." : "SUBMIT"
                                   ) +
-                                  "\n                            "
+                                  "\n                                "
                               ),
                             ]
                           ),
@@ -1117,7 +1117,7 @@ var render = function () {
                     _vm.champAlreadySubmitted
                       ? _c("div", { staticClass: "submitted-banner" }, [
                           _vm._v(
-                            "\n                            ✓ Championship predictions submitted. Good luck!\n                        "
+                            "\n                                ✓ Championship predictions submitted. Good luck!\n                            "
                           ),
                         ])
                       : _vm._e(),
@@ -1411,13 +1411,13 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                " +
+                                "\n                                    " +
                                   _vm._s(
                                     _vm.champSubmitting
                                       ? "Submitting..."
                                       : "SUBMIT PREDICTIONS"
                                   ) +
-                                  "\n                            "
+                                  "\n                                "
                               ),
                             ]
                           ),

@@ -1,6 +1,6 @@
 ﻿<template>
     <div class="prediction-page">
-
+<!-- pre -->
         <!-- ── Two Column Layout ─────────────────────────────── -->
         <div class="pred-columns">
 
