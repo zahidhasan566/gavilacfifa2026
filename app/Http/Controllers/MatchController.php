@@ -55,10 +55,13 @@ class MatchController extends Controller
     private function matchResource(MatchGame $m): array
     {
         $matchTimeBd = null;
+        $matchDateBd = null;
         if ($m->match_date && $m->match_time) {
-            $matchTimeBd = \Carbon\Carbon::parse(
+            $bdDateTime = \Carbon\Carbon::parse(
                 $m->match_date->format('Y-m-d') . ' ' . $m->match_time, 'UTC'
-            )->setTimezone('Asia/Dhaka')->format('h:i A');
+            )->setTimezone('Asia/Dhaka');
+            $matchTimeBd = $bdDateTime->format('h:i A');
+            $matchDateBd = $bdDateTime->format('Y-m-d');
         }
 
         return [
@@ -69,6 +72,7 @@ class MatchController extends Controller
             'team2'         => $m->team2 ? ['id' => $m->team2->id, 'name' => $m->team2->name, 'flag_emoji' => $m->team2->flag_emoji, 'flag_image' => $m->team2->flag_image] : null,
             'venue'         => $m->venue,
             'match_date'    => $m->match_date ? $m->match_date->format('Y-m-d') : null,
+            'match_date_bd' => $matchDateBd,
             'match_time'    => $m->match_time,
             'match_time_bd' => $matchTimeBd,
             'status'        => $m->status,

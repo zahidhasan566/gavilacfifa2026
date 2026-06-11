@@ -69,4 +69,7 @@ echo    Production: https://gavilacfifa.com
 echo    Local still works: http://localhost/gavilacfifa2026
 echo    Cache version pushed: %CACHE_VER%
 echo.
+echo *** IMPORTANT: Go to cPanel ^> Git Version Control ^> gavilacfifa2026 ^> click DEPLOY ***
+echo     Without this step the server will NOT update!
+echo.
 pause

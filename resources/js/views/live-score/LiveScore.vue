@@ -28,7 +28,7 @@
                     <transition :name="slideDir" mode="out-in">
                         <div :key="carouselPage" class="match-cards-grid">
                             <div v-for="match in pagedMatches" :key="match.id" class="match-card">
-                                <div class="mc-date-bold">{{ formatMatchDate(match.match_date) }}</div>
+                                <div class="mc-date-bold">{{ formatMatchDate(match.match_date_bd || match.match_date) }}</div>
                                 <div class="mc-header">
                                     <span class="group-badge">{{ match.group_name }}, ROUND {{ match.round_number }}</span>
                                     <span class="mc-venue">
@@ -268,24 +268,11 @@ export default {
         },
         formatMatchDate(dateStr) {
             if (!dateStr) return '';
-            const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-            const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-            // Full ISO datetime — convert to BD time (UTC+6)
-            if (dateStr.includes('T') || (dateStr.length > 10 && dateStr.includes(':'))) {
-                const utc = new Date(dateStr);
-                if (isNaN(utc)) return dateStr;
-                const bd = new Date(utc.getTime() + 6 * 60 * 60 * 1000);
-                return `${days[bd.getUTCDay()]}, ${months[bd.getUTCMonth()]} ${bd.getUTCDate()}`;
-            }
-            // Date-only strings: DD/MM/YYYY or YYYY-MM-DD
-            let year, month, day;
-            if (dateStr.includes('/')) {
-                [day, month, year] = dateStr.split('/').map(Number);
-            } else {
-                [year, month, day] = dateStr.split('-').map(Number);
-            }
+            const [year, month, day] = dateStr.split('-').map(Number);
             const d = new Date(year, month - 1, day);
             if (isNaN(d)) return dateStr;
+            const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+            const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
             return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
         },
         smKey(name) {
