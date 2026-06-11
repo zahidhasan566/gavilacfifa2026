@@ -101,8 +101,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Register',
@@ -355,14 +353,6 @@ var render = function () {
           error: function (e) {
             return (e.target.style.display = "none")
           },
-        },
-      }),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "brand-center-img",
-        attrs: {
-          src: _vm.$imgBase + "/images/login-bg.jpg",
-          onerror: "this.style.display='none'",
         },
       }),
     ]),
@@ -743,14 +733,6 @@ var render = function () {
           1
         ),
       ]),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "auth-side-img",
-        attrs: {
-          src: _vm.$imgBase + "/images/login-bg.jpg",
-          onerror: "this.style.display='none'",
-        },
-      }),
     ]),
   ])
 }

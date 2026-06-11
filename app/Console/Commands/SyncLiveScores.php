@@ -12,6 +12,31 @@ class SyncLiveScores extends Command
     protected $signature   = 'scores:sync {--dry-run : Show what would update without saving}';
     protected $description = 'Sync live match scores from Sportmonks API';
 
+    // Sportmonks team name → our DB name
+    private $teamAliases = [
+        'united states'           => 'USA',
+        'usa'                     => 'USA',
+        'korea republic'          => 'Korea Rep.',
+        'republic of korea'       => 'Korea Rep.',
+        'czech republic'          => 'Czechia',
+        'czechia'                 => 'Czechia',
+        'bosnia and herzegovina'  => 'Bosnia & Hrz',
+        'bosnia & herzegovina'    => 'Bosnia & Hrz',
+        "côte d'ivoire"           => 'Ivory Coast',
+        "cote d'ivoire"           => 'Ivory Coast',
+        'ivory coast'             => 'Ivory Coast',
+        'congo dr'                => 'DR Congo',
+        'dr congo'                => 'DR Congo',
+        'democratic republic of congo' => 'DR Congo',
+        'cape verde islands'      => 'Cape Verde',
+        'cape verde'              => 'Cape Verde',
+        'curacao'                 => 'Curaçao',
+        'curaçao'                 => 'Curaçao',
+        'turkey'                  => 'Türkiye',
+        'türkiye'                 => 'Türkiye',
+        'great britain'           => 'England',
+    ];
+
     // Sportmonks state short_name → our status
     private $statusMap = [
         'NS'     => 'upcoming',
@@ -42,10 +67,11 @@ class SyncLiveScores extends Command
         $dryRun  = $this->option('dry-run');
 
         if (empty($token)) {
-            $this->error('SPORTMONKS_API_TOKEN is not set in .env');
+            $this->error('SPORTMONKS_TOKEN is not set in .env');
             return 1;
         }
-        $this->info("Syncing accessible leagues" . ($dryRun ? ' [DRY RUN]' : ''));
+
+        $this->info("Syncing World Cup fixtures" . ($dryRun ? ' [DRY RUN]' : ''));
 
         $fixtures = $this->fetchAllFixtures($baseUrl, $token);
 
@@ -70,14 +96,16 @@ class SyncLiveScores extends Command
 
     private function fetchAllFixtures(string $baseUrl, string $token): ?array
     {
-        $cutoff   = date('Y-m-d', strtotime('-6 months'));
+        $seasonId = config('services.sportmonks.season_id');
+        $leagueId = config('services.sportmonks.league_id');
+
+        // Use a rolling window: yesterday through end of tournament
+        $startDate = date('Y-m-d', strtotime('-1 day'));
+        $endDate   = '2026-07-19';
+        $endpoint  = "{$baseUrl}/fixtures/between/{$startDate}/{$endDate}";
+
         $fixtures = [];
         $page     = 1;
-        $seasonId = config('services.sportmonks.season_id');
-
-        $endpoint = $seasonId
-            ? "{$baseUrl}/fixtures/seasons/{$seasonId}"
-            : "{$baseUrl}/fixtures";
 
         do {
             $params = [
@@ -99,10 +127,14 @@ class SyncLiveScores extends Command
             $hasMore = $body['pagination']['has_more'] ?? false;
 
             foreach ($batch as $f) {
-                $date = substr($f['starting_at'] ?? '0000-00-00', 0, 10);
-                if ($date >= $cutoff) {
-                    $fixtures[] = $f;
+                // If season/league IDs are configured, filter to only World Cup fixtures
+                if (!empty($seasonId) || !empty($leagueId)) {
+                    if ((string)($f['season_id'] ?? '') !== (string)$seasonId
+                        && (string)($f['league_id'] ?? '') !== (string)$leagueId) {
+                        continue;
+                    }
                 }
+                $fixtures[] = $f;
             }
 
             $page++;
@@ -135,7 +167,7 @@ class SyncLiveScores extends Command
         $team2Half1   = $this->getScore($scores, 'away', '1ST_HALF');
 
         // ── Date / Time / Venue ──────────────────────────────────────
-        $startingAt = $fixture['starting_at'] ?? null;          // "2026-06-14 18:00:00" UTC
+        $startingAt = $fixture['starting_at'] ?? null;
         $matchDate  = $startingAt ? substr($startingAt, 0, 10) : null;
         $matchTime  = $startingAt ? substr($startingAt, 11, 5) : null;
         $venue      = $fixture['venue']['name'] ?? null;
@@ -174,14 +206,28 @@ class SyncLiveScores extends Command
             return 'skipped';
         }
 
+        $dateFrom = date('Y-m-d', strtotime($matchDate . ' -1 day'));
+        $dateTo   = date('Y-m-d', strtotime($matchDate . ' +1 day'));
+
         $match = MatchGame::where('team1_id', $team1->id)
             ->where('team2_id', $team2->id)
-            ->whereDate('match_date', $matchDate)
+            ->whereBetween('match_date', [$dateFrom, $dateTo])
             ->first()
             ?? MatchGame::where('team1_id', $team2->id)
                 ->where('team2_id', $team1->id)
-                ->whereDate('match_date', $matchDate)
+                ->whereBetween('match_date', [$dateFrom, $dateTo])
                 ->first();
+
+        if (!$match) {
+            $match = MatchGame::where('team1_id', $team1->id)
+                ->where('team2_id', $team2->id)
+                ->whereNull('external_id')
+                ->first()
+                ?? MatchGame::where('team1_id', $team2->id)
+                    ->where('team2_id', $team1->id)
+                    ->whereNull('external_id')
+                    ->first();
+        }
 
         if ($match) {
             if ($dryRun) {
@@ -243,13 +289,21 @@ class SyncLiveScores extends Command
     {
         if (!$name) return null;
 
-        $team = Team::whereRaw('LOWER(name) = ?', [strtolower($name)])->first();
+        $lower = mb_strtolower(trim($name), 'UTF-8');
+
+        $resolved = $this->teamAliases[$lower] ?? null;
+        if ($resolved) {
+            $team = Team::whereRaw('LOWER(name) = ?', [mb_strtolower($resolved, 'UTF-8')])->first();
+            if ($team) return $team;
+        }
+
+        $team = Team::whereRaw('LOWER(name) = ?', [$lower])->first();
         if ($team) return $team;
 
-        $team = Team::whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($name) . '%'])->first();
+        $team = Team::whereRaw('? LIKE CONCAT("%", LOWER(name), "%")', [$lower])->first();
         if ($team) return $team;
 
-        $team = Team::whereRaw('? LIKE CONCAT("%", LOWER(name), "%")', [strtolower($name)])->first();
+        $team = Team::whereRaw('LOWER(name) LIKE ?', ['%' . $lower . '%'])->first();
         if ($team) return $team;
 
         return null;

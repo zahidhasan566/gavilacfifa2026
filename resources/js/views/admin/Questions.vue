@@ -38,9 +38,17 @@
             <div class="modal-box">
                 <h3 class="modal-title">{{ editId ? 'Edit Question' : 'Add Question' }}</h3>
                 <div class="form-group">
-                    <label>Match (optional)</label>
+                    <label>Apply To</label>
+                    <select v-model="form.applyMode" class="form-input">
+                        <option value="template">All Matches (Template)</option>
+                        <option value="championship">World Cup Championship</option>
+                        <option value="specific">Specific Match</option>
+                    </select>
+                </div>
+                <div v-if="form.applyMode === 'specific'" class="form-group">
+                    <label>Match</label>
                     <select v-model.number="form.match_id" class="form-input">
-                        <option :value="null">General (no match)</option>
+                        <option :value="null">— Select a match —</option>
                         <option v-for="m in matches" :key="m.id" :value="m.id">{{ m.team1 && m.team1.name }} vs {{ m.team2 && m.team2.name }}</option>
                     </select>
                 </div>
@@ -90,7 +98,7 @@ export default {
     data() {
         return {
             questions: [], matches: [], filterMatch: '', modal: false, editId: null, saving: false, optionsText: '',
-            form: { match_id: null, question_text: '', type: 'team_choice', points: 10, options: [], correct_answer: '', is_active: true, sort_order: 0 },
+            form: { applyMode: 'template', match_id: null, question_text: '', type: 'team_choice', points: 10, options: [], correct_answer: '', is_active: true, sort_order: 0 },
         };
     },
     mounted() { this.fetchQuestions(); this.fetchMatches(); },
@@ -100,13 +108,15 @@ export default {
             this.questions = data.data;
         },
         async fetchMatches() { const { data } = await this.$http.get('/api/admin/matches'); this.matches = data.data; },
-        openAdd() { this.editId = null; this.form = { match_id:null, question_text:'', type:'team_choice', points:10, options:[], correct_answer:'', is_active:true, sort_order:0 }; this.optionsText = ''; this.modal = true; },
-        openEdit(q) { this.editId = q.id; this.form = { match_id:q.match_id, question_text:q.question_text, type:q.type, points:q.points, options:q.options||[], correct_answer:q.correct_answer||'', is_active:q.is_active, sort_order:q.sort_order }; this.optionsText = (q.options||[]).join('\n'); this.modal = true; },
+        openAdd() { this.editId = null; this.form = { applyMode:'template', match_id:null, question_text:'', type:'team_choice', points:10, options:[], correct_answer:'', is_active:true, sort_order:0 }; this.optionsText = ''; this.modal = true; },
+        openEdit(q) { this.editId = q.id; const applyMode = q.is_template ? 'template' : (q.match_id ? 'specific' : 'championship'); this.form = { applyMode, match_id:q.match_id, question_text:q.question_text, type:q.type, points:q.points, options:q.options||[], correct_answer:q.correct_answer||'', is_active:q.is_active, sort_order:q.sort_order }; this.optionsText = (q.options||[]).join('\n'); this.modal = true; },
         closeModal() { this.modal = false; },
         async saveQuestion() {
             this.saving = true;
             const payload = { ...this.form };
             if (this.form.type !== 'team_choice') { payload.options = this.optionsText.split('\n').map(s => s.trim()).filter(Boolean); }
+            payload.is_template = this.form.applyMode === 'template';
+            payload.match_id = this.form.applyMode === 'specific' ? this.form.match_id : null;
             try {
                 if (this.editId) await this.$http.put(`/api/admin/questions/${this.editId}`, payload);
                 else await this.$http.post('/api/admin/questions', payload);

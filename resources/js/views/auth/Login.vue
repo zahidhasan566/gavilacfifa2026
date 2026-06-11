@@ -8,7 +8,6 @@
         <div class="auth-brand">
             <img :src="$imgBase + '/images/fifa-logo.png'" alt="FIFA" class="brand-logo" @error="e => e.target.style.display='none'">
             <img :src="$imgBase + '/images/aci-logo.png'" alt="ACI" class="brand-logo-mobile" @error="e => e.target.style.display='none'">
-            <img :src="$imgBase + '/images/login-bg.jpg'" class="brand-center-img" onerror="this.style.display='none'">
         </div>
 
         <!-- Bottom bar: ACI logo left, aligned with FIFA logo above -->
@@ -51,8 +50,6 @@
                 </div><!-- end auth-card -->
             </div><!-- end auth-container -->
 
-            <!-- Image RIGHT side only -->
-            <img :src="$imgBase + '/images/login-bg.jpg'" class="auth-side-img" onerror="this.style.display='none'">
         </div><!-- end auth-wrapper -->
     </div><!-- end auth-page -->
 </template>

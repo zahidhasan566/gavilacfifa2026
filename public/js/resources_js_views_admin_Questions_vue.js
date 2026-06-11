@@ -106,6 +106,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'AdminQuestions',
@@ -119,6 +127,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       saving: false,
       optionsText: '',
       form: {
+        applyMode: 'template',
         match_id: null,
         question_text: '',
         type: 'team_choice',
@@ -182,6 +191,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     openAdd: function openAdd() {
       this.editId = null;
       this.form = {
+        applyMode: 'template',
         match_id: null,
         question_text: '',
         type: 'team_choice',
@@ -196,7 +206,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     openEdit: function openEdit(q) {
       this.editId = q.id;
+      var applyMode = q.is_template ? 'template' : q.match_id ? 'specific' : 'championship';
       this.form = {
+        applyMode: applyMode,
         match_id: q.match_id,
         question_text: q.question_text,
         type: q.type,
@@ -226,38 +238,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return s.trim();
                 }).filter(Boolean);
               }
-              _context3.prev = 3;
+              payload.is_template = _this3.form.applyMode === 'template';
+              payload.match_id = _this3.form.applyMode === 'specific' ? _this3.form.match_id : null;
+              _context3.prev = 5;
               if (!_this3.editId) {
-                _context3.next = 9;
+                _context3.next = 11;
                 break;
               }
-              _context3.next = 7;
+              _context3.next = 9;
               return _this3.$http.put("/api/admin/questions/".concat(_this3.editId), payload);
-            case 7:
-              _context3.next = 11;
-              break;
             case 9:
-              _context3.next = 11;
-              return _this3.$http.post('/api/admin/questions', payload);
+              _context3.next = 13;
+              break;
             case 11:
+              _context3.next = 13;
+              return _this3.$http.post('/api/admin/questions', payload);
+            case 13:
               _this3.closeModal();
               _this3.fetchQuestions();
               _this3.$toaster.success('Question saved.');
-              _context3.next = 19;
+              _context3.next = 21;
               break;
-            case 16:
-              _context3.prev = 16;
-              _context3.t0 = _context3["catch"](3);
+            case 18:
+              _context3.prev = 18;
+              _context3.t0 = _context3["catch"](5);
               _this3.$toaster.error('Failed.');
-            case 19:
-              _context3.prev = 19;
+            case 21:
+              _context3.prev = 21;
               _this3.saving = false;
-              return _context3.finish(19);
-            case 22:
+              return _context3.finish(21);
+            case 24:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[3, 16, 19, 22]]);
+        }, _callee3, null, [[5, 18, 21, 24]]);
       }))();
     },
     deleteQuestion: function deleteQuestion(id) {
@@ -623,7 +637,7 @@ var render = function () {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Match (optional)")]),
+                _c("label", [_vm._v("Apply To")]),
                 _vm._v(" "),
                 _c(
                   "select",
@@ -631,10 +645,9 @@ var render = function () {
                     directives: [
                       {
                         name: "model",
-                        rawName: "v-model.number",
-                        value: _vm.form.match_id,
-                        expression: "form.match_id",
-                        modifiers: { number: true },
+                        rawName: "v-model",
+                        value: _vm.form.applyMode,
+                        expression: "form.applyMode",
                       },
                     ],
                     staticClass: "form-input",
@@ -646,11 +659,11 @@ var render = function () {
                           })
                           .map(function (o) {
                             var val = "_value" in o ? o._value : o.value
-                            return _vm._n(val)
+                            return val
                           })
                         _vm.$set(
                           _vm.form,
-                          "match_id",
+                          "applyMode",
                           $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
@@ -659,27 +672,81 @@ var render = function () {
                     },
                   },
                   [
-                    _c("option", { domProps: { value: null } }, [
-                      _vm._v("General (no match)"),
+                    _c("option", { attrs: { value: "template" } }, [
+                      _vm._v("All Matches (Template)"),
                     ]),
                     _vm._v(" "),
-                    _vm._l(_vm.matches, function (m) {
-                      return _c(
-                        "option",
-                        { key: m.id, domProps: { value: m.id } },
-                        [
-                          _vm._v(
-                            _vm._s(m.team1 && m.team1.name) +
-                              " vs " +
-                              _vm._s(m.team2 && m.team2.name)
-                          ),
-                        ]
-                      )
-                    }),
-                  ],
-                  2
+                    _c("option", { attrs: { value: "championship" } }, [
+                      _vm._v("World Cup Championship"),
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "specific" } }, [
+                      _vm._v("Specific Match"),
+                    ]),
+                  ]
                 ),
               ]),
+              _vm._v(" "),
+              _vm.form.applyMode === "specific"
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Match")]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model.number",
+                            value: _vm.form.match_id,
+                            expression: "form.match_id",
+                            modifiers: { number: true },
+                          },
+                        ],
+                        staticClass: "form-input",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return _vm._n(val)
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "match_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { domProps: { value: null } }, [
+                          _vm._v("— Select a match —"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.matches, function (m) {
+                          return _c(
+                            "option",
+                            { key: m.id, domProps: { value: m.id } },
+                            [
+                              _vm._v(
+                                _vm._s(m.team1 && m.team1.name) +
+                                  " vs " +
+                                  _vm._s(m.team2 && m.team2.name)
+                              ),
+                            ]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", [_vm._v("Question Text")]),

@@ -71,9 +71,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Login',
@@ -308,14 +305,6 @@ var render = function () {
           },
         },
       }),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "brand-center-img",
-        attrs: {
-          src: _vm.$imgBase + "/images/login-bg.jpg",
-          onerror: "this.style.display='none'",
-        },
-      }),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "auth-brand-bottom" }, [
@@ -478,14 +467,6 @@ var render = function () {
           1
         ),
       ]),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "auth-side-img",
-        attrs: {
-          src: _vm.$imgBase + "/images/login-bg.jpg",
-          onerror: "this.style.display='none'",
-        },
-      }),
     ]),
   ])
 }

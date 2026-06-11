@@ -19,6 +19,9 @@ class MatchController extends Controller
         }
         if ($request->filled('status')) {
             $query->where('status', $request->status);
+            if ($request->status === 'upcoming') {
+                $query->where('match_date', '>=', now()->toDateString());
+            }
         }
 
         $matches = $query->get()->map(fn($m) => $this->matchResource($m));
@@ -51,16 +54,24 @@ class MatchController extends Controller
 
     private function matchResource(MatchGame $m): array
     {
+        $matchTimeBd = null;
+        if ($m->match_date && $m->match_time) {
+            $matchTimeBd = \Carbon\Carbon::parse(
+                $m->match_date->format('Y-m-d') . ' ' . $m->match_time, 'UTC'
+            )->setTimezone('Asia/Dhaka')->format('h:i A');
+        }
+
         return [
-            'id'           => $m->id,
-            'group_name'   => $m->group_name,
-            'round_number' => $m->round_number,
-            'team1'        => $m->team1 ? ['id' => $m->team1->id, 'name' => $m->team1->name, 'flag_emoji' => $m->team1->flag_emoji, 'flag_image' => $m->team1->flag_image] : null,
-            'team2'        => $m->team2 ? ['id' => $m->team2->id, 'name' => $m->team2->name, 'flag_emoji' => $m->team2->flag_emoji, 'flag_image' => $m->team2->flag_image] : null,
-            'venue'        => $m->venue,
-            'match_date'   => $m->match_date ? $m->match_date->format('d/m/Y') : null,
-            'match_time'   => $m->match_time,
-            'status'       => $m->status,
+            'id'            => $m->id,
+            'group_name'    => $m->group_name,
+            'round_number'  => $m->round_number,
+            'team1'         => $m->team1 ? ['id' => $m->team1->id, 'name' => $m->team1->name, 'flag_emoji' => $m->team1->flag_emoji, 'flag_image' => $m->team1->flag_image] : null,
+            'team2'         => $m->team2 ? ['id' => $m->team2->id, 'name' => $m->team2->name, 'flag_emoji' => $m->team2->flag_emoji, 'flag_image' => $m->team2->flag_image] : null,
+            'venue'         => $m->venue,
+            'match_date'    => $m->match_date ? $m->match_date->format('Y-m-d') : null,
+            'match_time'    => $m->match_time,
+            'match_time_bd' => $matchTimeBd,
+            'status'        => $m->status,
             'team1_score'  => $m->team1_score,
             'team2_score'  => $m->team2_score,
             'team1_half1'  => $m->team1_half1,

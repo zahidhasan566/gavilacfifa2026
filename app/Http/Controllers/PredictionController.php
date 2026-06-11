@@ -41,7 +41,9 @@ class PredictionController extends Controller
 
         if ($matchId) {
             $match = MatchGame::with(['team1', 'team2'])->find($matchId);
-            $matchQuestions = Question::where('match_id', $matchId)
+            $matchQuestions = Question::where(function ($q) use ($matchId) {
+                    $q->where('match_id', $matchId)->orWhere('is_template', true);
+                })
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get();
@@ -55,12 +57,18 @@ class PredictionController extends Controller
                 : null;
 
             $matchQuestions = $match
-                ? Question::where('match_id', $match->id)->where('is_active', true)->orderBy('sort_order')->get()
+                ? Question::where(function ($q) use ($match) {
+                        $q->where('match_id', $match->id)->orWhere('is_template', true);
+                    })
+                    ->where('is_active', true)
+                    ->orderBy('sort_order')
+                    ->get()
                 : collect();
         }
 
         // Championship questions (no match)
         $champQuestions = Question::whereNull('match_id')
+            ->where('is_template', false)
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->get();

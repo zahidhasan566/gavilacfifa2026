@@ -31,13 +31,13 @@ return [
     ],
 
     'sportmonks' => [
-        'token'     => 'I9IydhshncJJNRgJdxliNx1IZGBOz7EaEksvBwTR4AnMu3VLKfxr5apfZUkK',
+        'token'     => env('SPORTMONKS_TOKEN', '7rkredBeJU3ZDojS4pLZ7afkkB4w7ri0R74zFBoIflaTKp3t8jLkZnUbzpzF'),
         'base_url'  => 'https://api.sportmonks.com/v3/football',
         // Find these IDs by calling:
         // GET /leagues?search=world+cup&api_token=YOUR_TOKEN  → league_id
         // GET /seasons?filters[leagueId]=LEAGUE_ID&api_token=YOUR_TOKEN → season_id
-        'league_id' => env('SPORTMONKS_LEAGUE_ID', ''),
-        'season_id' => env('SPORTMONKS_SEASON_ID', ''),
+        'league_id' => env('SPORTMONKS_LEAGUE_ID', '732'),
+        'season_id' => env('SPORTMONKS_SEASON_ID', '26618'),
     ],
 
 ];

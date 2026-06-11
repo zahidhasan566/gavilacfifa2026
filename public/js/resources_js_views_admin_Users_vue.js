@@ -90,6 +90,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'AdminUsers',
@@ -101,6 +107,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       editId: null,
       saving: false,
       errors: null,
+      currentPage: 1,
+      lastPage: 1,
+      total: 0,
       form: {
         name: '',
         unique_code: '',
@@ -119,26 +128,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     fetchUsers: function fetchUsers() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _yield$_this$$http$ge, data;
+        var _yield$_this$$http$ge, data, pg;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
               return _this.$http.get('/api/admin/users', {
                 params: {
-                  search: _this.search
+                  search: _this.search,
+                  page: _this.currentPage
                 }
               });
             case 2:
               _yield$_this$$http$ge = _context.sent;
               data = _yield$_this$$http$ge.data;
-              _this.users = data.data.data || data.data;
-            case 5:
+              pg = data.data;
+              _this.users = pg.data || pg;
+              _this.currentPage = pg.current_page || 1;
+              _this.lastPage = pg.last_page || 1;
+              _this.total = pg.total || _this.users.length;
+            case 9:
             case "end":
               return _context.stop();
           }
         }, _callee);
       }))();
+    },
+    onSearch: function onSearch() {
+      this.currentPage = 1;
+      this.fetchUsers();
+    },
+    goPage: function goPage(p) {
+      this.currentPage = p;
+      this.fetchUsers();
     },
     openAdd: function openAdd() {
       this.editId = null;
@@ -259,7 +281,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-users[data-v-358a02f9] {\n}\n.page-header[data-v-358a02f9] { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\n}\n.page-heading[data-v-358a02f9] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700;\n}\n.btn-orange[data-v-358a02f9] { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif;\n}\n.table-card[data-v-358a02f9] { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.table-toolbar[data-v-358a02f9] { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06);\n}\n.search-input[data-v-358a02f9] { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.85rem; outline: none; width: 300px;\n}\n.table-wrapper[data-v-358a02f9] { overflow-x: auto;\n}\n.data-table[data-v-358a02f9] { width: 100%; border-collapse: collapse;\n}\n.data-table th[data-v-358a02f9] { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; padding: 12px 16px; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;\n}\n.data-table td[data-v-358a02f9] { color: rgba(255,255,255,0.8); font-size: 0.85rem; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);\n}\n.user-cell[data-v-358a02f9] { display: flex; align-items: center; gap: 10px;\n}\n.mini-avatar[data-v-358a02f9] { width: 28px; height: 28px; border-radius: 50%; -o-object-fit: cover; object-fit: cover;\n}\n.points-pill[data-v-358a02f9] { background: rgba(255,165,0,0.15); color: #FFA500; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;\n}\n.status-badge[data-v-358a02f9] { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;\n}\n.status-badge.active[data-v-358a02f9] { background: rgba(34,197,94,0.15); color: #4ade80;\n}\n.status-badge.inactive[data-v-358a02f9] { background: rgba(239,68,68,0.15); color: #f87171;\n}\n.btn-sm[data-v-358a02f9] { padding: 5px 12px; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-right: 4px;\n}\n.btn-edit[data-v-358a02f9] { background: rgba(59,130,246,0.15); color: #60a5fa;\n}\n.btn-danger[data-v-358a02f9] { background: rgba(239,68,68,0.15); color: #f87171;\n}\n.empty-td[data-v-358a02f9] { text-align: center; color: rgba(255,255,255,0.3); padding: 30px;\n}\n.modal-overlay[data-v-358a02f9] { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 500;\n}\n.modal-box[data-v-358a02f9] { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 560px; max-height: 85vh; overflow-y: auto;\n}\n.modal-title[data-v-358a02f9] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;\n}\n.form-grid[data-v-358a02f9] { display: grid; grid-template-columns: 1fr 1fr; gap: 14px;\n}\n.form-group[data-v-358a02f9] { display: flex; flex-direction: column; gap: 6px;\n}\n.form-group.full[data-v-358a02f9] { grid-column: 1 / -1;\n}\n.form-group label[data-v-358a02f9] { color: rgba(255,255,255,0.6); font-size: 0.78rem;\n}\n.form-input[data-v-358a02f9] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none;\n}\n.form-input option[data-v-358a02f9] { background: #ffffff; color: #1A0040;\n}\n.errors-box[data-v-358a02f9] { margin-top: 12px;\n}\n.error-item[data-v-358a02f9] { color: #f87171; font-size: 0.8rem; margin-bottom: 4px;\n}\n.modal-actions[data-v-358a02f9] { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;\n}\n.btn-cancel[data-v-358a02f9] { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.admin-users[data-v-358a02f9] {\n}\n.page-header[data-v-358a02f9] { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\n}\n.page-heading[data-v-358a02f9] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700;\n}\n.btn-orange[data-v-358a02f9] { background: #FF8C00; color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 700; cursor: pointer; font-family: 'Rajdhani', sans-serif;\n}\n.table-card[data-v-358a02f9] { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; overflow: hidden;\n}\n.table-toolbar[data-v-358a02f9] { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06);\n}\n.search-input[data-v-358a02f9] { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.85rem; outline: none; width: 300px;\n}\n.table-wrapper[data-v-358a02f9] { overflow-x: auto;\n}\n.data-table[data-v-358a02f9] { width: 100%; border-collapse: collapse;\n}\n.data-table th[data-v-358a02f9] { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 600; padding: 12px 16px; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;\n}\n.data-table td[data-v-358a02f9] { color: rgba(255,255,255,0.8); font-size: 0.85rem; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);\n}\n.user-cell[data-v-358a02f9] { display: flex; align-items: center; gap: 10px;\n}\n.mini-avatar[data-v-358a02f9] { width: 28px; height: 28px; border-radius: 50%; -o-object-fit: cover; object-fit: cover;\n}\n.points-pill[data-v-358a02f9] { background: rgba(255,165,0,0.15); color: #FFA500; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600;\n}\n.status-badge[data-v-358a02f9] { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;\n}\n.status-badge.active[data-v-358a02f9] { background: rgba(34,197,94,0.15); color: #4ade80;\n}\n.status-badge.inactive[data-v-358a02f9] { background: rgba(239,68,68,0.15); color: #f87171;\n}\n.btn-sm[data-v-358a02f9] { padding: 5px 12px; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; margin-right: 4px;\n}\n.btn-edit[data-v-358a02f9] { background: rgba(59,130,246,0.15); color: #60a5fa;\n}\n.btn-danger[data-v-358a02f9] { background: rgba(239,68,68,0.15); color: #f87171;\n}\n.empty-td[data-v-358a02f9] { text-align: center; color: rgba(255,255,255,0.3); padding: 30px;\n}\n.modal-overlay[data-v-358a02f9] { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 500;\n}\n.modal-box[data-v-358a02f9] { background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%); border-radius: 12px; padding: 28px; width: 560px; max-height: 85vh; overflow-y: auto;\n}\n.modal-title[data-v-358a02f9] { color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;\n}\n.form-grid[data-v-358a02f9] { display: grid; grid-template-columns: 1fr 1fr; gap: 14px;\n}\n.form-group[data-v-358a02f9] { display: flex; flex-direction: column; gap: 6px;\n}\n.form-group.full[data-v-358a02f9] { grid-column: 1 / -1;\n}\n.form-group label[data-v-358a02f9] { color: rgba(255,255,255,0.6); font-size: 0.78rem;\n}\n.form-input[data-v-358a02f9] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem; outline: none;\n}\n.form-input option[data-v-358a02f9] { background: #ffffff; color: #1A0040;\n}\n.errors-box[data-v-358a02f9] { margin-top: 12px;\n}\n.error-item[data-v-358a02f9] { color: #f87171; font-size: 0.8rem; margin-bottom: 4px;\n}\n.modal-actions[data-v-358a02f9] { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;\n}\n.btn-cancel[data-v-358a02f9] { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer;\n}\n.total-count[data-v-358a02f9] { color: rgba(255,255,255,0.45); font-size: 0.8rem; margin-left: 12px;\n}\n.pagination-row[data-v-358a02f9] { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 14px; border-top: 1px solid rgba(255,255,255,0.06);\n}\n.pg-btn[data-v-358a02f9] { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: #fff; border-radius: 6px; padding: 6px 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;\n}\n.pg-btn[data-v-358a02f9]:disabled { opacity: 0.35; cursor: default;\n}\n.pg-btn[data-v-358a02f9]:not(:disabled):hover { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500;\n}\n.pg-info[data-v-358a02f9] { color: rgba(255,255,255,0.55); font-size: 0.82rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -424,10 +446,14 @@ var render = function () {
                 }
                 _vm.search = $event.target.value
               },
-              _vm.fetchUsers,
+              _vm.onSearch,
             ],
           },
         }),
+        _vm._v(" "),
+        _c("span", { staticClass: "total-count" }, [
+          _vm._v("Total: " + _vm._s(_vm.total)),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "table-wrapper" }, [
@@ -528,6 +554,47 @@ var render = function () {
           ),
         ]),
       ]),
+      _vm._v(" "),
+      _vm.lastPage > 1
+        ? _c("div", { staticClass: "pagination-row" }, [
+            _c(
+              "button",
+              {
+                staticClass: "pg-btn",
+                attrs: { disabled: _vm.currentPage === 1 },
+                on: {
+                  click: function ($event) {
+                    return _vm.goPage(_vm.currentPage - 1)
+                  },
+                },
+              },
+              [_vm._v("‹ Prev")]
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "pg-info" }, [
+              _vm._v(
+                "Page " +
+                  _vm._s(_vm.currentPage) +
+                  " of " +
+                  _vm._s(_vm.lastPage)
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "pg-btn",
+                attrs: { disabled: _vm.currentPage === _vm.lastPage },
+                on: {
+                  click: function ($event) {
+                    return _vm.goPage(_vm.currentPage + 1)
+                  },
+                },
+              },
+              [_vm._v("Next ›")]
+            ),
+          ])
+        : _vm._e(),
     ]),
     _vm._v(" "),
     _vm.modal

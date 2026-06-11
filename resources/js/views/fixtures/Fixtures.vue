@@ -80,7 +80,7 @@
                             <div class="date-box">
                                 <span class="db-weekday">{{ formatWeekday(m.match_date) }}</span>
                                 <span class="db-day">{{ formatDay(m.match_date) }} {{ formatMonth(m.match_date) }}</span>
-                                <span class="db-time">{{ formatTime(m.match_time) }}</span>
+                                <span class="db-time">{{ m.match_time_bd || smTime(m) || formatTime(m.match_time) }}<span v-if="m.match_time_bd || smTime(m)" class="bd-tag">BD</span></span>
                             </div>
                         </div>
                     </div>
@@ -178,6 +178,7 @@ export default {
             selectedTeamCode: null,
             teamSearch: '',
             loading: true,
+            smMatches: [],
         };
     },
     computed: {
@@ -224,8 +225,12 @@ export default {
         },
     },
     async mounted() {
-        const { data } = await this.$http.get('/api/matches');
-        this.matches = data.data;
+        const [matches, sm] = await Promise.all([
+            this.$http.get('/api/matches'),
+            this.$http.get('/api/livescores/today'),
+        ]);
+        this.matches = matches.data.data;
+        this.smMatches = sm.data.data || [];
         this.loading = false;
     },
     methods: {
@@ -280,6 +285,28 @@ export default {
             const ampm = h >= 12 ? 'PM' : 'AM';
             const h12 = h % 12 || 12;
             return h12 + ' ' + ampm;
+        },
+        smKey(name) {
+            const aliases = {
+                'korea republic':'korea','korea rep':'korea','south korea':'korea',
+                'czech republic':'czech','czechia':'czech',
+                'dr congo':'congo','congo dr':'congo','democratic republic of congo':'congo',
+                'ivory coast':'ivory','cote d ivoire':'ivory','cote divoire':'ivory',
+                'united states':'usa','usa':'usa',
+                'cape verde islands':'capeverde','cape verde':'capeverde',
+                'curacao':'curacao',
+                'bosnia and herzegovina':'bosnia','bosnia herzegov':'bosnia','bosnia hrz':'bosnia',
+            };
+            const n = name.toLowerCase()
+                .replace(/[üúûùçñéèêáàâóôöïíî]/g, c => ({'ü':'u','ú':'u','û':'u','ù':'u','ç':'c','ñ':'n','é':'e','è':'e','ê':'e','á':'a','à':'a','â':'a','ó':'o','ô':'o','ö':'o','ï':'i','í':'i','î':'i'}[c]||''))
+                .replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ').trim();
+            return aliases[n] || n.split(' ')[0];
+        },
+        smTime(match) {
+            const t1 = this.smKey(match.team1 && match.team1.name || '');
+            const t2 = this.smKey(match.team2 && match.team2.name || '');
+            const found = this.smMatches.find(s => this.smKey(s.home) === t1 && this.smKey(s.away) === t2);
+            return found ? found.kickoff_bd : null;
         },
     },
 };
@@ -447,6 +474,7 @@ export default {
 .db-weekday { color: #FFA500; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 .db-day { color: #FFA500; font-size: 0.85rem; font-weight: 900; font-family: 'Roboto', sans-serif; line-height: 1.2; }
 .db-time { color: #FFA500; font-size: 0.5rem; font-weight: 600; text-transform: uppercase; }
+.bd-tag { background: rgba(255,165,0,0.2); color: #FFA500; font-size: 0.45rem; font-weight: 700; padding: 1px 4px; border-radius: 3px; margin-left: 3px; vertical-align: middle; }
 
 /* ── Result Card ───────────────────────────── */
 .rc-match-row {

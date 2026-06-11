@@ -7,7 +7,8 @@
 
         <div class="table-card">
             <div class="table-toolbar">
-                <input v-model="search" @input="fetchUsers" placeholder="Search by name / code / email..." class="search-input">
+                <input v-model="search" @input="onSearch" placeholder="Search by name / code / email..." class="search-input">
+                <span class="total-count">Total: {{ total }}</span>
             </div>
             <div class="table-wrapper">
                 <table class="data-table">
@@ -39,6 +40,11 @@
                         <tr v-if="users.length === 0"><td colspan="8" class="empty-td">No users found.</td></tr>
                     </tbody>
                 </table>
+            </div>
+            <div v-if="lastPage > 1" class="pagination-row">
+                <button class="pg-btn" :disabled="currentPage === 1" @click="goPage(currentPage - 1)">&#8249; Prev</button>
+                <span class="pg-info">Page {{ currentPage }} of {{ lastPage }}</span>
+                <button class="pg-btn" :disabled="currentPage === lastPage" @click="goPage(currentPage + 1)">Next &#8250;</button>
             </div>
         </div>
 
@@ -79,15 +85,22 @@ export default {
     data() {
         return {
             users: [], search: '', modal: false, editId: null, saving: false, errors: null,
+            currentPage: 1, lastPage: 1, total: 0,
             form: { name:'', unique_code:'', mobile:'', email:'', chamber_address:'', password:'', status: 1 },
         };
     },
     mounted() { this.fetchUsers(); },
     methods: {
         async fetchUsers() {
-            const { data } = await this.$http.get('/api/admin/users', { params: { search: this.search } });
-            this.users = data.data.data || data.data;
+            const { data } = await this.$http.get('/api/admin/users', { params: { search: this.search, page: this.currentPage } });
+            const pg = data.data;
+            this.users = pg.data || pg;
+            this.currentPage = pg.current_page || 1;
+            this.lastPage = pg.last_page || 1;
+            this.total = pg.total || this.users.length;
         },
+        onSearch() { this.currentPage = 1; this.fetchUsers(); },
+        goPage(p) { this.currentPage = p; this.fetchUsers(); },
         openAdd() { this.editId = null; this.form = { name:'',unique_code:'',mobile:'',email:'',chamber_address:'',password:'',status:1 }; this.errors = null; this.modal = true; },
         openEdit(u) { this.editId = u.id; this.form = { name:u.name,unique_code:u.unique_code,mobile:u.mobile,email:u.email,chamber_address:u.chamber_address,password:'',status:u.status }; this.errors = null; this.modal = true; },
         closeModal() { this.modal = false; },
@@ -151,4 +164,10 @@ export default {
 .error-item { color: #f87171; font-size: 0.8rem; margin-bottom: 4px; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 .btn-cancel { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: none; border-radius: 8px; padding: 10px 20px; cursor: pointer; }
+.total-count { color: rgba(255,255,255,0.45); font-size: 0.8rem; margin-left: 12px; }
+.pagination-row { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+.pg-btn { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: #fff; border-radius: 6px; padding: 6px 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+.pg-btn:disabled { opacity: 0.35; cursor: default; }
+.pg-btn:not(:disabled):hover { background: rgba(255,165,0,0.15); border-color: #FFA500; color: #FFA500; }
+.pg-info { color: rgba(255,255,255,0.55); font-size: 0.82rem; }
 </style>

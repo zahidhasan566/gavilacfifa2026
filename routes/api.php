@@ -16,6 +16,10 @@ use App\Http\Controllers\Admin\AdminRaffleController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminFifaFactController;
 use App\Http\Controllers\Admin\AdminNotificationController;
+use App\Http\Controllers\LiveScoreProxyController;
+
+// Live score proxy (no auth needed, token stays server-side)
+Route::get('livescores/today', [LiveScoreProxyController::class, 'today']);
 
 // Public auth routes
 Route::prefix('auth')->group(function () {

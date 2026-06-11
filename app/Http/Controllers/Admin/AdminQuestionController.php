@@ -32,8 +32,10 @@ class AdminQuestionController extends Controller
             return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
         }
 
+        $isTemplate = $request->boolean('is_template', false);
+
         $question = Question::create([
-            'match_id'      => $request->match_id,
+            'match_id'      => $isTemplate ? null : $request->match_id,
             'question_text' => $request->question_text,
             'type'          => $request->type,
             'points'        => $request->points,
@@ -41,6 +43,7 @@ class AdminQuestionController extends Controller
             'correct_answer' => $request->correct_answer,
             'is_active'     => $request->boolean('is_active', true),
             'sort_order'    => $request->sort_order ?? 0,
+            'is_template'   => $isTemplate,
         ]);
 
         return response()->json(['status' => 'success', 'data' => $question], 201);
@@ -49,10 +52,14 @@ class AdminQuestionController extends Controller
     public function update(Request $request, $id)
     {
         $question = Question::findOrFail($id);
-        $question->update($request->only([
-            'match_id', 'question_text', 'type', 'points',
+        $isTemplate = $request->boolean('is_template', false);
+        $updateData = $request->only([
+            'question_text', 'type', 'points',
             'options', 'correct_answer', 'is_active', 'sort_order',
-        ]));
+        ]);
+        $updateData['is_template'] = $isTemplate;
+        $updateData['match_id'] = $isTemplate ? null : $request->match_id;
+        $question->update($updateData);
         return response()->json(['status' => 'success', 'data' => $question]);
     }
 

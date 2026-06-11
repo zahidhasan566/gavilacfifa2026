@@ -48,7 +48,7 @@
                                             <span class="score-dash">—</span>
                                             <div class="score-circle">{{ match.team2_score != null ? match.team2_score : '—' }}</div>
                                         </div>
-                                        <div class="mc-time">{{ match.match_time || '' }}</div>
+                                        <div class="mc-time">{{ match.match_time_bd || smTime(match) || match.match_time || '' }} <span v-if="match.match_time_bd || smTime(match)" class="bd-label">BD</span></div>
                                         <span v-if="match.status === 'live'" class="live-badge">LIVE</span>
                                         <span v-if="match.status === 'completed'" class="ft-badge">FT</span>
                                     </div>
@@ -164,7 +164,7 @@ export default {
     name: 'LiveScore',
     data() {
         return {
-            liveMatches: [], upcomingMatches: [],
+            liveMatches: [], upcomingMatches: [], smMatches: [],
             recentMatches: [], selectedMatchId: null,
             myPoints: 0, loading: true,
             carouselPage: 0, slideDir: 'mc-slide-left',
@@ -236,12 +236,14 @@ export default {
             this.startAutoSlide();
         },
         async fetchMatches() {
-            const [live, upcoming] = await Promise.all([
+            const [live, upcoming, sm] = await Promise.all([
                 this.$http.get('/api/matches/live'),
                 this.$http.get('/api/matches?status=upcoming'),
+                this.$http.get('/api/livescores/today'),
             ]);
             this.liveMatches = live.data.data;
             this.upcomingMatches = upcoming.data.data;
+            this.smMatches = sm.data.data || [];
         },
         async fetchWinners() {
             const { data } = await this.$http.get('/api/winners/recent-matches');
@@ -266,14 +268,34 @@ export default {
         },
         formatMatchDate(dateStr) {
             if (!dateStr) return '';
-            const parts = dateStr.split('/');
-            const d = parts.length === 3
-                ? new Date(parts[2], parts[1] - 1, parts[0])
-                : new Date(dateStr);
+            const p = dateStr.includes('/') ? dateStr.split('/') : dateStr.split('-').reverse();
+            const d = new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]));
             if (isNaN(d)) return dateStr;
             const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
             const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
             return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+        },
+        smKey(name) {
+            const aliases = {
+                'korea republic':'korea','korea rep':'korea','south korea':'korea',
+                'czech republic':'czech','czechia':'czech',
+                'dr congo':'congo','congo dr':'congo','democratic republic of congo':'congo',
+                'ivory coast':'ivory','cote d ivoire':'ivory','cote divoire':'ivory',
+                'united states':'usa','usa':'usa',
+                'cape verde islands':'capeverde','cape verde':'capeverde',
+                'curacao':'curacao',
+                'bosnia and herzegovina':'bosnia','bosnia herzegov':'bosnia','bosnia hrz':'bosnia',
+            };
+            const n = name.toLowerCase()
+                .replace(/[üúûùçñéèêáàâóôöïíî]/g, c => ({'ü':'u','ú':'u','û':'u','ù':'u','ç':'c','ñ':'n','é':'e','è':'e','ê':'e','á':'a','à':'a','â':'a','ó':'o','ô':'o','ö':'o','ï':'i','í':'i','î':'i'}[c]||''))
+                .replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ').trim();
+            return aliases[n] || n.split(' ')[0];
+        },
+        smTime(match) {
+            const t1 = this.smKey(match.team1 && match.team1.name || '');
+            const t2 = this.smKey(match.team2 && match.team2.name || '');
+            const found = this.smMatches.find(s => this.smKey(s.home) === t1 && this.smKey(s.away) === t2);
+            return found ? found.kickoff_bd : null;
         },
         teamFlagUrl(team) {
             if (!team || !team.flag_emoji) return window.__IMG__ + '/images/default-avatar.png';
@@ -440,6 +462,7 @@ export default {
 }
 .score-dash { color: rgba(255,255,255,0.5); font-size: 1rem; font-weight: 700; }
 .mc-time { color: #fff; font-size: 0.68rem; font-weight: 600; }
+.bd-label { background: rgba(255,165,0,0.2); color: #FFA500; font-size: 0.55rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 3px; vertical-align: middle; }
 .live-badge {
     background: #dc2626; color: #fff;
     font-size: 0.6rem; font-weight: 700; padding: 3px 10px;
