@@ -28,8 +28,5 @@ deployment:
     - chmod -R 775 $APPROOT/storage
     - chmod -R 775 $APPROOT/bootstrap/cache
 
-    # Laravel cache & migrations
-    - /usr/local/bin/php $APPROOT/artisan config:cache
-    - /usr/local/bin/php $APPROOT/artisan route:cache
-    - /usr/local/bin/php $APPROOT/artisan optimize
+    # Only migrate - does not write files to git directory
     - /usr/local/bin/php $APPROOT/artisan migrate --force
