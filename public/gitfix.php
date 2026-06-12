@@ -1,62 +1,65 @@
 <?php
 if (!isset($_GET['key']) || $_GET['key'] !== 'fifa2026fix') {
-    die('Access denied. Use: ?key=fifa2026fix');
+    http_response_code(403);
+    die('Access denied.');
 }
 
 $repo    = '/home/gavilacfifa/gavilacfifa2026';
 $pubdest = '/home/gavilacfifa/public_html';
+$php     = '/usr/local/bin/php';
 
-echo '<pre style="background:#111;color:#0f0;padding:20px;font-size:13px;font-family:monospace;">';
-echo "=== FIFA 2026 Full Deploy ===\n\n";
+header('Content-Type: text/plain; charset=utf-8');
 
-function run($cmd) {
-    echo "▶ $cmd\n";
+function run(string $cmd): void {
     $out = shell_exec($cmd . ' 2>&1');
-    echo ($out ?: "  (no output)") . "\n\n";
+    echo "▶ $cmd\n" . ($out ?: "  (no output)") . "\n";
+    flush();
 }
 
-// Step 1 — sync git repo with latest GitHub push
-echo "--- Step 1: Git sync ---\n";
+echo "=== FIFA 2026 Deploy: " . date('Y-m-d H:i:s') . " ===\n\n";
+
+// 1. Put site into maintenance mode so users see a clean 503 during deploy
+echo "--- Maintenance ON ---\n";
+run("$php $repo/artisan down --retry=10");
+
+// 2. Sync git repo with latest push
+echo "\n--- Git sync ---\n";
 run("git -C $repo fetch origin");
 run("git -C $repo reset --hard origin/master");
 run("git -C $repo clean -fd");
-run("git -C $repo status");
 
-// Step 2 — ensure dirs exist
-echo "--- Step 2: Ensure dirs ---\n";
-run("mkdir -p $repo/storage/framework/cache");
-run("mkdir -p $repo/storage/framework/sessions");
-run("mkdir -p $repo/storage/framework/views");
-run("mkdir -p $repo/storage/app/public");
-run("mkdir -p $repo/bootstrap/cache");
+// 3. Ensure required dirs exist
+echo "\n--- Dirs ---\n";
+run("mkdir -p $repo/storage/framework/cache $repo/storage/framework/sessions $repo/storage/framework/views $repo/storage/app/public $repo/bootstrap/cache");
 
-// Step 3 — copy assets to public_html
-echo "--- Step 3: Copy assets to public_html ---\n";
-run("/bin/cp -f $repo/public/index-production.php $pubdest/index.php");
-run("/bin/cp -f $repo/public/htaccess.production $pubdest/.htaccess");
-run("/bin/cp -rf $repo/public/css $pubdest/");
-run("/bin/cp -rf $repo/public/js $pubdest/");
-run("/bin/cp -rf $repo/public/images $pubdest/");
-run("/bin/cp -f $repo/public/manifest.production.json $pubdest/manifest.json");
-run("/bin/cp -f $repo/public/sw.production.js $pubdest/sw.js");
+// 4. Copy built assets to public_html
+echo "\n--- Copy assets ---\n";
+run("/bin/cp -f  $repo/public/index-production.php $pubdest/index.php");
+run("/bin/cp -f  $repo/public/htaccess.production  $pubdest/.htaccess");
+run("/bin/cp -rf $repo/public/css                  $pubdest/");
+run("/bin/cp -rf $repo/public/js                   $pubdest/");
+run("/bin/cp -rf $repo/public/images               $pubdest/");
+run("/bin/cp -f  $repo/public/manifest.production.json $pubdest/manifest.json");
+run("/bin/cp -f  $repo/public/sw.production.js     $pubdest/sw.js");
 
-// Step 4 — fix permissions
-echo "--- Step 4: Permissions ---\n";
-run("mkdir -p $pubdest/images/profiles");
-run("chmod -R 775 $pubdest/images/profiles");
-run("chmod -R 775 $repo/storage");
-run("chmod -R 775 $repo/bootstrap/cache");
+// 5. Permissions
+echo "\n--- Permissions ---\n";
+run("mkdir -p $pubdest/images/profiles && chmod -R 775 $pubdest/images/profiles");
+run("chmod -R 775 $repo/storage $repo/bootstrap/cache");
 
-// Step 5 — run migrations
-echo "--- Step 5: Migrations ---\n";
-run("/usr/local/bin/php $repo/artisan migrate --force");
+// 6. Migrate
+echo "\n--- Migrate ---\n";
+run("$php $repo/artisan migrate --force");
 
-// Step 6 — clear Laravel caches
-echo "--- Step 6: Clear caches ---\n";
-run("/usr/local/bin/php $repo/artisan config:clear");
-run("/usr/local/bin/php $repo/artisan cache:clear");
-run("/usr/local/bin/php $repo/artisan view:clear");
+// 7. Rebuild caches (cache then up so app is warm before going live)
+echo "\n--- Cache rebuild ---\n";
+run("$php $repo/artisan config:cache");
+run("$php $repo/artisan route:cache");
+run("$php $repo/artisan view:clear");
+run("$php $repo/artisan cache:clear");
 
-echo "=== DEPLOY COMPLETE ===\n";
-echo "Site: https://gavilacfifa.com\n";
-echo '</pre>';
+// 8. Bring site back online
+echo "\n--- Maintenance OFF ---\n";
+run("$php $repo/artisan up");
+
+echo "\n=== DONE: " . date('H:i:s') . " — https://gavilacfifa.com ===\n";

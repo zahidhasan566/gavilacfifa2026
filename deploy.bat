@@ -62,7 +62,7 @@ echo [4/5] Pushed to GitHub
 
 REM Auto-deploy: call gitfix.php which resets the server and copies all assets
 echo [5/5] Triggering server deploy via gitfix.php ...
-powershell -Command "try { $r = Invoke-WebRequest -Uri 'https://gavilacfifa.com/gitfix.php?key=fifa2026fix' -UseBasicParsing -TimeoutSec 60; Write-Host '[OK] Server deploy triggered'; Write-Host $r.Content } catch { Write-Host '[WARN] Could not reach gitfix.php:' $_.Exception.Message }"
+powershell -Command "try { $r = Invoke-WebRequest -Uri 'https://gavilacfifa.com/gitfix.php?key=fifa2026fix' -UseBasicParsing -TimeoutSec 90; Write-Host $r.Content } catch { Write-Host '[WARN] gitfix.php unreachable:' $_.Exception.Message }"
 
 REM Rebuild for local development AFTER push so dev files never get committed
 call npm run development

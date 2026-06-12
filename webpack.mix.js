@@ -12,3 +12,7 @@ mix.js('resources/js/app.js', 'public/js')
             publicPath: publicPath,
         },
     });
+
+if (mix.inProduction()) {
+    mix.version();
+}
