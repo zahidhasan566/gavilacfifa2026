@@ -7,6 +7,10 @@ if (!isset($_GET['key']) || $_GET['key'] !== 'fifa2026fix') {
 $repo    = '/home/gavilacfifa/gavilacfifa2026';
 $pubdest = '/home/gavilacfifa/public_html';
 $php     = '/usr/local/bin/php';
+// Use cPanel's own git binary to avoid version/config conflicts
+$git     = file_exists('/usr/local/cpanel/3rdparty/bin/git')
+           ? '/usr/local/cpanel/3rdparty/bin/git'
+           : 'git';
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -23,10 +27,13 @@ echo "--- Maintenance ON ---\n";
 run("$php $repo/artisan down --retry=10");
 
 // 2. Sync git repo with latest push
+// Use fetch + reset instead of pull to avoid the "branch already exists" error
+// that cPanel triggers when both auto-deploy and gitfix run at the same time.
 echo "\n--- Git sync ---\n";
-run("git -C $repo fetch origin");
-run("git -C $repo reset --hard origin/master");
-run("git -C $repo clean -fd");
+run("$git -C {$repo} fetch origin");
+run("$git -C {$repo} checkout master 2>/dev/null || $git -C {$repo} checkout -B master origin/master");
+run("$git -C {$repo} reset --hard origin/master");
+run("$git -C {$repo} clean -fd");
 
 // 3. Ensure required dirs exist
 echo "\n--- Dirs ---\n";
