@@ -18,16 +18,21 @@ class PredictionController extends Controller
 
         $matchId = $request->match_id;
 
-        // Find the nearest date that has upcoming (not started) matches only
-        $nearestDate = MatchGame::where('status', 'upcoming')
-            ->orderBy('match_date')
-            ->value('match_date');
+        $nowBdStr = \Carbon\Carbon::now('Asia/Dhaka')->format('Y-m-d H:i:s');
 
-        // All matches on that nearest date (for the tab list)
-        $availableMatches = $nearestDate
+        // Find the nearest BD calendar date that still has upcoming matches — grouped by BD date, not UTC date
+        $nearestDateBd = MatchGame::where('status', 'upcoming')
+            ->orderBy('match_date')
+            ->orderBy('match_time')
+            ->selectRaw("DATE(CONVERT_TZ(CONCAT(match_date, ' ', COALESCE(match_time, '00:00:00')), '+00:00', '+06:00')) as bd_date")
+            ->value('bd_date');
+
+        // All matches on that nearest BD date (for the tab list)
+        $availableMatches = $nearestDateBd
             ? MatchGame::with(['team1', 'team2'])
                 ->where('status', 'upcoming')
-                ->whereDate('match_date', $nearestDate)
+                ->whereRaw("DATE(CONVERT_TZ(CONCAT(match_date, ' ', COALESCE(match_time, '00:00:00')), '+00:00', '+06:00')) = ?", [$nearestDateBd])
+                ->orderBy('match_date')
                 ->orderBy('match_time')
                 ->get()
                 ->map(function ($m) {
@@ -48,10 +53,11 @@ class PredictionController extends Controller
                 ->orderBy('sort_order')
                 ->get();
         } else {
-            $match = $nearestDate
+            $match = $nearestDateBd
                 ? MatchGame::with(['team1', 'team2'])
                     ->where('status', 'upcoming')
-                    ->whereDate('match_date', $nearestDate)
+                    ->whereRaw("DATE(CONVERT_TZ(CONCAT(match_date, ' ', COALESCE(match_time, '00:00:00')), '+00:00', '+06:00')) = ?", [$nearestDateBd])
+                    ->orderBy('match_date')
                     ->orderBy('match_time')
                     ->first()
                 : null;

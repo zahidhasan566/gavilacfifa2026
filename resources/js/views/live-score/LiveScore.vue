@@ -185,8 +185,9 @@ export default {
             return this.windowWidth <= 640 ? 1 : 2;
         },
         displayMatches() {
-            const nextDate = this.upcomingMatches.length ? this.upcomingMatches[0].match_date : null;
-            const upcoming = nextDate ? this.upcomingMatches.filter(m => m.match_date === nextDate) : [];
+            const dateKey = m => m.match_date_bd || m.match_date;
+            const nextDate = this.upcomingMatches.length ? dateKey(this.upcomingMatches[0]) : null;
+            const upcoming = nextDate ? this.upcomingMatches.filter(m => dateKey(m) === nextDate) : [];
             return [...this.liveMatches, ...upcoming];
         },
         totalPages() {
