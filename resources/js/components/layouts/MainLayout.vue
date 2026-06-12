@@ -83,37 +83,6 @@
             </router-link>
         </nav>
 
-        <!-- ── Raffle Draw Popup ────────────────────────────── -->
-        <transition name="raffle-fade">
-            <div v-if="rafflePopup" class="raffle-overlay" @click.self="dismissRaffle">
-                <div class="raffle-modal">
-                    <button class="raffle-close" @click="dismissRaffle">✕</button>
-                    <div class="raffle-confetti">🎉</div>
-                    <div class="raffle-headline">Raffle Draw Winner!</div>
-                    <div class="raffle-sub">FIFA World Cup 2026™</div>
-
-                    <img :src="raffleWinner.profile_picture_url"
-                         class="raffle-avatar"
-                         onerror="this.src=window.__IMG__ + '/images/default-avatar.png'">
-
-                    <div v-if="raffleWinner.is_me" class="raffle-winner-you">🎊 Congratulations! It's YOU!</div>
-                    <div class="raffle-winner-name">{{ raffleWinner.name }}</div>
-                    <div class="raffle-winner-code">Doctor Code: {{ raffleWinner.unique_code }}</div>
-                    <div class="raffle-prize">+{{ raffleWinner.prize_points }} Bonus Points</div>
-                    <div v-if="raffleWinner.notes" class="raffle-notes">{{ raffleWinner.notes }}</div>
-
-                    <div class="raffle-join-section">
-                        <div class="raffle-join-label">Want to be in the next draw?</div>
-                        <button class="raffle-join-btn" :class="{ joined: raffleOptedIn }" @click="toggleJoin">
-                            {{ raffleOptedIn ? '✓ You\'re In the Raffle!' : 'Join Next Raffle' }}
-                        </button>
-                    </div>
-
-                    <button class="raffle-dismiss-btn" @click="dismissRaffle">Close</button>
-                </div>
-            </div>
-        </transition>
-
         <!-- Profile Picture Modal -->
         <transition name="raffle-fade">
             <div v-if="showProfileModal" class="raffle-overlay" @click.self="showProfileModal = false">
@@ -141,19 +110,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-const RAFFLE_KEY = 'fifa2026_last_raffle_id';
-const RAFFLE_POLL_INTERVAL = 30000; // 30 seconds
-
 export default {
     name: 'MainLayout',
     data() {
         return {
             showNotifications: false,
             showUserMenu: false,
-            rafflePopup: false,
-            raffleWinner: null,
-            raffleOptedIn: false,
-            _rafflePollTimer: null,
             showProfileModal: false,
             profileFile: null,
             profilePreview: null,
@@ -165,11 +127,6 @@ export default {
     },
     mounted() {
         this.$store.dispatch('fetchNotifications');
-        this.pollRaffleStatus();
-        this._rafflePollTimer = setInterval(this.pollRaffleStatus, RAFFLE_POLL_INTERVAL);
-    },
-    beforeDestroy() {
-        if (this._rafflePollTimer) clearInterval(this._rafflePollTimer);
     },
     directives: {
         'click-outside': {
@@ -217,34 +174,6 @@ export default {
             }
         },
 
-        async pollRaffleStatus() {
-            try {
-                const { data } = await this.$http.get('/api/raffle/status');
-                this.raffleOptedIn = data.opted_in;
-                const winner = data.latest_winner;
-                if (!winner) return;
-                const lastSeenId = parseInt(localStorage.getItem(RAFFLE_KEY) || '0');
-                if (winner.id !== lastSeenId) {
-                    this.raffleWinner = winner;
-                    this.rafflePopup = true;
-                }
-            } catch (e) { /* silent */ }
-        },
-
-        dismissRaffle() {
-            if (this.raffleWinner) {
-                localStorage.setItem(RAFFLE_KEY, String(this.raffleWinner.id));
-            }
-            this.rafflePopup = false;
-        },
-
-        async toggleJoin() {
-            try {
-                const { data } = await this.$http.post('/api/raffle/join');
-                this.raffleOptedIn = data.opted_in;
-                this.$toaster.success(data.message);
-            } catch (e) { this.$toaster.error('Failed to update raffle status.'); }
-        },
     },
 };
 </script>
@@ -429,62 +358,17 @@ export default {
     .logout-nav-btn { width: 34px; height: 34px; }
 }
 
-/* ── Raffle Popup ─────────────────────────── */
+/* ── Modals (shared overlay + transition) ─── */
 .raffle-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.75);
     display: flex; align-items: center; justify-content: center;
     z-index: 1000; padding: 20px;
-}
-.raffle-modal {
-    background: linear-gradient(180deg, #150a4e 0%, #1A0040 100%);
-    border: 1px solid rgba(255,165,0,0.4);
-    border-radius: 20px; padding: 32px 28px;
-    width: 100%; max-width: 380px; text-align: center;
-    position: relative;
-    box-shadow: 0 0 60px rgba(255,165,0,0.2);
 }
 .raffle-close {
     position: absolute; top: 14px; right: 16px;
     background: none; border: none; color: rgba(255,255,255,0.5);
     font-size: 1.1rem; cursor: pointer;
 }
-.raffle-confetti { font-size: 3rem; margin-bottom: 6px; }
-.raffle-headline {
-    color: #FFA500; font-family: 'Rajdhani', sans-serif;
-    font-size: 1.5rem; font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;
-}
-.raffle-sub { color: #fff; font-size: 0.75rem; margin-bottom: 16px; }
-.raffle-avatar {
-    width: 100px; height: 100px; border-radius: 50%;
-    object-fit: cover; border: 3px solid #FFA500;
-    margin-bottom: 12px;
-}
-.raffle-winner-you { color: #4ade80; font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-.raffle-winner-name { color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 2px; }
-.raffle-winner-code { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 6px; }
-.raffle-prize {
-    display: inline-block; background: rgba(255,165,0,0.15);
-    color: #FFA500; padding: 4px 14px; border-radius: 20px;
-    font-size: 0.9rem; font-weight: 700; margin-bottom: 6px;
-}
-.raffle-notes { color: rgba(255,255,255,0.45); font-size: 0.78rem; margin-bottom: 10px; }
-
-.raffle-join-section { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 16px; margin: 16px 0 12px; }
-.raffle-join-label { color: rgba(255,255,255,0.6); font-size: 0.8rem; margin-bottom: 10px; }
-.raffle-join-btn {
-    width: 100%; background: #3b82f6; color: #fff; border: none;
-    border-radius: 8px; padding: 10px 20px; font-weight: 700;
-    font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; cursor: pointer;
-    transition: all 0.2s;
-}
-.raffle-join-btn.joined { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid rgba(34,197,94,0.4); }
-.raffle-dismiss-btn {
-    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
-    border: none; border-radius: 8px; padding: 8px 24px;
-    font-size: 0.85rem; cursor: pointer;
-}
-
-/* Transition */
 .raffle-fade-enter-active, .raffle-fade-leave-active { transition: opacity 0.3s; }
 .raffle-fade-enter, .raffle-fade-leave-to { opacity: 0; }
 </style>
