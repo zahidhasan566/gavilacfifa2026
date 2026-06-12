@@ -40,8 +40,8 @@
                                     <span class="cs-rank-lbl">{{ rankSuffix(activeIdx) }}</span>
                                 </div>
 
-                                <div v-if="carousel[activeIdx].prize_points" class="cs-prize-badge">
-                                    <span class="cs-prize-num">+{{ carousel[activeIdx].prize_points }}</span>
+                                <div v-if="carousel[activeIdx].total_points" class="cs-prize-badge">
+                                    <span class="cs-prize-num">{{ carousel[activeIdx].total_points }}</span>
                                     <span class="cs-prize-lbl">pts</span>
                                 </div>
 
@@ -118,8 +118,7 @@
                                 </div>
                             </div>
                             <div class="wl-right">
-                                <span v-if="w.prize_points" class="wl-pts">+{{ w.prize_points }} pts</span>
-                                <span class="wl-date">{{ w.draw_date }}</span>
+                                <span class="wl-pts">{{ w.total_points }} pts</span>
                             </div>
                         </div>
                     </div>
@@ -196,6 +195,7 @@ export default {
         return {
             carousel: [],
             byMatch: [],
+            leaderboard: [],
             search: '',
             loading: true,
             refreshing: false,
@@ -219,6 +219,14 @@ export default {
             return this.carousel.filter(w =>
                 (w.name || '').toLowerCase().includes(s) ||
                 (w.unique_code || '').toLowerCase().includes(s)
+            );
+        },
+        filteredLeaderboard() {
+            const s = this.search.toLowerCase().trim();
+            if (!s) return this.leaderboard;
+            return this.leaderboard.filter(u =>
+                (u.name || '').toLowerCase().includes(s) ||
+                (u.unique_code || '').toLowerCase().includes(s)
             );
         },
     },
@@ -247,11 +255,24 @@ export default {
         },
         async loadData() {
             try {
-                const { data } = await this.$http.get('/api/winners/raffle');
-                const sorted = (data.data.carousel || []).sort((a, b) => (b.prize_points || 0) - (a.prize_points || 0));
-                sorted.forEach((item, i) => { item._rank = i + 1; });
+                const [raffleRes, lbRes] = await Promise.all([
+                    this.$http.get('/api/winners/raffle'),
+                    this.$http.get('/api/winners'),
+                ]);
+                this.leaderboard = lbRes.data.data || [];
+                const lbMap = {};
+                this.leaderboard.forEach(u => { lbMap[u.unique_code] = u.total_points; });
+                const sorted = (raffleRes.data.data.carousel || []).sort((a, b) => {
+                    const diff = (lbMap[b.unique_code] || 0) - (lbMap[a.unique_code] || 0);
+                    if (diff !== 0) return diff;
+                    return (a.unique_code || '').localeCompare(b.unique_code || '');
+                });
+                sorted.forEach((item, i) => {
+                    item._rank = i + 1;
+                    item.total_points = lbMap[item.unique_code] || 0;
+                });
                 this.carousel = sorted;
-                this.byMatch = data.data.by_match || [];
+                this.byMatch = raffleRes.data.data.by_match || [];
                 this.selectedMatchIdx = 0;
                 if (this.activeIdx >= this.carousel.length) this.activeIdx = 0;
             } catch (e) {}

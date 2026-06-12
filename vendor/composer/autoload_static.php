@@ -584,6 +584,7 @@ class ComposerStaticInit037f6d3b405c5000457e2ef40effb754
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\AutoRaffleDraw' => __DIR__ . '/../..' . '/app/Console/Commands/AutoRaffleDraw.php',
         'App\\Console\\Commands\\SyncLiveScores' => __DIR__ . '/../..' . '/app/Console/Commands/SyncLiveScores.php',
         'App\\Console\\Commands\\TestSportmonks' => __DIR__ . '/../..' . '/app/Console/Commands/TestSportmonks.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -603,6 +604,7 @@ class ComposerStaticInit037f6d3b405c5000457e2ef40effb754
         'App\\Http\\Controllers\\FifaFactController' => __DIR__ . '/../..' . '/app/Http/Controllers/FifaFactController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\JobCard\\JobCardController' => __DIR__ . '/../..' . '/app/Http/Controllers/JobCard/JobCardController.php',
+        'App\\Http\\Controllers\\LiveScoreProxyController' => __DIR__ . '/../..' . '/app/Http/Controllers/LiveScoreProxyController.php',
         'App\\Http\\Controllers\\MatchController' => __DIR__ . '/../..' . '/app/Http/Controllers/MatchController.php',
         'App\\Http\\Controllers\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/NotificationController.php',
         'App\\Http\\Controllers\\PredictionController' => __DIR__ . '/../..' . '/app/Http/Controllers/PredictionController.php',

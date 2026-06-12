@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\AutoRaffleDraw' => $baseDir . '/app/Console/Commands/AutoRaffleDraw.php',
     'App\\Console\\Commands\\SyncLiveScores' => $baseDir . '/app/Console/Commands/SyncLiveScores.php',
     'App\\Console\\Commands\\TestSportmonks' => $baseDir . '/app/Console/Commands/TestSportmonks.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -25,6 +26,7 @@ return array(
     'App\\Http\\Controllers\\FifaFactController' => $baseDir . '/app/Http/Controllers/FifaFactController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\JobCard\\JobCardController' => $baseDir . '/app/Http/Controllers/JobCard/JobCardController.php',
+    'App\\Http\\Controllers\\LiveScoreProxyController' => $baseDir . '/app/Http/Controllers/LiveScoreProxyController.php',
     'App\\Http\\Controllers\\MatchController' => $baseDir . '/app/Http/Controllers/MatchController.php',
     'App\\Http\\Controllers\\NotificationController' => $baseDir . '/app/Http/Controllers/NotificationController.php',
     'App\\Http\\Controllers\\PredictionController' => $baseDir . '/app/Http/Controllers/PredictionController.php',

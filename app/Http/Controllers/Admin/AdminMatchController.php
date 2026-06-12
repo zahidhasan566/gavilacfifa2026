@@ -121,6 +121,8 @@ class AdminMatchController extends Controller
 
         foreach ($questions as $question) {
             if (!$question->correct_answer) continue;
+            // team_choice questions must be worth at least 10 points; guard against accidental 0
+            $pts = ($question->type === 'team_choice' && $question->points == 0) ? 10 : $question->points;
             $predictions = Prediction::where('match_id', $match->id)
                 ->where('question_id', $question->id)
                 ->get();
@@ -128,7 +130,7 @@ class AdminMatchController extends Controller
                 $isCorrect = strtolower(trim($prediction->selected_answer)) === strtolower(trim($question->correct_answer));
                 $prediction->update([
                     'is_correct'    => $isCorrect,
-                    'points_earned' => $isCorrect ? $question->points : 0,
+                    'points_earned' => $isCorrect ? $pts : 0,
                 ]);
             }
         }

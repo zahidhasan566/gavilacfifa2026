@@ -88,9 +88,9 @@ class AdminReportController extends Controller
             'has_participated'     => (int) $u->total_predictions > 0,
         ]);
 
-        $totalUsers          = User::where('role', 'user')->count();
-        $participatedCount   = $data->where('has_participated', true)->count();
-        $notParticipated     = $totalUsers - $participatedCount;
+        $totalUsers        = User::where('role', 'user')->count();
+        $participatedCount = User::where('role', 'user')->whereHas('predictions')->count();
+        $notParticipated   = $totalUsers - $participatedCount;
 
         return response()->json([
             'status' => 'success',
@@ -110,7 +110,8 @@ class AdminReportController extends Controller
         $perPage  = (int) ($request->input('per_page', 50));
 
         $query = Prediction::with(['user', 'question', 'match.team1', 'match.team2'])
-            ->when($matchId, fn($q) => $q->where('match_id', $matchId))
+            ->when($matchId === 'null', fn($q) => $q->whereNull('match_id'))
+            ->when($matchId && $matchId !== 'null', fn($q) => $q->where('match_id', $matchId))
             ->when($search, function ($q) use ($search) {
                 $q->whereHas('user', function ($uq) use ($search) {
                     $uq->where('name', 'like', "%$search%")

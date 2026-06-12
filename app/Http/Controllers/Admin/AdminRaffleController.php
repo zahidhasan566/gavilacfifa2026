@@ -29,8 +29,11 @@ class AdminRaffleController extends Controller
             $query->whereExists(function ($q) use ($matchId) {
                 $q->selectRaw(1)
                   ->from('predictions')
+                  ->join('questions', 'predictions.question_id', '=', 'questions.id')
                   ->whereColumn('predictions.user_id', 'users.id')
-                  ->where('predictions.match_id', $matchId);
+                  ->where('predictions.match_id', $matchId)
+                  ->where('predictions.is_correct', true)
+                  ->where('questions.type', 'team_choice');
             });
         }
 
@@ -128,8 +131,11 @@ class AdminRaffleController extends Controller
             $query->whereExists(function ($q) use ($matchId) {
                 $q->selectRaw(1)
                   ->from('predictions')
+                  ->join('questions', 'predictions.question_id', '=', 'questions.id')
                   ->whereColumn('predictions.user_id', 'users.id')
-                  ->where('predictions.match_id', $matchId);
+                  ->where('predictions.match_id', $matchId)
+                  ->where('predictions.is_correct', true)
+                  ->where('questions.type', 'team_choice');
             });
         }
 
@@ -158,10 +164,9 @@ class AdminRaffleController extends Controller
     {
         $matchId = $request->match_id ?? null;
 
-        $draws = RaffleDraw::with('user')
+        $draws = RaffleDraw::with(['user', 'match.team1', 'match.team2'])
             ->when($matchId, fn($q) => $q->where('match_id', $matchId))
-            ->unless($matchId, fn($q) => $q->whereNull('match_id'))
-            ->orderByDesc('draw_date')
+            ->orderByDesc('created_at')
             ->get();
 
         return response()->json(['status' => 'success', 'data' => $draws]);

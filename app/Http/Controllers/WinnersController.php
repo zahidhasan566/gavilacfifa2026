@@ -6,13 +6,11 @@ use App\Models\MatchGame;
 use App\Models\Prediction;
 use App\Models\RaffleDraw;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class WinnersController extends Controller
 {
-    public function leaderboard(Request $request)
+    public function leaderboard()
     {
         $winners = User::select('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
             ->selectRaw('SUM(predictions.points_earned) as total_points')
@@ -21,7 +19,7 @@ class WinnersController extends Controller
             ->where('users.status', 1)
             ->groupBy('users.id', 'users.name', 'users.unique_code', 'users.profile_picture')
             ->orderByDesc('total_points')
-            ->limit(10)
+            ->orderBy('users.unique_code')
             ->get()
             ->map(function ($u, $index) {
                 return [
@@ -218,7 +216,7 @@ class WinnersController extends Controller
         ]);
     }
 
-    public function myPoints(Request $request)
+    public function myPoints()
     {
         $user  = JWTAuth::parseToken()->authenticate();
         $total = Prediction::where('user_id', $user->id)->sum('points_earned');
